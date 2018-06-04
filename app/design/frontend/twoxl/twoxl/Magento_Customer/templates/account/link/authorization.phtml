@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Customer\Block\Account\AuthorizationLink */
+$dataPostParam = '';
+if ($block->isLoggedIn()) {
+    $dataPostParam = sprintf(" data-post='%s'", $block->getPostParams());
+}
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+$customer_logged_in = $customerSession->isLoggedIn();
+//if($customerSession->isLoggedIn()) {
+  // customer login action
+//}
+?>
+<li class="authorization-link" data-label="<?php echo $block->escapeHtml(__('or')); ?>">
+    <a <?php /* @escapeNotVerified */ echo $block->getLinkAttributes(); ?><?php /* @escapeNotVerified */ echo $dataPostParam; ?>><?php echo $block->escapeHtml($block->getLabel()); ?>
+    </a>
+</li>
+<script>
+require([
+    'jquery',
+    'mage/validation'
+    ], function($){
+    var customer_logged_in = '<?php echo $customer_logged_in; ?>';
+    if(customer_logged_in){
+     	$('body').addClass('loggedin');
+    }
+    else{
+     	$('body').removeClass('loggedin');
+	}
+});
+</script>

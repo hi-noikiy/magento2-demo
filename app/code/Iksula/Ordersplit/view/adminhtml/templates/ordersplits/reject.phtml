@@ -1,0 +1,26 @@
+<div><h1>Rejection</h1></div>
+<?php
+
+
+        $skuswiseCollection = "";
+        $orderitemsid = $block->getOrderItemRowId();
+        $collections =  $block->getCollectionsOrderSplits($orderitemsid);
+        $skuswiseCollection = json_decode($collections['order_items_data'] , true);
+?>
+
+
+<?php
+    $loop = 1;
+    $html = "";
+
+    $html .= "<div><input type='hidden' name='order_item_rowid' id='order_item_rowid' value='".$orderitemsid."' /> </div>";
+    $html .= "<div><input type='hidden' name='order_id' id='order_id' value='".$collections['order_id']."' /> </div>";
+
+    $html .= "<input type='hidden'  id='allocated_storeid' name='allocated_storeid' value='".$collections['allocated_storeids']."' />";
+    $html .= "<div>Please add your comment for rejection</div><br />";
+    $html .= "<div><textarea name='rejection_reason' id='rejection_reason' /></textarea></div><br />";
+    $html .= "<div><input type='button' onclick='rejectSubmit();' class='reject_submit' value='Submit' /></div>";
+    $data = $html;
+    echo $data;
+
+?>

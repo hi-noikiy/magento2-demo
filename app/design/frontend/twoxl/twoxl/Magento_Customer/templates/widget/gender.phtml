@@ -1,0 +1,27 @@
+
+<div class="field gender<?php if ($block->isRequired()) echo ' required' ?>">
+    <label class="label" for="<?php /* @escapeNotVerified */ echo $block->getFieldId('gender')?>"><span><?php /* @escapeNotVerified */ echo __('Gender') ?></span></label>
+    <div class="control">
+        <?php $options = $block->getGenderOptions(); ?>
+        <?php $value = $block->getGender(); ?>
+        <?php foreach ($options as $option):
+        if($option->getLabel() != 'Not Specified'): ?>
+            <?php if(!$option->getValue()) continue; ?>
+            <div class="field choice">
+                <input type="radio"
+                       class="radio"
+                       id="gender-option-<?php /* @escapeNotVerified */ echo $option->getValue() ?>"
+                    <?php if ($block->isRequired()) echo 'data-validate="{\'validate-one-required-by-name\':true}"'?>
+                       name="<?php /* @escapeNotVerified */ echo $block->getFieldName('gender')?>"
+                       data-selector="<?php /* @escapeNotVerified */ echo $block->getFieldName('gender')?>"
+                    <?php if ($option->getValue() == $value) echo ' checked="checked"' ?>
+                       value="<?php /* @escapeNotVerified */ echo $option->getValue() ?>"/>
+                <label class="label"
+                       for="gender-option-<?php /* @escapeNotVerified */ echo $option->getValue() ?>">
+                    <span><?php /* @escapeNotVerified */ echo $option->getLabel() ?></span>
+                </label>
+            </div>
+        <?php 
+          endif;
+        endforeach;?>
+    </div>

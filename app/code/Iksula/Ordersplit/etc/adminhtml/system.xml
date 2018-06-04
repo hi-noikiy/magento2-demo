@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="ordersplit" sortOrder="999" translate="label">
+			<label>Order Split</label>
+		</tab>
+		<section id="ordersplit_cron" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>Order Split Cron </label>
+			<tab>ordersplit</tab>
+			<resource>Iksula_Ordersplit::config_iksula_ordersplit</resource>
+			<group id="setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Order Split Cron Setting</label>
+				<field id="email" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+					<label>Email</label>
+					<comment/>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+    <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <referenceBlock name="sales_order_tabs">
+                <!-- <action method="addTab">
+                    <argument name="name" xsi:type="string">Rejection History</argument>
+                    <argument name="block" xsi:type="string">Iksula\Ordersplit\Block\Adminhtml\Order\View\Tab\Rejectioncustom</argument>
+                </action> -->
+                <action method="addTabAfter">
+                    <argument name="name" xsi:type="string">Rejection History</argument>
+                    <argument name="block" xsi:type="string">Iksula\Ordersplit\Block\Adminhtml\Order\View\Tab\Rejectioncustom</argument>
+                    <argument name="after" xsi:type="string">order_history</argument>
+                </action>
+
+
+                <action method="addTabAfter">
+                    <argument name="name" xsi:type="string">Order Returns</argument>
+                    <argument name="block" xsi:type="string">Iksula\Ordersplit\Block\Adminhtml\Order\View\Tab\Orderreturnscustom</argument>
+                    <argument name="after" xsi:type="string">order_history</argument>
+                </action>
+
+                <action method="addTabAfter">
+                    <argument name="name" xsi:type="string">Allocation Details</argument>
+                    <argument name="block" xsi:type="string">Iksula\Ordersplit\Block\Adminhtml\Order\View\Tab\Allocationdetails</argument>
+                    <argument name="after" xsi:type="string">order_history</argument>
+                </action>
+
+                <action method="addTabAfter">
+                    <argument name="name" xsi:type="string">Cheque Details</argument>
+                    <argument name="block" xsi:type="string">Iksula\Ordersplit\Block\Adminhtml\Order\View\Tab\Chequedetails</argument>
+                    <argument name="after" xsi:type="string">order_history</argument>
+                </action>
+            </referenceBlock>
+        </referenceContainer>
+    </body>
+</page>

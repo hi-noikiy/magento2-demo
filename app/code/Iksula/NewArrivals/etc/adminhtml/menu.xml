@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_NewArrivals::parent" title="New Arrivals" module="Iksula_NewArrivals" sortOrder="100" resource="Iksula_NewArrivals::parent"/>
+        <add id="Iksula_NewArrivals::index" title="New Arrivals" module="Iksula_NewArrivals" sortOrder="10" action="new_arrivals/index" resource="Iksula_NewArrivals::index" parent="Iksula_NewArrivals::parent"/>
+    </menu>
+</config>

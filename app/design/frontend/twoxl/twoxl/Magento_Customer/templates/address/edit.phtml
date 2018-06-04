@@ -1,0 +1,367 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Edit customer address template
+ *
+ * @var $block \Magento\Customer\Block\Address\Edit
+ */
+
+$helper_data = $this->helper('Iksula\MyAccount\Helper\Data');
+$info_data = $helper_data->getCountryCarrierCollection();
+$arr = array();
+foreach ($info_data as $country_code) {
+    $arr[] = $country_code['country_code'];
+}
+$unique_country_data = array_unique($arr);
+
+$address_nationality = '';
+$carrier_code = '';
+$telephone_explode = array(); 
+if($block->escapeHtml($block->getAddress()->getTelephone()) != '')
+{
+    $account_telephone = $block->escapeHtml($block->getAddress()->getTelephone());
+    $telephone_explode = explode("-",$account_telephone);
+    
+    if(count($telephone_explode) == 3)
+    {        
+        $carrier_code = $telephone_explode[1];
+    }
+    else
+    {
+        $carrier_code = '';
+    }
+}
+
+$helper = $this->helper('Iksula\Carriercodetelephone\Helper\Data');
+$nationality_data = $helper->getNationalityData();
+$Baseurl = $helper->getBaseUrl();
+
+foreach($nationality_data as $nationality){
+    $nationality_data [$nationality['value']] = $nationality['label'];
+}
+?>
+<?php 
+    $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender');
+    
+    $addresss = '';
+    if($block->getAddress()->getCustomAttribute('addresss'))
+    {
+        $addresss = $block->getAddress()->getCustomAttribute('addresss')->getValue();
+    }
+
+    $area = '';
+    if($block->getAddress()->getCustomAttribute('area'))
+    {
+        $area = $block->getAddress()->getCustomAttribute('area')->getValue();
+    }
+
+    /*$address_nationality = '';
+    if($block->getAddress()->getCustomAttribute('address_nationality'))
+    {
+        $address_nationality = $block->getAddress()->getCustomAttribute('address_nationality')->getValue();
+    }
+
+    $address_gender = '';
+    if($block->getAddress()->getCustomAttribute('address_gender'))
+    {
+        $address_gender = $block->getAddress()->getCustomAttribute('address_gender')->getValue();
+    }*/
+
+ ?>
+
+<form class="form-address-edit" action="<?php /* @escapeNotVerified */ echo $block->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">    
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Contact Information') ?></span></legend><br>
+        <?php echo $block->getBlockHtml('formkey')?>
+        <input type="hidden" name="success_url" value="<?php /* @escapeNotVerified */ echo $block->getSuccessUrl() ?>">
+        <input type="hidden" name="error_url" value="<?php /* @escapeNotVerified */ echo $block->getErrorUrl() ?>">
+        <?php echo $block->getNameBlockHtml() ?>
+        <!-- temporary static html -->
+        <div class="two_fields clear phone_wrap">
+        <div class="field clear">
+        <div class="tele_div">
+        <select class="validate-select" id="country_code" name="country_code" onchange="chk_carrier()">           
+        <option value="">Country Code</option>
+        <?php foreach($unique_country_data as $key => $value) {
+            ?>
+            <option value="<?php echo $value; ?>" <?php if(count($telephone_explode) > 0 && $telephone_explode[0] == $value) { echo 'selected="selected"';} ?>><?php echo "+".$value; ?></option>
+        <?php } ?>
+        </select>
+        </div>
+        <div class="tele_div div_carrier">
+        <select class="validate-select" id="carrier_code" name="carrier_code">
+            <option value="">Carrier Code</option>
+        </select>
+        </div>
+        </div>
+        <div class="field">
+        <input type="text" id="tele_number" name="tele_number" data-validate="{required:true , 'validate-number':true}" class="input-text mobile7digit" maxlength="7" value="<?php if(count($telephone_explode) == 3) echo $telephone_explode[2]; ?>" placeholder="Contact Number (Enter 7 digits)" autocomplete="off">
+        </div>
+        </div>  
+        
+        <div class="field telephone required">
+            <div class="control">
+                <input type="hidden" name="telephone" id="telephone" value="<?php echo $block->escapeHtml($block->getAddress()->getTelephone()) ?>" title="<?php echo __('Phone Number') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="telephone">
+            </div>
+        </div>
+        <?php /* ?>
+        <div class="field">
+            <div class="gender_wrap clear">
+            <div class="gender_title"><?php echo __('Gender'); ?></div>
+                <div class="gender_div"><input type="radio" name="address_gender" <?php if($address_gender == 'Male') { echo 'checked="checked"'; } ?> id="male" class="checkbox" value="Male"><label class="label" for="male">Male</label></div>
+                <div class="gender_div"><input type="radio" name="address_gender" <?php if($address_gender == 'Female') { echo 'checked="checked"'; } ?> id="female" class="checkbox" value="Female"><label class="label" for="female">Female</label></div>
+            </div>
+        </div>
+        <?php */ ?>
+    </fieldset>
+    <fieldset class="fieldset">
+        <legend class="legend default_add"><span><?php /* @escapeNotVerified */ echo __('Address') ?></span>
+        <?php /* ?>
+        <div class="field required">
+            <div class="control">
+                <textarea name="addresss" title="<?php  echo __('Address') ?>" id="addresss" class="input-text" placeholder="<?php echo __('Address') ?>"  /><?php echo $addresss; ?></textarea>                
+            </div>
+        </div>
+        <?php */ ?>
+        <?php if($block->isDefaultBilling() && $block->isDefaultShipping()){ ?>
+        <span class="default_txt"><?php /* @escapeNotVerified */ echo __("[default billing and shipping address]") ?></span>
+        <?php  } ?>
+        <?php if($block->isDefaultBilling() && (!($block->isDefaultShipping())))
+        { ?>
+            <span class="default_txt"><?php /* @escapeNotVerified */ echo __("[default billing address]") ?></span>
+        <?php } 
+        if(!$block->isDefaultBilling() && $block->isDefaultShipping()){ ?>
+            <span class="default_txt"><?php /* @escapeNotVerified */ echo __("[default shipping address]") ?></span>
+        <?php } ?></legend>
+        <?php $_streetValidationClass = $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('street'); ?>
+        <div class="field street required">
+            
+            <div class="control">
+                <input type="text" name="street[]" maxlength="40" value="<?php echo $block->escapeHtml($block->getStreetLine(1)) ?>" title="<?php /* @escapeNotVerified */ echo __('Street Address') ?>" id="street_1" class="input-text validate-customstreet <?php /* @escapeNotVerified */ echo $_streetValidationClass ?>" placeholder="<?php /* @escapeNotVerified */ echo __('Address') ?>"  />
+            </div>
+        </div>
+        <div class="field country required">
+            <div class="control">
+                <?php echo $block->getCountryHtmlSelect() ?>
+            </div>
+        </div>
+        <!--div class="three_fields clear">
+            <div class="field choice">
+            <select class = "validate-select" name="address_nationality">
+                <option value="" >Nationality</option>
+                <?php //foreach($nationality_data as $label => $Values)
+                 //{
+                ?>
+                    <option value="<?php //echo $label; ?>" <?php //if($address_nationality == $label) { echo 'selected="selected"';} ?>><?php //echo $Values; ?></option>
+                <?php //}?>                        
+            </select>
+            </div>
+        </div-->
+        <div class="field region required">
+            <div class="control">
+                <select id="region_id" name="region_id" title="<?php  echo __('City') ?>" class="validate-select" <?php echo(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?> onchange="chk_area()" required>
+                    <option value=""><?php echo __('City') ?></option>
+                </select>
+                <input type="text" id="region" name="region" value="<?php echo $block->escapeHtml($block->getRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?php echo(!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
+            </div><?php //echo $block->escapeHtml($block->getAddress()->getPostcode()) ?>
+        </div>
+        <div class="field city required div_area">
+            <div class="control">
+                <?php /* ?><input type="text" name="city" value="<?php echo $block->escapeHtml($block->getAddress()->getCity()) ?>" title="<?php echo __('area') ?>" class="input-text <?php echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city">
+                <?php */ ?>
+                <select class = "validate-select" name="city" id="city" >
+                <option value="" >Area</option>                        
+            </select>
+            </div>
+        </div>
+        <?php if ($this->helper('Magento\Customer\Helper\Address')->isVatAttributeVisible()) : ?>
+            <div class="field taxvat">
+                <label class="label" for="vat_id"><span><?php /* @escapeNotVerified */ echo __('VAT Number') ?></span></label>
+                <div class="control">
+                    <input type="text" name="vat_id" value="<?php echo $block->escapeHtml($block->getAddress()->getVatId()) ?>" title="<?php /* @escapeNotVerified */ echo __('VAT Number') ?>" class="input-text <?php /* @escapeNotVerified */ echo $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('vat_id') ?>" id="vat_id">
+                </div>
+            </div>
+        <?php endif; ?>
+       
+        <?php if($block->canSetAsDefaultBilling()): ?>
+            <div class="field choice set billing">
+                <input type="checkbox" id="primary_billing" name="default_billing" value="1" class="checkbox">
+                <label class="label" for="primary_billing"><span><?php /* @escapeNotVerified */ echo __('Use as my default billing address') ?></span></label>
+            </div>
+        <?php else: ?>
+            <input type="hidden" name="default_billing" value="1" />
+        <?php endif; ?>
+        
+        <?php if ($block->canSetAsDefaultShipping()): ?>
+            <div class="field choice set shipping">
+                <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" class="checkbox">
+                <label class="label" for="primary_shipping"><span><?php /* @escapeNotVerified */ echo __('Use as my default shipping address') ?></span></label>
+            </div>
+        <?php else: ?>
+            <input type="hidden" name="default_shipping" value="1">
+        <?php endif; ?>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action save primary" data-action="save-address" title="<?php /* @escapeNotVerified */ echo __('Save Address') ?>">
+                <span><?php /* @escapeNotVerified */ echo __('Save Address') ?></span>
+            </button>
+        </div>
+        <div class="secondary">
+            <a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Go back') ?></span></a>
+        </div>
+    </div>
+</form>
+<script type="text/x-magento-init">
+    {
+        "#form-validate": {
+            "validation": {}
+        },
+        "#country": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?php /* @escapeNotVerified */ echo($block->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+                "regionListId": "#region_id",
+                "regionInputId": "#region",
+                "postcodeId": "#zip",
+                "form": "#form-validate",
+                "regionJson": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+                "defaultRegion": "<?php /* @escapeNotVerified */ echo $block->getRegionId() ?>",
+                "countriesWithOptionalZip": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+function chk_area()
+{    
+    require([
+        'jquery'    
+    ], function($){  
+            var region_id = jQuery('select#region_id').val();
+            var baseurl_action =  '<?php echo $Baseurl; ?>'+'myaccount/index/area/';
+            var html = '';
+
+                 $.ajax({
+               url: baseurl_action ,
+               data: {
+                  format: 'json',
+                  region_id : region_id
+               },
+               error: function() {
+                  console.log('Some error as been ocuured');
+               },       
+               success: function(data) {          
+                  var obj = jQuery.parseJSON(data);
+                  obj = jQuery.unique(obj);
+
+                  $('select#city').removeAttr("selected");
+                  $('select#city').empty();
+                  if (obj.length === 0) {
+                        
+                        $('select#city').append($('<option>', {
+                                    value: '',
+                                    text: 'Area'
+                                }));
+                    }else{ 
+                        var city_selected_value = "<?php echo $block->escapeHtml($block->getAddress()->getCity()) ?>";
+                        html = '<select class="validate-select" id="city" name="city">';
+                        html += '<option value="">Area</option>'; 
+                        for (var i = 0; i < obj.length; i++) { 
+                            if(city_selected_value == obj[i]) 
+                            { 
+                                var selected_value = 'selected="selected"';
+                            }
+                            else
+                            {
+                                var selected_value = '';
+                            }   
+                        html += '<option value="'+obj[i]+'" '+selected_value+' >'+obj[i]+'</option>';
+                        }
+                        html += '</select>';
+                        $('.div_area').html(html);
+                    }
+               },
+               type: 'GET'
+            });
+        });
+}
+
+function chk_carrier()
+{    
+    require([
+        'jquery'    
+    ], function($){ 
+
+            var country_code = jQuery('select#country_code').val();            
+            var baseurl_action =  '<?php echo $Baseurl; ?>'+'carriercodetelephone/telephonevalidation/carriercode/';
+            var html = '';
+
+                 $.ajax({
+               url: baseurl_action ,
+               data: {
+                  format: 'json',
+                  country_code : country_code
+               },
+               error: function() {
+                  console.log('Some error as been ocuured');
+               },       
+               success: function(data) {          
+                  var obj = jQuery.parseJSON(data);
+                  obj = jQuery.unique(obj);
+
+                  $('select#carrier_code').removeAttr("selected");
+                  $('select#carrier_code').empty();
+                  if (obj.length === 0) {
+                        
+                        $('select#carrier_code').append($('<option>', {
+                                    value: '',
+                                    text: 'Carrier Code'
+                                }));
+                    }else{
+                        
+                        var carrier_selected_value = '<?php echo $carrier_code; ?>';
+                        html = '<select class="validate-select" id="carrier_code" name="carrier_code" >';
+                        html += '<option value="">Carrier Code</option>'; 
+                        for (var i = 0; i < obj.length; i++) { 
+                            if(carrier_selected_value == obj[i]) 
+                            { 
+                                var selected_value = 'selected="selected"';
+                            }
+                            else
+                            {
+                                var selected_value = '';
+                            }   
+                        html += '<option value="'+obj[i]+'" '+selected_value+' >'+obj[i]+'</option>';
+                        }
+                        html += '</select>';
+                        $('.div_carrier').html(html);
+                    }
+                    chk_area();
+               },
+               type: 'GET'
+            });
+        });
+}
+
+require([
+    'jquery'    
+], function($){
+    $( document ).ready(function() {    
+        chk_carrier();        
+    });
+    $('.form-address-edit').click(function(){      
+        var country_code = jQuery.trim($('select#country_code').val());
+        var carrier_code = jQuery.trim($('select#carrier_code').val());
+        var tele_number = jQuery.trim($('input#tele_number').val());
+        $('#telephone').val(country_code+"-"+carrier_code+"-"+tele_number);
+    });
+});
+</script>

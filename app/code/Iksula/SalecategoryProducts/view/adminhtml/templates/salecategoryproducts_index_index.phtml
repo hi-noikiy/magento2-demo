@@ -1,0 +1,8 @@
+<?php $url = $block->getUrl('salecategoryproducts/index/save'); ?>
+<button id="myButton" class="action-default primary" >Update</button>
+
+<script type="text/javascript">
+    document.getElementById("myButton").onclick = function () {
+        location.href = "<?php echo $url; ?>";
+    };
+</script>

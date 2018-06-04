@@ -1,0 +1,21 @@
+<?php
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$base_url = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+
+?>
+<tr>
+  <td valign="bottom" style="padding: 10px 0 30px;" align="center">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td valign="top" style="font-size:13px; padding:20px 0 0;color:#555555;font-family:Open Sans,Verdana" align="center">
+          <a href="https://www.instagram.com/2xlfurniture/?hl=en" target="_blank"><img src="<?php echo $base_url."pub/media/email/insta_footer.jpg"; ?>" width="25" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:13px"></a>
+        </td>
+        <td valign="top" style="font-size:13px; padding:20px 0 0;color:#555555;font-family:Open Sans,Verdana" align="center">
+          <a href="https://www.facebook.com/2XLfurniture/" target="_blank"><img src="<?php echo $base_url."pub/media/email/fb_footer.jpg"; ?>" width="25" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:13px"></a>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

@@ -1,0 +1,127 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_shipment = $block->getShipment() ?>
+<?php $_order    = $block->getOrder() ?>
+
+<?php /* if ($_shipment && $_order): ?>
+    <table class="email-items">
+        <thead>
+            <tr>
+                <th class="item-info">
+                    <?=  __('Items Delivered'); ?>
+                </th>
+                <th class="item-qty">
+                    <?= //  __('Price'); ?>
+                </th>
+            </tr>
+        </thead>        
+        <?php foreach ($_shipment->getAllItems() as $_item): ?> 
+        <?php
+
+            $prdId = $_item['product_id'];
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $product = $objectManager->get('Magento\Catalog\Model\Product')->load($prdId);
+            $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+            $image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+
+            $product_color = $product->getAttributeText('product_color');
+        ?>             
+            <tbody>
+            <td class="item-info">
+                    <img srch="<?php echo $image; ?>" width="50" height="50" >
+                    <?php
+                        if($_item['order_item_id'] != '')
+                           echo "Sub-Order Id: ".$_item['order_id']."<br>";
+                        
+                        if($_item['name'] != '')
+                           echo $_item['name']."<br>";
+
+                        if($_item['sku'] != '')
+                           echo "Item Code: ".$_item['sku']."<br>";
+
+                        if($_item['qty'] != '')
+                           echo "Qty: ".$_item['qty']."<br>";
+
+                        if($product_color != '')
+                           echo "Colour: ".$product_color."<br>"; 
+                    ?>
+                </td>
+                <td class="item-qty">
+                    <?php echo $_item['price']; ?>
+                </td>
+                <?php //$block->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+<?php endif; */ ?>
+<?php if ($_shipment && $_order): ?>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td valign="top" style="font-size:11px;border-bottom:1px solid #000;text-align:center;padding:7px 0;font-family:Open Sans,Verdana;" align="left" width="25%">
+            Items Delivered
+        </td>
+        <td valign="top" style="font-size:10px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="" width="45%">
+            &nbsp;
+        </td>   
+        <td valign="top" style="font-size:10px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="" >
+            Price
+        </td>                           
+    </tr>
+    <tr>
+        <td valign="top" style="font-size:10px;padding:15px;font-family:Open Sans,Verdana;" align="left">
+            <img src="images/img1.jpg" width="112" />
+        </td>
+        <td valign="top" style="font-size:10px;padding:15px;font-family:Open Sans,Verdana;">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+            <?php foreach ($_shipment->getAllItems() as $_item): ?> 
+            <?php
+
+                $prdId = $_item['product_id'];
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $product = $objectManager->get('Magento\Catalog\Model\Product')->load($prdId);
+                $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+                $image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+
+                $product_color = $product->getAttributeText('product_color');
+            ?>
+                <tr>
+                    <td valign="top" style="font-size:11px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                        <strong>Sub-Order Id: <?php echo $_item['order_id']; ?></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:10px;padding:0;font-family:Open Sans,Verdana;" align="">
+                        <strong><?php echo $_item['name']; ?></strong>
+                    </td>   
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:10px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                        <strong>Item Code:</strong> <?php echo $_item['sku']; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:10px;padding:0;font-family:Open Sans,Verdana;" align="">
+                        <strong>Qty:</strong> <?php echo $_item['qty']; ?>
+                    </td>   
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:10px;padding:0;font-family:Open Sans,Verdana;" align="">
+                        <strong>Colour:</strong> <?php echo $product_color; ?>
+                    </td>                           
+                </tr>
+            <?php endforeach; ?>
+            </table>
+        </td>   
+        <td valign="top" style="font-size:10px;text-align:center;padding:15px 0 0 ;font-family:Open Sans,Verdana;" align="">
+            <?php echo $_item['price']; ?>
+        </td>                           
+    </tr>
+</table>
+<?php endif; ?>

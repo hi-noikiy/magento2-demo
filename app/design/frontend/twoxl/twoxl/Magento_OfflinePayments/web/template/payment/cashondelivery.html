@@ -1,0 +1,97 @@
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+        <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
+    </div>
+
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <p data-bind="html: getInstructions()"></p>
+        <div class="checkout-agreements-block">
+            <div class="checkout-agreements" data-bind="visible: isVisible">      
+
+                        <div class="checkout-agreement">
+                            <input type="checkbox"
+                                   data-bind="attr: {
+                                                'id': 'agreement_cashondelivery',
+                                                'name': 'agreementcashondelivery',
+                                                'value': cashondelivery
+                                                }"
+                                   data-validate="{required:true}" />
+                            <label data-bind="attr: {'for': 'agreement_cashondelivery'}">
+                                <!--button type="button"
+                                        class="action action-show" 
+                                        >
+                                    <span>I agree to the 2xl Terms of <a class="cash-link" >Service and Privacy Policy</a></span>
+                                </button-->
+                                <span class="terms_txt_line">I agree to the 2xl <button 
+                                    type="button" data-bind="click: showtermandconditionscash" class="terms_btn">Terms of Service and Privacy Policy</button></span>
+                            </label>
+                        </div>
+                         <div id="checkout-agreements-modal-cashondelivery" style="display: none">
+                            <div class="checkout_terms_overlay"></div>
+                            <div class="checkout-agreements-item-content">
+                            <div class="checkout_popup">
+                            <div class="checkmo-tnc-close" data-bind="click: hidetermandconditionscash"></div>
+                                <div class="check_popup_txt">
+
+                                    <div class="check_pop_text">
+                                        <h4>Terms &amp; Conditions</h4>
+                                        <h3>Pay by Cash at Store</h3>
+                                        <p>Payment will be accepted only when made within 7 days of placing the order online.</p>
+                                        <p>You may visit any 2XL store to pay cash for the product ordered.</p>
+                                        <p>Carry “Order Confirmation” email copy along with you when visiting the store.</p>
+                                        <p>The order is shipped and delivered only after we have received the payment from your end.</p>
+                                        <p>If you do not visit the store and make payment within 7 working days of placing the order online, your order is deemed canceled.</p>
+                                    </div>
+
+                                    <div class="check_pop_text">
+                                        <h4>الاحكام والشروط</h4>
+                                        <h3>السداد النقدي في المحل</h3>
+                                        <p>يتم سداد المبلغ خلال 7 أيام من تاريخ تقديم الطلب الالكتروني.</p>
+                                        <p>مكنكم زيارة أحد فروع "تو إكس إل" للسداد النقدي مقابل الطلبية .</p>
+                                        <p>يرجى حمل نسخة من البريد الالكتروني الخاصة بتأكيد الطلبية عند زيارة أحد الأفرع .</p>
+                                        <p>يتم توصيل وتسليم الطلبية فقط بعد سداد القيمة من قبلكم.</p>
+                                        <p>في حال عدم زيارة أحد الأفرع للسداد خلال 7 أيام من تاريخ تقديم الطلب الالكتروني ، سيتم إعتبار الطلبية ملغاة .</p>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                                         
+                </div>
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('Place Order')},
+                        enable: (getCode() == isChecked()),
+                        css: {disabled: !isPlaceOrderActionAllowed()}
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

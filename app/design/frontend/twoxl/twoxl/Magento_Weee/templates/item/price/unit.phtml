@@ -1,0 +1,84 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Weee\Block\Item\Price\Renderer */
+
+$item = $block->getItem();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Directory\Model\PriceCurrency');
+?>
+<?php if ($block->displayPriceInclTax() || $block->displayBothPrices()): ?>
+    <span class="price-including-tax" data-label="<?php echo $block->escapeHtml(__('Incl. Tax')); ?>">
+        <?php if ($block->displayPriceWithWeeeDetails()): ?>
+            <span class="cart-tax-total"
+                data-mage-init='{"taxToggle": {"itemTaxId" : "#unit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+        <?php else: ?>
+            <span class="cart-price">
+        <?php endif; ?>
+            <?php /* @escapeNotVerified */ //echo $block->formatPrice($block->getUnitDisplayPriceInclTax()); ?>
+             <?php /* @escapeNotVerified */ echo $priceHelper->format($block->getRowDisplayPriceInclTax(), true,0,null,null);; ?>
+            </span>
+
+        <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($item)): ?>
+            <span class="cart-tax-info" id="unit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>" style="display: none;">
+                <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($item) as $tax): ?>
+                    <span class="weee" data-label="<?php /* @escapeNotVerified */ echo $tax['title']; ?>">
+                        <?php /* @escapeNotVerified */ //echo $block->formatPrice($tax['amount_incl_tax'], true, true); ?>
+                         <?php /* @escapeNotVerified */ echo $priceHelper->format($tax['amount_incl_tax'], true,0,null,null);; ?>
+                    </span>
+                <?php endforeach; ?>
+            </span>
+
+            <?php if ($block->displayFinalPrice()): ?>
+                <span class="cart-tax-total"
+                    data-mage-init='{"taxToggle": {"itemTaxId" : "#unit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+                    <span class="weee" data-label="<?php echo $block->escapeHtml(__('Total Incl. Tax')); ?>">
+                        <?php /* @escapeNotVerified */ //echo $block->formatPrice($block->getFinalUnitDisplayPriceInclTax()); ?>
+                        <?php /* @escapeNotVerified */ echo $priceHelper->format($block->getFinalUnitDisplayPriceInclTax(), true,0,null,null);; ?>
+                    </span>
+                </span>
+            <?php endif; ?>
+        <?php endif; ?>
+    </span>
+<?php endif; ?>
+
+<?php if ($block->displayPriceExclTax() || $block->displayBothPrices()): ?>
+    <span class="price-excluding-tax" data-label="<?php echo $block->escapeHtml(__('Excl. Tax')); ?>">
+        <?php if ($block->displayPriceWithWeeeDetails()): ?>
+            <span class="cart-tax-total"
+                data-mage-init='{"taxToggle": {"itemTaxId" : "#eunit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+        <?php else: ?>
+            <span class="cart-price">
+        <?php endif; ?>
+                <?php /* @escapeNotVerified */ //echo $block->formatPrice($block->getUnitDisplayPriceExclTax()); ?>
+                 <?php /* @escapeNotVerified */ echo $priceHelper->format($block->getUnitDisplayPriceExclTax(), true,0,null,null);; ?>
+            </span>
+
+        <?php if ($this->helper('Magento\Weee\Helper\Data')->getApplied($item)): ?>
+            <span class="cart-tax-info" id="eunit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"
+                style="display: none;">
+                <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($item) as $tax): ?>
+                    <span class="weee" data-label="<?php /* @escapeNotVerified */ echo $tax['title']; ?>">
+                        <?php /* @escapeNotVerified */ //echo $block->formatPrice($tax['amount'], true, true); ?>
+                        <?php /* @escapeNotVerified */ echo $priceHelper->format($tax['amount'], true,0,null,null);; ?>
+                    </span>
+                <?php endforeach; ?>
+            </span>
+
+            <?php if ($block->displayFinalPrice()): ?>
+                <span class="cart-tax-total"
+                      data-mage-init='{"taxToggle": {"itemTaxId" : "#eunit-item-tax-details<?php /* @escapeNotVerified */ echo $item->getId(); ?>"}}'>
+                    <span class="weee" data-label="<?php echo $block->escapeHtml(__('Total')); ?>">
+                        <?php /* @escapeNotVerified */ //echo $block->formatPrice($block->getFinalUnitDisplayPriceExclTax()); ?>
+                         <?php /* @escapeNotVerified */ echo $priceHelper->format($block->getFinalUnitDisplayPriceExclTax(), true,0,null,null);; ?>
+                    </span>
+                </span>
+            <?php endif; ?>
+        <?php endif; ?>
+    </span>
+<?php endif; ?>

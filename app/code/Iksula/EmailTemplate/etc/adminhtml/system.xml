@@ -1,0 +1,238 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="storecredit" sortOrder="999" translate="label">
+            <label>Store Credit</label>
+        </tab>
+        <section id="store_credit" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>Store Credit</label>
+            <tab>storecredit</tab>
+            <resource>Iksula_EmailTemplate::config_iksula_emailtemplate</resource>
+            <group id="email_settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Email Settings</label>
+                <field id="day" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="11" translate="label" type="text">
+                    <label>Enter days</label>
+                    <comment/>
+                    <validate>required-entry validate-number validate-digits validate-zero-or-greater validate-length maximum-length-2</validate>
+                </field>
+                <field id="credit_balance" type="textarea" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Credit Balance</label>
+                </field>
+                <field id="final_reminder" type="textarea" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Final Reminder</label>
+                </field>
+                <field id="credit_expired" type="textarea" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Credit Expired</label>
+                </field>
+            </group>
+        </section>
+        <section id="customer">
+            <group id="sms_templates" translate="label" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>SMS Templates</label>
+                <field id="customer_sms" type="textarea" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Registration</label>
+                </field>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Enable</label>
+                <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            </field>
+            </group>
+        </section>
+        <tab id="sms_settings" sortOrder="1000" translate="label">
+            <label>SMS</label>
+        </tab>
+        <section id="sms_configuration" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+            <label>SMS Configuration</label>
+            <tab>sms_settings</tab>
+            <resource>Iksula_EmailTemplate::config_iksula_emailtemplate</resource>
+            <group id="sms_setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>SMS Settings</label>
+                <field id="domain_name" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="9" translate="label" type="text">
+                    <label>Domain Name</label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="domain_email_id" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>Domain Email Id</label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="username" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="11" translate="label" type="text">
+                    <label>Username</label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="pswd" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="12" translate="label" type="text">
+                    <label>Password</label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="senderid" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="13" translate="label" type="text">
+                    <label>SenderId </label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="access" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="14" translate="label" type="text">
+                    <label>Access</label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="api_url" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="15" translate="label" type="text">
+                    <label>API Url</label>
+                    <comment/>
+                    <validate>required-entry</validate>
+                </field>                
+                <field id="order_allocation" type="textarea" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Order Allocation</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_allocation" translate="label" type="select" sortOrder="17" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Order Allocation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_rejection" type="textarea" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Order Rejection</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_rejection" translate="label" type="select" sortOrder="21" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Order Rejection</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>                
+                <field id="order_delivered_by_courier_guy" type="textarea" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Order Delivered by Courier Guy</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_delivered_courier" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Order Delivered by Courier Guy</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_shipped_from_store" type="textarea" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Order Shipped from Store or Warehouse</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_shipped_from_store" translate="label" type="select" sortOrder="27" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Order Shipped from Store or Warehouse</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cheque_at_store_receipt" type="textarea" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Cheque at Store Receipt</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_cheque_at_store_receipt" translate="label" type="select" sortOrder="29" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Cheque at Store Receipt</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cash_at_store_receipt" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Cash at Store Receipt</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_cash_at_store_receipt" translate="label" type="select" sortOrder="31" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Cash at Store Receipt</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cash_refund" type="textarea" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Cash Refund</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_cash_refund" translate="label" type="select" sortOrder="33" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Cash Refund</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="refund_via_store_credit" type="textarea" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Refund via Store Credit</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_refund_via_store_credit" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Refund via Store Credit</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_request_confirmation" type="textarea" sortOrder="36" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Return Request Confirmation</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_return_request_confirmation" translate="label" type="select" sortOrder="37" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Return Request Confirmation</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_request_admin" type="textarea" sortOrder="38" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Return Request Admin</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_return_request_admin" translate="label" type="select" sortOrder="39" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Return Request Admin</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_request_customer" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Return Request Customer</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_return_request_customer" translate="label" type="select" sortOrder="41" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Return Request Customer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_delivered" type="textarea" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Order Delivered</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_order_delivered" translate="label" type="select" sortOrder="43" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Order Delivered</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="pickup_schedule" type="textarea" sortOrder="44" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Return Pickup Schedule</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_pickup_schedule" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Return Pickup Schedule</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="return_received" type="textarea" sortOrder="46" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Return Received</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_return_received" translate="label" type="select" sortOrder="47" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Return Received</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_number" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Admin Number</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="cheque_cleared" type="textarea" sortOrder="47" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Cheque Cleared</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_cheque_cleared" translate="label" type="select" sortOrder="48" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Cheque Cleared</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="cheque_realisation_accounts_no" type="text" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Cheque Realisation Accounts Number</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="cheque_realisation_accounts" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Cheque Realisation Accounts</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="enable_cheque_realisation_accounts" translate="label" type="select" sortOrder="51" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Cheque Realisation Accounts</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+            </group>
+        </section>
+        <section id="sales_email">
+            <group id="order" translate="label" sortOrder="95" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>SMS Templates</label>
+                <field id="order_sms" type="textarea" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" >
+                    <label>Order Confirmation</label>
+                </field>
+                <field id="enable" translate="label" type="select" sortOrder="101" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

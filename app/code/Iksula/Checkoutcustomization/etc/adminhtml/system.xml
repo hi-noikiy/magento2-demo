@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="checkoutcustomization" translate="label" sortOrder="10">
+            <label>Checkout Customization</label>
+        </tab>
+        <section id="checkoutcustomization_section" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Delivery Date Setting</label>
+            <tab>checkoutcustomization</tab>
+            <resource>Iksula_Checkoutcustomization::customsetting_configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="delivery_date_startdate" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Delivery Date start date</label>
+                    <comment>Delivery Date start date</comment>
+                </field>
+                 <field id="delivery_days_count" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Delivery days</label>
+                    <comment>No. of days from start date</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

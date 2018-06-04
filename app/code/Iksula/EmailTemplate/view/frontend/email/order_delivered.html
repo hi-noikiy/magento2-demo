@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title>2XL Emailer</title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1561.2">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Verdana; color: #000000; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 15.0px; font: 12.0px Verdana; color: #000000; -webkit-text-stroke: #000000}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; line-height: 15.0px; font: 12.0px Verdana; color: #000000; -webkit-text-stroke: #000000}
+    span.s1 {font-kerning: none}
+    table.t1 {width: 598.0px; background-color: #ffffff; margin: 0.0px 92.0px 0.0px 92.0px; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #eaeaea #eaeaea #eaeaea #eaeaea}
+    table.t2 {width: 558.0px}
+    td.td1 {width: 558.0px; padding: 0.0px 20.0px 0.0px 20.0px}
+    td.td2 {width: 558.0px; padding: 20.0px 0.0px 5.0px 0.0px}
+    td.td3 {width: 558.0px}
+    td.td4 {width: 558.0px; padding: 10.0px 0.0px 5.0px 0.0px}
+    td.td5 {width: 558.0px; padding: 5.0px 0.0px 10.0px 0.0px}
+  </style>
+</head>
+<body>
+<table width="598.0" cellspacing="0" cellpadding="0" class="t1">
+  <tbody>
+    <tr>
+      <td valign="top" class="td1">
+        <p class="p1"><span class="s1">{{template config_path="design/email/footer_template"}}</span></p>
+        <table width="558.0" cellspacing="0" cellpadding="0" class="t2">
+          <tbody>
+            <tr>
+              <td valign="top" class="td2">
+                <p class="p1"><span class="s1">{{block class='Magento\Framework\View\Element\Template' area='frontend' name="header_template" template='Iksula_EmailTemplate::header_template.phtml' }}</span></p>
+                <table width="558.0" cellspacing="0" cellpadding="0" class="t2">
+                  <tbody>
+                    <tr>
+                      <td valign="top" class="td3">
+                        <p class="p2"><span class="s1">{{template config_path="design/email/header_template"}}<span class="Apple-converted-space"> </span></span></p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" class="td3">
+                <p class="p3"><span class="s1"><b>Delivery Confirmation<span class="Apple-converted-space"> </span></b></span></p>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" class="td3">
+                <p class="p3"><span class="s1"><b>Order Id:</b>{{trans "%order_id" order_id=$order_id}}<span class="Apple-converted-space"> </span></span></p>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" class="td4">
+                <p class="p2"><span class="s1">Dear {{trans "%name" name=$name}},<span class="Apple-converted-space"> </span></span></p>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" class="td5">
+                <p class="p2"><span class="s1">Thank you for shopping with us. We have delivered your order at your doorstep. In case you wish to return an item or manage other orders, please log in to your 2XL Home account<span class="Apple-converted-space"> </span></span></p>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" class="td5">
+                <p class="p2"><span class="s1">In case you have any queries regarding the delivery, contact us on our Toll Free No 800 2XL (295) or send an e-mail to customercare@2xlme.com . Visit www.2xlme.com and share your valuable feedback.<span class="Apple-converted-space"> </span></span></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

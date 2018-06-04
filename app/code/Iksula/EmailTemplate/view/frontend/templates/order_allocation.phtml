@@ -1,0 +1,13 @@
+<?php
+
+$row_id = $this->getData('row_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_order = $objectManager->create('Iksula\Ordersplit\Model\Ordersplits')->load($row_id);
+$order_split_orderitemsdata = $_order->getOrderItemsData();
+$aOrderItemsData = json_decode($order_split_orderitemsdata , true);
+$html = "";
+    foreach($aOrderItemsData as $key => $OrderItemsData){
+        $html .= "<br>".$OrderItemsData['sku'] . " with quantity " . round($OrderItemsData['inventory']) ."<br>";
+    }
+    echo $html;
+?>

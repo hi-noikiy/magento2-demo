@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_Carriercodetelephone::parent" title="Carriercodetelephone" module="Iksula_Carriercodetelephone" sortOrder="19" resource="Iksula_Carriercodetelephone::parent"/>
+		<add id="Iksula_Carriercodetelephone::carriercodedata" title="Iksula Carriercodetelephone" module="Iksula_Carriercodetelephone" sortOrder="20" parent="Iksula_Carriercodetelephone::parent" action="carriercodetelephone/carriercodedata" resource="Iksula_Carriercodetelephone::carriercodedata"/>
+
+    </menu>
+</config>

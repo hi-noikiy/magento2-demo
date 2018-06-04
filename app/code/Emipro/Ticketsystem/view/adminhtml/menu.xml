@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Backend::Emipro_Ticketsystem" title="Emipro" module="Emipro_Ticketsystem" sortOrder="50"  resource="Magento_Backend::Emipro_Ticketsystem" />
+        <add id="Emipro_Ticketsystem::manage_department" title="Manage Department" module="Emipro_Ticketsystem" sortOrder="50"  parent="Magento_Backend::Emipro_Ticketsystem" resource="Emipro_Ticketsystem::manage_department" action="emipro_ticketsystem/department"/>     
+        <add id="Emipro_Ticketsystem::manage_ticket" title="Manage Support Tciekt" module="Emipro_Ticketsystem" sortOrder="60"  parent="Magento_Backend::Emipro_Ticketsystem" resource="Emipro_Ticketsystem::manage_ticket" action="emipro_ticketsystem/index"/>     
+    </menu>
+</config>

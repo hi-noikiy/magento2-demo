@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+
+    <template id="store_credit_balance" label="Store Credit Balance" file="store_credit_balance.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+    <template id="final_reminder" label="Final Reminder" file="final_reminder.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="expired" label="Expired" file="expired.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="registration" label="Registration" file="registration.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="picklist" label="Picklist" file="picklist.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_allocation" label="Order Allocation" file="order_allocation.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+  <template id="order_allocation_admin" label="Order Allocation Admin" file="order_allocation_admin.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_rejected" label="Order Rejection" file="order_rejected.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_rejected_admin" label="Order Rejection (Admin)" file="order_rejected_admin.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_delivered_by_courier_admin" label="Order Delivered by Courier Guy (Admin)" file="order_delivered_by_courier_admin.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_delivered_by_courier" label="Order Delivered by Courier Guy (Admin)" file="order_delivered_by_courier.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_shipped_from_store" label="Order Shipped from Store or Warehouse" file="order_shipped_from_store.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="cash_refund" label="Cash Refund" file="cash_refund.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="cash_refund_admin" label="Cash Refund Admin" file="cash_refund_admin.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="refund_via_store_credits" label="Refund via Store Credits" file="refund_via_store_credits.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="return_request_customer" label="Return Request Confirmation" file="return_request_customer.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="return_request_admin" label="Return Request Admin" file="return_request_admin.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="refund_processed_confirmation" label="Refund Processed Confirmation" file="refund_processed_confirmation.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_delivered" label="Order Delivered" file="order_delivered.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="return_request_confirmation" label="Return Request Confirmation" file="return_request_confirmation	.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_delivered" label="Order Delivered" file="order_delivered.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="return_pickup_schedule" label="Return Pickup Schedule" file="return_pickup_schedule.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="return_received" label="Return Received" file="return_received.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_failure_admin" label="Order Failure Admin" file="order_failure_admin.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_failure" label="Order Failure" file="order_failure.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="order_confirmation_admn" label="Order Confirmation Admin" file="order_confirmation_admn.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="cheque_received_accounts" label="Cheque Received Accounts" file="cheque_received_accounts.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="ordersplit_cron_log" label="Order Split issue reminder" file="ordersplit_cron_log.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+
+	<template id="incomplete_ordersplit_cron_log" label="Incomplete Order Split issue reminder" file="incomplete_ordersplit_cron_log.html" type="html" module="Iksula_EmailTemplate" area="frontend"/>
+</config>

@@ -1,0 +1,96 @@
+<?php
+
+      list($aTrackingNumber , $aShipmentItemsCollectionData) = $block->getTrackingNumberbyShipment();
+
+ ?>
+
+ <?php
+ /**************   Get the tracking Details From Fetchr API using the Curl in PHP ****************/
+  if(!empty($aTrackingNumber)){
+    ?>
+    <div class="clear"></div>
+    <div class="tracking_wrap">
+        <h4>Track Order</h4>
+        <p class="tracking_grey_txt">Get your tracking details here.</p>
+    <?php
+      $i = 1;
+        foreach($aTrackingNumber as $Key => $trackingnumber){
+          //$trackingnumber = '34116108238528';
+          $result = $block->getCurlFetchrDetails($trackingnumber);
+/*********************************************/
+ ?>
+<!--    Tracking Html to show the Tracking Details in MyAccount Page according to Tracking Number -->
+
+     <div class="tracking_shipments_wrap">
+         <div class="tracking_row">
+             <button class="track_package">Shipment <?php echo $i ?>: Track your package</button>
+             <div class="tracking_table_wrap">
+             <div class="track_item_details">
+               <div class="track_details_left">
+                 <p>Tracking Number:  <span class="tracking_grey_txt"><?php echo $trackingnumber; ?></span></p>
+               </div>
+               <div class="track_details_right">
+               <p class="track_pro_link">Product Details</p>
+                 <ul class="track_pro_details">
+
+                   <?php
+                    //foreach($aShipmentItemsCollectionData as $key => $aShipmentItemsDataValues){
+                    ?>
+                     <li class="item">
+                      <a class="product-item-photo" href="<?php echo $aShipmentItemsCollectionData[$Key]['product_url'] ?>">
+                        <img class="product-image" height="48" width="59" src="<?php echo $aShipmentItemsCollectionData[$Key]['product_image'] ?>">
+                      </a>
+                      <div class="product-item-name">
+                        <a href="<?php echo $aShipmentItemsCollectionData[$Key]['product_url'] ?>"><?php echo $aShipmentItemsCollectionData[$Key]['product_name'] ?> </a>
+                      </div>
+                    </li>
+                    <?php
+                    //}
+                    ?>
+                 </ul>
+               </div>
+             </div>
+             <h5>Tracking Details</h5>
+                 <div class="tracking_table">
+                     <table>
+
+                       <?php
+                             if(!empty($result['tracking_information'])){
+                               $trackingInformation = $result['tracking_information'];
+                                 krsort($trackingInformation);
+                                foreach($trackingInformation as $resultvalue){
+                                 ?>
+                         <tr>
+                             <td>
+                                 <?php echo $resultvalue['status_date_local']; ?>
+                             </td>
+                             <td>
+                                    <?php echo $resultvalue['status_description']; ?>
+                             </td>
+                         </tr>
+                         <?php
+                               }
+                         }else{
+                         ?>
+                           <tr colspan="2">
+                               <td align="center">
+                                     No Result Found
+                               </td>
+                           </tr>
+                         <?php
+                         }
+                         ?>
+                     </table>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+  <?php
+  $i++;
+  }
+  ?>
+  </div>
+  <?php
+}
+?>

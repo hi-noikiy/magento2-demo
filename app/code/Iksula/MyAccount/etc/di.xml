@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	 <preference for="Magento\Customer\Controller\Account\EditPost" type="Iksula\MyAccount\Controller\Account\EditPost" />
+	 <preference for="Magento\Customer\Controller\Address\FormPost" type="Iksula\MyAccount\Controller\Address\FormPost" />
+	 <preference for="Magento\Customer\Controller\Address\Delete" type="Iksula\MyAccount\Controller\Address\Delete" />
+	 <preference for="Magento\Newsletter\Controller\Manage\Index" type="Iksula\MyAccount\Controller\Manage\Index" />
+	 <preference for="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator" type="Iksula\MyAccount\Model\Rewrite\CatalogInventory\Quote\Item\QuantityValidator" />
+	 <preference for="Magento\Customer\Controller\Account\Logout" type="Iksula\MyAccount\Controller\Account\Logout" />
+	 <preference for="Magento\Wishlist\Block\Link" type="Iksula\MyAccount\Block\Rewrite\Link" />
+	
+</config>
+																																										

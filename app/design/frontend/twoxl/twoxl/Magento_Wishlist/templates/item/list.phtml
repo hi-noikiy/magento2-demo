@@ -1,0 +1,88 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Items $block */
+$columns = $block->getColumns();
+$wishlistTotal = 0;
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currency = $currencysymbol->getStore()->getCurrentCurrencyCode();
+?>
+<div class="wishlist">
+    <?php $iterator = 1; ?>
+    <?php if (count($block->getItems())): ?>
+    <ol class="product-items">
+        <?php foreach ($block->getItems() as $item): 
+                $wishlistitemprice = $item->getPrice();
+                $wishlistitemqty = $item->getQty();
+                $wishlistTotal = ($wishlistitemprice * $wishlistitemqty);
+
+        ?>
+        <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li data-row="product-item" class="product-item clear" id="item_' . $item->getId() . '">' : '</li><li class="product-item clear" id="item_' . $item->getId() . '">' ?>
+            <?php foreach ($columns as $column): ?>
+                    <?php $column->setItem($item); echo $column->toHtml($item);
+                            break;
+                    ?>
+                <?php endforeach; ?>
+            <div class="product-item-info">
+                <?php 
+                $k = 0;
+                foreach ($columns as $column):
+                    if($k > 0 && $k < 3){
+                ?>
+                    <?php $column->setItem($item); echo $column->toHtml($item);?>
+                <?php 
+                    }
+                    if($k == 4)
+                    {
+                ?>
+                    <?php $column->setItem($item); echo $column->toHtml($item);?>
+                <?php 
+                    }
+                    $k++;
+                endforeach; ?>
+            </div>
+            <div class="wishlist_right">
+            <?php 
+                $j = 0;
+                foreach ($columns as $column):
+                    if($j == 3):
+                    ?>
+                    <?php $column->setItem($item); echo $column->toHtml($item);?>
+                <?php   
+                    endif;
+                    if($j == 4):
+                    ?>
+                    <div class="price-box">
+                        <div class="price-as-configured">
+                            <div class="price">
+                            <?php echo $currency." ".$wishlistTotal; ?>
+                            </div>       
+                        </div>
+                    </div>
+                <?php   
+                    endif;
+                    $j++;
+                endforeach; ?>
+            </div>
+        <?php echo($iterator == count($block->getItems())+1) ? '</li>' : '' ?>
+        <?php endforeach; ?>
+    </ol>
+    <?php else: ?>
+        <div class="message info empty">
+            <span><?php /* @escapeNotVerified */ echo __('This Wishlist has no Items');?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php foreach ($columns as $column): ?>
+    <?php echo $column->getAdditionalHtml();?>
+<?php endforeach; ?>

@@ -1,0 +1,265 @@
+@import 'var.less';
+
+
+/******************* home banners *******************/
+
+.home_banner_wrapper{
+	.banner_row{
+		.banner_img{
+			display: inline-block;
+			text-align: center;
+
+			a{
+				display: block;
+			}
+
+			img{
+				width: 100%;
+				display: block;
+			}
+            h3{
+            	font-size: 1.66em;
+            	text-transform: capitalize;
+            	margin: 16px 0;
+            	font-weight: normal;
+            	&.desktop-title {
+            		display: block;
+            	}
+            	&.mobile-title {
+            		display: none;
+            		margin: 0 0 10px;
+            	}
+            }
+		}
+		&.single_banner {
+			width: 100%;
+			.banner_img {
+				margin: 0 0 40px;
+			}
+		}
+		&.two_banners{
+			margin-bottom: 20px;
+			width: 100%;
+			.banner_img{
+				width: 49%;
+				display: inline-block;
+				&:last-child {
+					float: right;
+				}
+			}
+		}
+		&.three_banners{
+			margin-bottom: 20px;
+			.banner_img{
+				width: 32%;
+				float: left;
+				&:nth-child(2) {
+					margin:0 2%;
+				}
+			}
+		}
+	}
+}
+
+.magestore-bannerslider-standard {
+	margin: 0 0 40px;
+
+	a{
+		cursor: pointer;
+	}
+	img{
+		cursor: inherit;
+	}
+	.flex-viewport{
+		.slides{
+			li, a, img{
+				height: auto !important;
+
+				.flex-caption{
+					display: none;
+				}
+			}
+		}
+	}
+	.flex-direction-nav{
+			opacity: 0;
+		}
+}
+
+.flex-direction-nav .flex-prev {
+    left: 0;
+    &:before {
+    	content: '\e927';
+    	font-family: @icomoon;
+    	color: @white;
+    	font-size: 29px;
+    	display: inline-block;
+		-moz-transform: scaleX(-1);    /* Gecko */
+		-o-transform: scaleX(-1);      /* Opera */
+		-webkit-transform: scaleX(-1); /* Webkit */
+		transform: scaleX(-1);         /* Standard */
+		filter: FlipH;
+		line-height: 88px;
+    }
+}
+
+.flex-direction-nav .flex-next {
+	right: 0;
+	&:before {
+    	content: '\e927';
+    	font-family:@icomoon;
+    	color: @white;
+    	font-size:29px;
+    	display: inline-block;
+    	line-height: 88px;
+    }
+}
+
+.flexslider:hover .flex-prev {
+    opacity: 1;
+    left: 0;
+}
+
+.flexslider:hover .flex-next {
+    opacity: 1;
+    right: 0;
+}
+
+.flex-direction-nav {
+	a {
+		width: 40px;
+	    height: 88px;
+	    margin: -44px 0 0;
+	    background: rgba(0,0,0,0.5);
+	    opacity: 1;
+	    -webkit-transition: none;
+	    text-indent: inherit;
+	    font-size: 0;
+	    text-align: center;
+	}
+	li{
+		margin: 0;
+	}
+}
+
+.columns {
+	display: block;
+}
+.flex-control-nav {
+	bottom: 16px;
+
+	li{
+		margin: 0 7px;
+	}
+}
+
+.flex-control-paging {
+	li {
+		a {
+			width: 9px;
+    		height: 9px;
+    		border-radius: 50%;
+
+			&:hover {
+				background: transparent;
+    			border: 2px solid @white;
+			}
+			&.flex-active {
+				background: rgba(255,255,255,1);
+				border: 2px solid transparent;
+			}
+		}
+	}
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+	.home_banner_wrapper {
+		.banner_row {
+			.banner_img {
+				h3 {
+					font-size: 1.5em;
+				}
+			}
+		}
+	}
+	.magestore-bannerslider-standard {
+		margin: 0 0 20px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.magestore-bannerslider-standard {
+	    width: 100%;
+	}
+}
+
+@media only screen and (max-width: 737px) {
+	.home_banner_wrapper {
+		.banner_row {
+			&.three_banners {
+				.banner_img {
+					padding: 0 30px;
+					&:nth-child(2) {
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+	button:not(.primary), button:not(.primary):active {
+	    box-shadow: none;
+	}
+	button:hover {
+		border: 0;
+	}
+	.slick-next {
+	    right: 2px;
+	    &:before {
+		    background-color: transparent;
+		    content: '\e927';
+    		font-family:@icomoon;
+		    font-size: 20px;
+		    padding: 0;
+		    right: 0;
+		    position: relative;
+		    color: #666;
+		}
+	}
+	.slick-prev {
+	    left: 2px;
+	    z-index: 1;
+	    &:before {
+		    background-color: transparent;
+		    content: '\e927';
+	    	font-family: @icomoon;
+	    	color: @white;
+	    	display: inline-block;
+			-moz-transform: scaleX(-1);    /* Gecko */
+			-o-transform: scaleX(-1);      /* Opera */
+			-webkit-transform: scaleX(-1); /* Webkit */
+			transform: scaleX(-1);         /* Standard */
+			filter: FlipH;
+		    padding: 0;
+		    font-size: 20px;
+		    left: 0;
+		    position: relative;
+		    color: #666;
+		}
+	}
+	.home_banner_wrapper {
+		.banner_row {
+			.banner_img {
+				h3 {
+					&.desktop-title {
+	            		display: none;
+	            	}
+	            	&.mobile-title {
+	            		display: block;
+	            	}
+				}
+			}
+		}
+	}
+}

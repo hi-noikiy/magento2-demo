@@ -1,0 +1,53 @@
+<!--@subject Welcome to 2XL Home!  @-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2XL</title>
+</head>
+
+<body>
+<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" style="font-size:0; border:1px solid #eaeaea;font-family:Open Sans,Verdana; background-color:#ffffff;">
+    <tr>
+        <td valign="top" style="padding: 0 20px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td valign="top" style="font-size:14px;font-family:Open Sans,Verdana;padding:25px 0 5px " align="left">
+          <!--a target="_blank" href="http://www.2xlme.com/"><img src="images/logo.jpg" width="87" alt="Logo"   ></a-->
+          {{template config_path="design/email/header_template"}}
+        </td>
+      </tr>     
+      <tr>
+        <td valign="top" style="font-size:13px;font-family:Open Sans,Verdana;padding:10px 20px;color:#555555;">
+        To log in your 2XL Home account, visit our <a href="{{block class='Magento\Framework\View\Element\Template' area='frontend'   name='website_url' template='Iksula_EmailTemplate::website_url.phtml'}}" target="_blank" style="text-decoration:none;color:#555555">website</a>. Sign in with your email address and password
+
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="font-size:14px;font-family:Open Sans,Verdana;padding:10px 20px;color:#000;font-weight:bold;">
+        Email address: <span style="font-size:14px;font-family:Open Sans,Verdana;color:#000;font-weight:bold; text-decoration: none;">{{trans "%email" email=$email}}</span>
+        </td>
+      </tr>
+      <!--tr>
+        <td valign="top" style="font-size:14px;font-family:Open Sans,Verdana;padding:10px 20px;color:#000;font-weight:bold;">
+        Password: 
+        </td>
+      </tr-->
+      {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="header_template" template='Iksula_EmailTemplate::registration_template.phtml' }}
+      
+      <tr>    
+        <td valign="top" style="font-size:13px; padding:30px 0 0;color:#555555;font-family:Open Sans,Verdana" align="center">
+          <a href="http://www.2xlme.com/" target="_blank"><img src="images/shop.jpg" width="89" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:13px"></a>
+        </td> 
+      </tr>
+      {{template config_path="design/email/footer_template"}}
+      {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="header_template" template='Iksula_EmailTemplate::footer_template.phtml' }}
+      
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

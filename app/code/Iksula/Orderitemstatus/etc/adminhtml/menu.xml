@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_Orderitemstatus::parent" title="Orderitemstatus" module="Iksula_Orderitemstatus" sortOrder="18" resource="Iksula_Orderitemstatus::parent"/>
+		<add id="Iksula_Orderitemstatus::orderitemstatus" title="Iksula Orderitemstatus" module="Iksula_Orderitemstatus" sortOrder="20" parent="Iksula_Orderitemstatus::parent" action="orderitemstatus/orderitemstatus" resource="Iksula_Orderitemstatus::orderitemstatus"/>
+
+    </menu>
+</config>

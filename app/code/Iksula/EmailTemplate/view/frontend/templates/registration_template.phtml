@@ -1,0 +1,59 @@
+<?php
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$base_url = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+
+?>
+<tr>
+  <td valign="top" style="font-size:21px;font-family:Open Sans,Verdana;padding:10px 0;color:#000;font-weight:bold;" align="center">
+    After sign in, you can:
+</td>
+</tr>
+<tr>
+<td valign="bottom" align="center">
+  <table border="0" cellspacing="0" cellpadding="0" width="380">
+    <tr>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img2.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span style="display:block;padding:5px 0 0;line-height:15px"><a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Access your dashboard</a></span>
+      </td>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img2.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span style="display:block;padding:5px 0 0;line-height:15px"><a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Edit account information and address book</a></span>
+      </td>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img3.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span  style="display:block;padding:5px 0 0;line-height:15px"> <a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Change your password</a></span>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img4.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span style="display:block;padding:5px 0 0;line-height:15px"><a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Track Orders</a></span>
+      </td>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img5.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span style="display:block;padding:5px 0 0;line-height:15px"><a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Create your wishlist</a></span>
+      </td>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img6.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span  style="display:block;padding:5px 0 0;line-height:15px"><a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Check store credit balance</a></span>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">&nbsp;</td>
+      <td valign="top" style="font-size:12px; padding:20px 0 5px;color:#555555;font-family:Open Sans,Verdana" align="center" width="33%">
+        <img src="<?php echo $base_url."pub/media/email/img7.jpg"; ?>" width="54" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:12px">
+        <span  style="display:block;padding:5px 0 0;line-height:15px"><a style="color:#000000;text-decoration:none;font-size:12px;font-family:Open Sans,Verdana" href="<?php echo $base_url; ?>" target="_blank">Subscribe to email and SMS notification</a></span>
+      </td>
+      <td valign="top">&nbsp;</td>
+    </tr>
+  </table>
+</td>
+</tr>
+<tr>
+    <td valign="top" style="font-size:13px; padding:30px 0 0;color:#555555;font-family:Open Sans,Verdana" align="center">
+        <a href="<?php echo $base_url; ?>" target="_blank"><img src="<?php echo $base_url."pub/media/email/shop.jpg"; ?>" width="115" alt="" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:13px"></a>
+    </td>
+</tr>

@@ -1,0 +1,47 @@
+<!--@subject Store Credits Balance - Once in a month  @-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2XL Emailer</title>
+</head>
+
+<body>
+<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" style="font-size:0; border:1px solid #eaeaea;font-family:Open Sans,Verdana; background-color:#ffffff;">
+    <tr>
+        <td valign="top" style="padding: 0 20px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>                    
+                <td valign="top" style="padding:20px 0 5px 0">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td valign="top" style="font-size:12px;" align="left">
+                            {{template config_path="design/email/header_template"}}
+                            </td>
+                            {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="header_template" template='Iksula_EmailTemplate::header_template.phtml' }}
+                            
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            
+            <tr>
+                <td valign="top" style="font-size:12px;padding:10px 0 5px">
+                Dear {{trans "%name" name=$name}},
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" style="font-size:12px;padding:5px 0 10px 0;font-family:Open Sans,Verdana;">
+                It has been a month since you have not used your store credit balance to make a purchase. Your store credit balance is {{trans "%amount" amount=$amount}}. You may choose to buy now before your store credit expires.
+                </td>
+            </tr>
+            
+            {{template config_path="design/email/footer_template"}}
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>

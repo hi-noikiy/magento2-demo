@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php echo $block->getChildHtml('form_before')?>
+<h3>My Subscription</h3>
+    <form class="form form-newsletter-manage" method="post" id="form-validate" action="<?php echo $block->getAction(); ?>">
+        <fieldset class="fieldset">
+            <?php echo $block->getBlockHtml('formkey')?>
+            <div class="field choice">
+                <input type="checkbox" name="is_subscribed" id="subscription" value="1" title="<?php /* @escapeNotVerified */ echo __('General Subscription') ?>"<?php if ($block->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox">
+                <label for="subscription" class="label"><span><?php /* @escapeNotVerified */ echo __('General Subscription') ?></span></label>
+            </div>
+            <?php /* Extensions placeholder */ ?>
+            <?php echo $block->getChildHtml('customer.form.newsletter.extra')?>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary"><button type="button" title="<?php /* @escapeNotVerified */ echo __('Save') ?>" class="action save primary" onclick="return chkValidation();"><span><?php /* @escapeNotVerified */ echo __('Save') ?></span></button></div>
+            <div class="secondary"><a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Back') ?></span></a></div>
+        </div>
+    </form>
+<?php /* Extensions placeholder */ ?>
+<?php echo $block->getChildHtml('customer.form.newsletter.extra2')?>
+<script>
+function chkValidation()
+{
+  require([
+    'jquery',
+    'mage/validation'
+    ], function($){     
+        var subscription = '<?php echo $block->getIsSubscribed(); ?>';
+        var is_subscribed = $("#subscription").prop("checked");
+        if(subscription == 1 && is_subscribed == true)
+        {
+            alert("Please de-select checkbox to remove subscription.");
+            return false;
+        }
+        else if(subscription == '' && is_subscribed == false)
+        {
+            alert("Please click on checkbox to subscribe subscription.");
+            return false;
+        }
+        else
+        {
+            $("#form-validate").submit();
+            return true;
+        }
+
+   }); 
+}
+  </script>

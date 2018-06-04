@@ -1,0 +1,87 @@
+  <div><h1>Manual Allocation</h1></div>
+
+<?php
+
+
+        $skuswiseCollection = "";
+        $orderitemsid = $block->getOrderItemRowId();
+        $collections =  $block->getCollectionsOrderSplits($orderitemsid);
+        $skuswiseCollection = json_decode($collections['order_items_data'] , true);
+        //
+        // echo '<pre>';
+        // print_r($skuswiseCollection);
+        // exit;
+?>
+
+
+<?php
+    $loop = 1;
+    $html = "";
+
+    $html =  "<input type='hidden' name='skuids_data' id='skuids_data' value = ".$collections['order_items_data'] ." />";
+
+    $html .= "<div><input type='hidden' name='order_item_rowid' id='order_item_rowid' value='".$orderitemsid."' /> </div>";
+
+    foreach($skuswiseCollection as $skuwiseValues){
+
+        $storecollection = $block->getStoreDataBySkuQty($skuwiseValues['sku'] , $skuwiseValues['inventory'] , $collections['order_item_id']);
+
+        $html .=  "<div>Sku :- ";
+        $html .=  $skuwiseValues['sku']." </div>";
+        $hideelement = "";
+        if(empty($storecollection)){
+              $html .= "<br /><div>Note :- The Sku ".$skuwiseValues['sku']." has no inventory for any stores </div><br />";
+              $hideelement = "style='display:none'";
+        }
+
+          $html .=  "<div ".$hideelement.">Please select your store :- ";
+          $html .=  "<select id='newallocatedstore_".$loop."' name ='newallocatedstore_".$loop."'>";
+          $html .= "<option value=''>Please select Stores</option>";
+          $selected = '';
+
+          foreach($storecollection as $key => $storeDataValues){
+
+              if($collections['allocated_storeids'] == $storeDataValues['storemanager_id']){
+                  $selected = 'selected';
+              }else{
+                  $selected = '';
+              }
+              $html .= "<option value='".$storeDataValues['storemanager_id']."' ".$selected." > ".$storeDataValues['name']." with quantity ".$storeDataValues['qty']."</option>";
+
+          }
+          $html .= "</select></div>";
+
+        $html .=  "<div><input type='hidden' value = '".$skuwiseValues['sku']."' id='sku_".$loop."' name='sku_".$loop."' /> </div>";
+
+        $html .=  "<div ".$hideelement.">Qty :- ";
+        /*$html .=  "<div><input data-originalqty = '".$skuwiseValues['inventory']."' data-loopvalue = '".$loop."' type='text' data-order_item_id = '".$skuwiseValues['order_items_id']."' name='newqty_allocatedstore_".$loop."' value='".$skuwiseValues['inventory']."' /> </div>";*/
+
+         $html .= "<select data-originalqty = '".$skuwiseValues['inventory']."' data-loopvalue = '".$loop."' type='text' data-order_item_id = '".$skuwiseValues['order_items_id']."' name='newqty_allocatedstore_".$loop."'>";
+        $selected = '';
+        for($i = 1 ; $i <= $skuwiseValues['inventory']; $i++){
+
+                if($skuwiseValues['inventory'] == $i){
+
+                    $selected = "selected='selected'";
+                }else{
+                    $selected = "";
+                }
+
+            $html .= "<option ".$selected." value='".$i."'>".$i."</option>";
+
+        }
+        $html .= "</select></div></br>";
+
+        $loop ++;
+
+
+    }
+
+    $html .= "<input type='button' onclick='manuallallocationSubmit();' class='manual_allocation_submit' value='Submit' />";
+    $data = $html;
+
+    echo $data;
+
+    //echo json_encode($data);
+
+?>

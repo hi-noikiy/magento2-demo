@@ -1,0 +1,25 @@
+<?php
+$order = $block->getOrder();
+$payment = $order->getPayment();
+$method = $payment->getMethodInstance();
+$methodTitle = $method->getTitle();
+?>
+
+<?php
+if(ucfirst($methodTitle) == 'Pay by Cheque at store')
+{
+	echo '<tr><td valign="top" style="font-size:11px;padding:5px 10px;background-color:#f2f2f2;line-height:14px" align="left">';
+	echo "<strong>Notes:</strong><br/>";
+	echo "1. We ship and deliver your order after payment is received. <br/> 2. You need to pay by cheque within 7 days of placing the order online. <br/> 3. We will cancel your order if you fail to present a cheque within 7 days of placing the order online. <br/> 4. All cheques should be drawn in the name of '2XL Furniture'. <br/> 5. We accept only 'A/c Payee' Cheques.";
+	echo '</td>	</tr>';
+}
+
+if(ucfirst($methodTitle) == 'Pay by cash at store')
+{
+	echo '<tr><td valign="top" style="font-size:11px;padding:5px 10px;background-color:#f2f2f2;line-height:14px" align="left">';
+	echo "<strong>Notes:</strong><br/>";
+	echo "1. Kindly make the payment within 7 days of placing the order online.<br/>							2. You may visit any 2XL store to pay cash for your order. <br/>3. You need to show Order Confirmation email copy when you visit the store for payment. <br/>4. We ship and deliver your order after we have received your payment. <br/>5. We will cancel your order, in case you fail to visit the store and make payment within 7 working days of placing the order online.";
+	echo '</td>	</tr>';
+}
+
+?>

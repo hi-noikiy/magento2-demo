@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="mobileapp" sortOrder="999" translate="label">
+			<label>mobile app</label>
+		</tab>
+		<section id="mobileapp" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>mobile app</label>
+			<tab>mobileapp</tab>
+			<resource>Iksula_MobileApp::config_iksula_mobileapp</resource>
+			<group id="setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>setting</label>
+				<field id="cat" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+					<label>Category Id</label>
+					<comment/>
+					<source_model>Iksula\MobileApp\Model\Config\Source\CategoryList</source_model>
+				</field>
+			</group>
+			<group id="contact_us" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Contact Us</label>
+				<field id="footer_email" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Footer Email</label>
+					<comment/>
+				</field>
+				<!-- <field id="footer_email_img" translate="label comment" type="image" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Footer Email icon</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                </field> -->
+				<field id="footer_contactno" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="12" translate="label" type="text">
+					<label>Footer Contactno</label>
+					<comment/>
+				</field>
+				<!-- <field id="footer_phone_img" translate="label comment" type="image" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Footer Phone icon</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                </field> -->
+			</group>
+		</section>
+	</system>
+</config>

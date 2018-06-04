@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_SalecategoryProducts::parent" title="Sale category Products" module="Iksula_SalecategoryProducts" sortOrder="100" resource="Iksula_SalecategoryProducts::parent"/>
+        <add id="Iksula_SalecategoryProducts::index" title="Sale category Products" module="Iksula_SalecategoryProducts" sortOrder="10" action="salecategoryproducts/index" resource="Iksula_SalecategoryProducts::index" parent="Iksula_SalecategoryProducts::parent"/>
+		
+    </menu>
+</config>

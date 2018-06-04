@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_report_report_listing_data_source" xsi:type="string">Iksula\Report\Model\ResourceModel\Reports\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Iksula\Report\Model\ResourceModel\Reports\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ordersplit_dup</argument>
+            <argument name="eventPrefix" xsi:type="string">iksula_report_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">iksula_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Iksula\Report\Model\ResourceModel\Reports</argument>
+        </arguments>
+    </type>
+</config>

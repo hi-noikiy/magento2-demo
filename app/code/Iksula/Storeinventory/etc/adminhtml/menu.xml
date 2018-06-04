@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_Storeinventory::parent" title="Storeinventory" module="Iksula_Storeinventory" sortOrder="17" resource="Iksula_Storeinventory::parent"/>
+		<add id="Iksula_Storeinventory::storeinventory" title="Iksula Storeinventory" module="Iksula_Storeinventory" sortOrder="20" parent="Iksula_Storeinventory::parent" action="storeinventory/storeinventory" resource="Iksula_Storeinventory::storeinventory"/>
+
+    </menu>
+</config>

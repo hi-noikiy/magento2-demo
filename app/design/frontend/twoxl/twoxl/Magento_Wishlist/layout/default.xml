@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+        <body>
+            <referenceBlock name="top.links">
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-wishlist-link-top" after="-" >
+                    <arguments>
+                        <argument name="path" xsi:type="string">wishlist/index/index</argument>
+                        <argument name="label" xsi:type="string" translate="true">My Wishlist</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+            <referenceBlock name="wish-list-link" remove="true"/>
+        </body>    
+    </page>

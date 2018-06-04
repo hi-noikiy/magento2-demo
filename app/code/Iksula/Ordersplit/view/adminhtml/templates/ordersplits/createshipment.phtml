@@ -1,0 +1,33 @@
+<div><h1>Create Shipment</h1></div>
+
+<?php
+
+
+      $skuswiseCollection = "";
+      $orderitemsid = $block->getOrderItemRowId();
+      $html = "";
+      $bags_counts = range( 1 , 15);
+
+?>
+<?php
+
+  $html .= "<div><input type='hidden' name='row_id' id='row_id' value='".$orderitemsid."' /> </div>";
+
+  //$html .= "<div><input type= 'text' name='awb_no' id='awb_no' maxlength ='10' /></div>";
+  $html .= "<div>Number of bags counts :- </div>";
+  $html .= "<select name='bags_count' id='bags_count_id' >";
+
+  foreach($bags_counts as $values){
+
+      $html .= "<option value='".$values."'>".$values."</option>";
+
+  }
+  $html .= "</select>";
+  //$html .= "<div><input type= 'text' name='awb_no' id='awb_no' maxlength ='10' /></div>";
+
+  $html .= "<div><input type='button' onclick='createshipmentSubmit();' class='bags_counts' value='Submit' /></div>";
+  $data = $html;
+
+  echo $data;
+
+?>

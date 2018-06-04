@@ -1,0 +1,57 @@
+<?php
+/**
+* Customer login form template
+*
+* @see \Magento\Customer\Block\Form\Login
+* @var $block \Magento\Customer\Block\Form\Login
+*/
+$_helper = $this->helper('Dckap\Rememberme\Helper\Data');
+?>
+<div class="block-customer-login">
+   <h3><?php /* @escapeNotVerified */ echo __('Sign IN') ?></h3>
+   <div class="block-content" aria-labelledby="block-customer-login-heading">
+       <form class="form form-login"
+             action="<?php /* @escapeNotVerified */ echo $block->getPostActionUrl() ?>"
+             method="post"
+             id="login-form"
+             data-mage-init='{"validation":{}}'>
+           <?php echo $block->getBlockHtml('formkey'); ?>
+           <fieldset class="fieldset login" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>">
+               <div class="field email required">
+                   <div class="control">
+                       <input name="login[username]" value="<?php echo $block->escapeHtml($_helper->getCookieloginName()) ?>"  id="email" type="email" class="input-text" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" data-validate="{required:true, 'validate-email':true}" placeholder="Email Address">
+                   </div>
+               </div>
+               <div class="field password required">
+                   <div class="control">
+                       <input name="login[password]" type="password" value="<?php echo $block->escapeHtml($_helper->getCookieloginPwd()) ?>" class="input-text" id="pass" title="<?php /* @escapeNotVerified */ echo __('Password') ?>" data-validate="{required:true}" placeholder="Password">
+                   </div>
+               </div>
+               <div class="field">
+                  <div class="rememberme">
+                       <input name="login[rememberme]" type="checkbox"  class="input-checkbox" id="rememberme" <?php if ($_helper->getCookieloginChk()){ ?>checked="checked"<?php } ?> title="<?php /* @escapeNotVerified */ echo __('Rememberme on this computer') ?>" >
+                    <label for="rememberme" class="label"><span><?php /* @escapeNotVerified */ echo __('Remember Me') ?></span></label>
+
+                   </div>
+                    <div class="forgot_pwd">
+                    <a class="action remind" href="<?php /* @escapeNotVerified */ echo $block->getForgotPasswordUrl() ?>"><span><?php /* @escapeNotVerified */ echo __('Forgot Your Password?') ?></span></a>
+                    </div>
+               </div>
+               <?php echo $block->getChildHtml('form_additional_info'); ?>
+               <div class="actions-toolbar">
+                  <button type="submit" class="action login primary" name="send" id="send2"><span><?php /* @escapeNotVerified */ echo __('Sign In') ?></span></button>
+               </div>
+           </fieldset>
+
+           <div class="social_login_wrap">
+            <div class="or_section"><span>OR</span></div>
+            <h3>Login with social media</h3>
+            <!-- <div class="fb_gplus_wrap">
+              <a href="#" class="fb_login">Login with Facebook</a>
+              <a href="#" class="gplus_login">Login with Google+</a>            
+            </div> -->
+           </div>
+
+       </form>
+   </div>
+</div>

@@ -1,0 +1,300 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Form\Edit $block */
+
+$helper_data = $this->helper('Iksula\MyAccount\Helper\Data');
+$info_data = $helper_data->getCountryCarrierCollection();
+$arr = array();
+foreach ($info_data as $country_code) {
+    $arr[] = $country_code['country_code'];
+}
+$unique_country_data = array_unique($arr);
+?>
+<?php
+
+    $helper = $this->helper('Iksula\Carriercodetelephone\Helper\Data');
+    $Baseurl = $helper->getBaseUrl();
+
+    $NationlityOptions = $helper->getNationalityData();
+
+    foreach($NationlityOptions as $aNationlity){
+        $aNationiltyData [$aNationlity['value']] = $aNationlity['label'];
+    }
+?>
+<?php 
+    $telephone_explode = array();
+    $nationality_value = '';
+    $carrier_code = '';
+    if($block->getCustomer()->getCustomAttribute('account_telephone'))
+    {
+        $account_telephone = $block->getCustomer()->getCustomAttribute('account_telephone')->getValue();
+        if($account_telephone != ''):
+            $telephone_explode = explode("-",$account_telephone);
+        
+            if(count($telephone_explode) > 1)
+            {
+                
+                $carrier_code = $telephone_explode[1];
+            }
+            else
+            {
+                $carrier_code = '';
+            }
+        endif;
+    }
+
+    if($block->getCustomer()->getCustomAttribute('nationality'))
+    {
+        $nationality_value = $block->getCustomer()->getCustomAttribute('nationality')->getValue();
+    }
+?>
+<form class="form form-edit-account" action="<?php /* @escapeNotVerified */ echo $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" autocomplete="off" id="form-edit-account">
+    <fieldset class="fieldset info">
+        <?php echo $block->getBlockHtml('formkey')?>
+
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Personal details') ?></span></legend><br>
+        <?php echo $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
+
+        <?php $_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
+        <?php $_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat') ?>
+        <?php $_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender') ?>
+        <?php //$_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender'); ?>
+        <?php if ($_dob->isEnabled()): ?>
+            <?php echo $_dob->setDate($block->getCustomer()->getDob())->toHtml() ?>
+        <?php endif ?>
+        <?php if ($_taxvat->isEnabled()): ?>
+            <?php echo $_taxvat->setTaxvat($block->getCustomer()->getTaxvat())->toHtml() ?>
+        <?php endif ?> 
+         
+        <!-- temporary static html -->
+        <div class="two_fields clear phone_wrap">
+        <div class="field clear">
+        <div class="tele_div">
+        <select class="validate-select" id="country_code" name="country_code" onchange="chk_carrier()">           
+        <option value="">Country Code</option>
+        <?php foreach($unique_country_data as $key => $value) {
+            ?>
+            <option value="<?php echo $value; ?>" <?php if(count($telephone_explode) > 0 && $telephone_explode[0] == $value) { echo 'selected="selected"';} ?>><?php echo "+".$value; ?></option>
+        <?php } ?>
+        </select>
+        </div>
+        <div class="tele_div div_carrier">
+        <select class="validate-select" id="carrier_code" name="carrier_code">
+            <option value="">Carrier Code</option>
+        </select>
+        </div>
+        </div>
+        <div class="field">
+        <input type="text" id="tele_number" name="tele_number" data-validate="{required:true , 'validate-number':true}" class="input-text mobile7digit" maxlength="7" value="<?php if(count($telephone_explode) > 2) echo $telephone_explode[2]; ?>" placeholder="Contact Number (Enter 7 digits)" autocomplete="off">
+        <input type="hidden" id="account_telephone" name="account_telephone" value="">
+        </div>
+        </div>
+        <div class="three_fields clear">
+            <div class="field choice">
+                <select class = "validate-select" name="nationality">
+                <option value="" >Nationality</option>
+                <?php foreach($aNationiltyData as $label => $Values) {?>
+                        <option value="<?php echo $label; ?>" <?php if($label == $nationality_value) { echo 'selected="selected"';} ?>><?php echo $Values; ?></option>
+                <?php }?>                        
+                </select>
+            </div>
+           <?php if ($_gender->isEnabled()): ?>
+                <?php echo $_gender->setGender($block->getCustomer()->getGender())->toHtml() ?>
+            <?php endif ?>
+
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" id="sbmt_edit_details" class="action save primary" title="<?php /* @escapeNotVerified */ echo __('Save') ?>"><span><?php /* @escapeNotVerified */ echo __('Save') ?></span></button>
+            </div>
+            <div class="secondary">
+                <a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Go back') ?></span></a>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<form class="form form-edit-change-password" action="<?php /* @escapeNotVerified */ echo $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate-pswd" enctype="multipart/form-data" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" autocomplete="off">
+    <fieldset class="fieldset password" data-container="change-email-password">
+    <?php echo $block->getBlockHtml('formkey')?>
+    <input type="hidden" name="change_password" id="change-password" data-role="change-password" value="1"  />
+
+        <legend class="legend"><span><?php /* @escapeNotVerified */ echo __('Change Password') ?></span></legend><br>
+        <input type="hidden" id="firstname" name="firstname" value="<?php echo $block->getCustomer()->getFirstName(); ?>" >
+        <input type="hidden" id="lastname" name="lastname" value="<?php echo $block->getCustomer()->getLastName(); ?>" >
+        <div class="field password current required">
+            <div class="control">
+                <input type="password" class="input-text" name="current_password" id="current-password" data-input="current-password" autocomplete="off" placeholder="Current Password *" data-validate="{required:true}" />
+            </div>
+        </div>
+        <div class="field new password required" data-container="new-password" data-mage-init='{"passwordStrengthIndicator": {}}'>
+            <div class="control">
+                <input type="password" class="input-text" name="password" id="password"
+                    data-password-min-length="<?php echo $block->escapeHtml($block->getMinimumPasswordLength()) ?>"
+                    data-password-min-character-sets="<?php echo $block->escapeHtml($block->getRequiredCharacterClassesNumber()) ?>"
+                    data-input="new-password"
+                    data-validate="{required:true, 'validate-customer-password':true}"
+                    autocomplete="off" placeholder="New Password *" />
+                <div id="password-strength-meter-container" data-role="password-strength-meter" >
+                    <div id="password-strength-meter" class="password-strength-meter">
+                        <?php /* @escapeNotVerified */ echo __('Password Strength'); ?>:
+                        <span id="password-strength-meter-label" data-role="password-strength-meter-label" >
+                            <?php /* @escapeNotVerified */ echo __('No Password'); ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field confirm password required" data-container="confirm-password">
+            <div class="control">
+                <input type="password" class="input-text" name="password_confirmation" id="password-confirmation" data-input="confirm-password"
+                    autocomplete="off" placeholder="Confirm New Password *" data-validate="{required:true, 'validate-both-passwords':true}" />
+            </div>
+        </div>
+        <div class="primary">
+            <!--button type="submit" class="action save primary" title="<?php /* @escapeNotVerified */ echo __('Save') ?>"><span><?php /* @escapeNotVerified */ echo __('Save') ?></span></button-->
+        </div>
+        <?php echo $block->getChildHtml('form_additional_info'); ?>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action save primary" title="<?php /* @escapeNotVerified */ echo __('Save') ?>" id="sbmt_button"><span><?php /* @escapeNotVerified */ echo __('Save') ?></span></button>
+        </div>
+        <div class="secondary">
+            <a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Go back') ?></span></a>
+        </div>
+    </div>
+</form>
+<script>
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#form-validate-pswd');
+        var ignore = <?php /* @escapeNotVerified */ echo $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null'; ?>;
+        
+        dataForm.mage('validation', {
+        
+        });
+
+    });
+    require([
+        "jquery",
+        "mage/mage"
+    ], function($){
+        var dataForm = $('#form-validate');
+        var ignore = <?php /* @escapeNotVerified */ echo $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null'; ?>;
+        
+        dataForm.mage('validation', {
+        <?php if ($_dob->isEnabled()): ?>
+            errorPlacement: function(error, element) {
+                if (element.prop('id').search('full') !== -1) {
+                    var dobElement = $(element).parents('.customer-dob'),
+                        errorClass = error.prop('class');
+                    error.insertAfter(element.parent());
+                    dobElement.find('.validate-custom').addClass(errorClass)
+                        .after('<div class="' + errorClass + '"></div>');
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: ':hidden:not(' + ignore + ')'
+        <?php else: ?>
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+        <?php endif ?>
+        });
+
+    });
+</script>
+
+<!-- <script type="text/x-magento-init">
+    {
+        "[data-role=change-email], [data-role=change-password]": {
+            "changeEmailPassword": {
+                "titleChangeEmail": "<?php /* @escapeNotVerified */ //echo __('Change Email') ?>",
+                "titleChangePassword": "<?php /* @escapeNotVerified */ //echo __('Change Password') ?>",
+                "titleChangeEmailAndPassword": "<?php /* @escapeNotVerified */ //echo __('Change Email and Password') ?>"
+            }
+        }
+    }
+</script>
+ -->
+<script type="text/javascript">
+function chk_carrier()
+{
+    require([
+        'jquery'    
+    ], function($){
+
+        var country_code = jQuery('select#country_code').val();            
+        var baseurl_action =  '<?php echo $Baseurl; ?>'+'carriercodetelephone/telephonevalidation/carriercode/';
+        var html = '';
+
+             $.ajax({
+           url: baseurl_action ,
+           data: {
+              format: 'json',
+              country_code : country_code
+           },
+           error: function() {
+              console.log('Some error as been ocuured');
+           },       
+           success: function(data) {          
+              var obj = jQuery.parseJSON(data);
+              obj = jQuery.unique(obj);
+
+              $('select#carrier_code').removeAttr("selected");
+              $('select#carrier_code').empty();
+              if (obj.length === 0) {
+                    
+                    $('select#carrier_code').append($('<option>', {
+                                value: '',
+                                text: 'Carrier Code'
+                            }));
+                }else{
+                    
+                    var carrier_selected_value = '<?php echo $carrier_code; ?>';
+                    html = '<select class="validate-select" id="carrier_code" name="carrier_code">';
+                    html += '<option value="">Carrier Code</option>'; 
+                    for (var i = 0; i < obj.length; i++) {
+                        if(carrier_selected_value == obj[i]) 
+                        { 
+                            var selected_value = 'selected="selected"';
+                        }
+                        else
+                        {
+                            var selected_value = '';
+                        } 
+                    html += '<option value="'+obj[i]+'" '+selected_value+' >'+obj[i]+'</option>';
+                    }
+                    html += '</select>';
+                    $('.div_carrier').html(html);
+                }
+           },
+           type: 'GET'
+        });
+    });
+    
+}
+require([
+    'jquery'    
+], function($){
+    $( document ).ready(function() {    
+        chk_carrier();
+    });
+    $('button#sbmt_edit_details').click(function(){            
+            var country_code = jQuery.trim($('select#country_code').val());
+            var carrier_code = jQuery.trim($('select#carrier_code').val());
+            var tele_number = jQuery.trim($('input#tele_number').val());
+            $('input#account_telephone').val(country_code+'-'+carrier_code+'-'+tele_number);
+            $('#form-edit-account').submit();
+
+        });
+});
+</script>

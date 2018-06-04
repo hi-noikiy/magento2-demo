@@ -1,0 +1,27 @@
+<div class="tabs_wrap clear">
+<div class="login_tab tab_div active">Sign In</div>
+<div class="reg_tab tab_div">Register</div>
+</div>
+
+<script type="text/javascript">
+require([
+    "jquery"
+    ], function($){
+    $(window).bind("load resize", function() {
+		var width = $(window).width();
+
+    		if (width <= 736) {
+		    	$('.login_tab').click(function(){
+		    		$(this).addClass('active').siblings().removeClass('active');
+		    		$('.login-container').show();
+		    		$('.register-container').hide();
+		    	});
+		    	$('.reg_tab').click(function(){
+		    		$(this).addClass('active').siblings().removeClass('active');
+		    		$('.register-container').show();    		
+		    		$('.login-container').hide();
+		    	});
+	    	}
+    });
+});
+</script>

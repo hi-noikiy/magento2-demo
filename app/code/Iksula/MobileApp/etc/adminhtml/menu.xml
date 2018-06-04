@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_MobileApp::parent" title="MobileApp" module="Iksula_MobileApp" sortOrder="100" resource="Iksula_MobileApp::parent"/>
+        <add id="Iksula_MobileApp::index" title="MobileApp Index" module="Iksula_MobileApp" sortOrder="10" action="mobileapp/index" resource="Iksula_MobileApp::index" parent="Iksula_MobileApp::parent"/>
+		
+    </menu>
+</config>

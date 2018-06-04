@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magestore
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magestore
+ * @package     Magestore_Bannerslider
+ * @copyright   Copyright (c) 2012 Magestore (http://www.magestore.com/)
+ * @license     http://www.magestore.com/license-agreement.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magestore" translate="label" sortOrder="450">
+            <label>magestore</label>
+        </tab>
+        <section id="bannerslider" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Banner Slider</label>
+            <tab>magestore</tab>
+            <resource>Magestore_Bannerslider::config_bannerslider</resource>
+            <group id="general" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable_frontend" translate="label comment" type="select" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <comment>Enable frontend</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>     
+            </group>               
+                <group id="static_block_1" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="upload_image_id_1" translate="label comment" type="image" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Image 1 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="image_url_1" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Url 1 for Home page</label>                                        
+                    </field>
+                    <field id="image_title_1" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Title 1 for Home page</label>                                        
+                    </field>
+                    <field id="upload_icon_image_id_0" translate="label comment" type="image" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Image 1 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="icon_image_title_0" translate="label comment" type="text" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Title 1 for Home page</label>                                        
+                    </field>
+                    <field id="cat_0" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="54" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                    </field>
+                </group>
+                <group id="static_block_2" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="upload_image_id_2" translate="label comment" type="image" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Image 2 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="image_url_2" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Url 2 for Home page</label>                                        
+                    </field>
+                    <field id="image_title_2" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Title 2 for Home page</label>                                        
+                    </field>
+                    <field id="upload_icon_image_id_1" translate="label comment" type="image" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Image 2 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="icon_image_title_1" translate="label comment" type="text" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Title 2 for Home page</label>                                        
+                    </field>
+                    <field id="cat_1" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="54" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                    </field>
+                </group>
+                <group id="static_block_3" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="upload_image_id_3" translate="label comment" type="image" sortOrder="53" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Image 3 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="image_url_3" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Url 3 for Home page</label>                                        
+                    </field>
+                    <field id="image_title_3" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Title 3 for Home page</label>                                        
+                    </field>
+                    <field id="upload_icon_image_id_2" translate="label comment" type="image" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Image 3 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="icon_image_title_2" translate="label comment" type="text" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Title 3 for Home page</label>                                        
+                    </field>
+                    <field id="cat_2" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="55" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                    </field>
+                </group>
+                <group id="static_block_4" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="upload_image_id_4" translate="label comment" type="image" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Image 4 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="image_url_4" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Url 4 for Home page</label>                                        
+                    </field>
+                    <field id="image_title_4" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Title 4 for Home page</label>                                        
+                    </field>
+                    <field id="upload_icon_image_id_3" translate="label comment" type="image" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Image 4 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="icon_image_title_3" translate="label comment" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Title 4 for Home page</label>                                        
+                    </field>
+                    <field id="cat_3" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="56" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                    </field>
+                </group>
+                <group id="static_block_5" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="upload_image_id_5" translate="label comment" type="image" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Image 5 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="image_url_5" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Url 5 for Home page</label>                                        
+                    </field>
+                    <field id="image_title_5" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block title 5 for Home page</label>                                        
+                    </field>
+                    <field id="upload_icon_image_id_4" translate="label comment" type="image" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Image 5 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="icon_image_title_4" translate="label comment" type="text" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon title 5 for Home page</label>                                        
+                    </field>
+                    <field id="cat_4" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="57" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                    </field>
+                </group>
+
+                <group id="static_block_6" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="upload_image_id_6" translate="label comment" type="image" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Image 6 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="image_url_6" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block Url 6 for Home page</label>                                        
+                    </field>
+                    <field id="image_title_6" translate="label comment" type="text" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block title 6 for Home page</label>                                        
+                    </field>
+                    <field id="upload_icon_image_id_5" translate="label comment" type="image" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon Image 6 for Home page</label>
+                        <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                        <base_url type="media" scope_info="1">static_block_image</base_url>
+                    </field>
+                    <field id="icon_image_title_5" translate="label comment" type="text" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Static Block icon title 6 for Home page</label>                                        
+                    </field>
+                    <field id="cat_5" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="57" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                    </field>
+                </group>
+            
+            <group id="implement" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Implement Code</label>
+                <frontend_model>Magestore\Bannerslider\Block\Adminhtml\System\Config\Implementcode</frontend_model>
+            </group>
+            <group id="banner_block_0" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Mobile App Banner Block</label>
+                <field id="upload_banner_image_id_0" translate="label comment" type="image" sortOrder="56" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Banner Block Image 1 for Home page</label>
+                    <backend_model>Magestore\Bannerslider\Model\Config\Backend\Image</backend_model>
+                    <base_url type="media" scope_info="1">static_block_image</base_url>
+                </field>
+                <field id="banner_image_short_title_0" translate="label comment" type="text" sortOrder="57" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Banner Block Short Description 1 for Home page</label>
+                </field> 
+                <field id="banner_image_title_0" translate="label comment" type="text" sortOrder="58" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Banner Block Description 1 for Home page</label>
+                </field>
+                <field id="banner_cat_0" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="59" translate="label" type="select">
+                        <label>Category Id</label>
+                        <comment/>
+                    <source_model>Magestore\Bannerslider\Model\Config\Source\CategoryList</source_model>
+                </field>   
+            </group>
+        </section>        
+        <!-- <section id="mageplaza_helloworld_section" translate="label" type="text" sortOrder="301" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Sales</label>
+            <tab>sales</tab>
+            <resource>Magento_Sales::config_sales</resource>
+        <group id="custom_group" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" >
+            <label>Custom group</label>
+            <field id="custom_file_upload" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File" sortOrder="6" showInDefault="1" showInWebsite="1" >
+                <label>Upload custom file</label>
+            </field>
+        </group>
+        </section> -->
+    </system>
+</config>

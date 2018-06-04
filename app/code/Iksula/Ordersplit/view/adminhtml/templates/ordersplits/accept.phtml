@@ -1,0 +1,77 @@
+<div><h1>Accept form</h1></div>
+<?php
+
+        $orderitemsid = $block->getOrderItemRowId();
+        $collections =  $block->getCollectionsOrderSplits($orderitemsid);
+        $skuswiseCollection = json_decode($collections['order_items_data'] , true);
+?>
+
+<?php
+    $loop = 1;
+    $html = "";
+
+    //$html =  "<input type='hidden' name='skuids_data' id='skuids_data' value = ".$collections['order_items_data'] ." />";
+
+    $html .= "<div><input type='hidden' name='allocated_storeid' id='allocated_storeid' value='".$collections['allocated_storeids']."' /></div>";
+
+
+    $html .= "<div><input type='hidden' name='order_item_rowid' id='order_item_rowid' value='".$orderitemsid."' /> </div>";
+
+    foreach($skuswiseCollection as $skuwiseValues){
+
+        //$storecollection = $block->getStoreDataBySkuQty($skuwiseValues['sku'] , $skuwiseValues['inventory']);
+
+        $availableinventory = $block->getInventoryPresent($collections['allocated_storeids'] , $skuwiseValues['sku'] );
+
+        $html .=  "<div>Sku :- ";
+        $html .=  $skuwiseValues['sku']." </div>";
+
+
+
+        if($availableinventory < $skuwiseValues['inventory']){
+
+          $html .= "Available quantity is ". $availableinventory . " and allocated quantity is ".$skuwiseValues['inventory'];
+
+        }
+
+        $html .=  "<div><input type='hidden' value = '".$skuwiseValues['sku']."' id='sku_".$loop."' name='sku_".$loop."' /> </div>";
+
+        $html .=  "<div>Qty :- ";
+        $html .= "<select data-originalqty = '".$skuwiseValues['inventory']."' data-loopvalue = '".$loop."' type='text' data-order_item_id = '".$skuwiseValues['order_items_id']."' name='newqty_acceptstore_".$loop."'>";
+        $selected = '';
+
+
+
+          if($availableinventory > 0){
+          for($i = 1 ; $i <= $skuwiseValues['inventory']; $i++){
+          //for($i = 1 ; $i <= $availableinventory; $i++){
+                  //if($availableinventory == $i){
+                  if($skuwiseValues['inventory'] == $i){
+
+                      $selected = "selected='selected'";
+                  }else{
+                      $selected = "";
+                  }
+
+              $html .= "<option ".$selected." value='".$i."'>".$i."</option>";
+
+          }
+      }else{
+
+          $html .= "<option value='0'>0</option>";
+
+      }
+        $html .= "</select></div></br>";
+        $html .= "<input type='checkbox' name='rejection_".$loop."' id= 'rejection_id_".$loop."' value=''>Please check checkbox for Rejection<br>";
+        /*$html .=  "<div><input data-originalqty = '".$skuwiseValues['inventory']."' data-loopvalue = '".$loop."' type='text' data-order_item_id = '".$skuwiseValues['order_items_id']."' name='newqty_allocatedstore_".$loop."' value='".$skuwiseValues['inventory']."' /> </div>";*/
+        $loop ++;
+    }
+
+    $html .= "<input type='button' onclick='acceptSubmit();' class='accept_submit' value='Submit' />";
+    $data = $html;
+
+    echo $data;
+
+    //echo json_encode($data);
+
+?>

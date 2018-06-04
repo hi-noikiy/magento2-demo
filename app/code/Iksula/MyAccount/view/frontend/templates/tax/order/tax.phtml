@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+    $_order  = $block->getOrder();
+    $_source = $block->getSource();
+    $_fullInfo = $this->helper('Magento\Tax\Helper\Data')->getCalculatedTaxes($_source);
+    global $taxIter; $taxIter++;
+?>
+<?php if ($_fullInfo && $block->displayFullSummary()): ?>
+        <?php foreach ($_fullInfo as $info): ?>
+            <?php
+                $percent    = $info['percent'];
+                $amount     = $info['tax_amount'];
+                $baseAmount = $info['base_tax_amount'];
+                $title      = $info['title'];
+            ?>
+            <tr class="totals tax details details-<?php /* @escapeNotVerified */ echo $taxIter; ?> <?php echo($block->getIsPlaneMode()) ? ' plane' : '';?>">
+
+            <div class="total_row clear"><div class="view_label"><?php /* @escapeNotVerified */ echo $block->escapeHtml($title); ?></div><div class="view_total"><span class="price"><?php /* @escapeNotVerified */ echo $_order->formatPrice($amount) ?></span></div></div>
+
+
+            </tr>
+        <?php endforeach; ?>
+<?php endif;?>
+
+
+<tr class="totals-tax">
+    <th scope="row">
+        <?php if ($block->displayFullSummary()): ?>
+            <div class="total_row clear"><div class="view_label"><?php /* @escapeNotVerified */ echo __('Tax'); ?></div><div class="view_total"><span class="price"><?php /* @escapeNotVerified */ echo $_order->formatPrice($_source->getTaxAmount()) ?></span></div></div>
+        <?php else: ?>
+            <div class="total_row clear"><div class="view_label"><?php /* @escapeNotVerified */ echo __('Tax'); ?></div><div class="view_total"><span class="price"><?php /* @escapeNotVerified */ echo $_order->formatPrice($_source->getTaxAmount()) ?></span></div></div>
+        <?php endif;?>
+    </th>
+<!--     <td <?php /* @escapeNotVerified */ //echo $block->getValueProperties()?> data-th="<?php //echo $block->escapeHtml(__('Tax3333333')); ?>">
+        <div class="view_total"><?php /* @escapeNotVerified */ //echo $_order->formatPrice($_source->getTaxAmount()) ?></div>
+    </td> -->
+</tr>
+

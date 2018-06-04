@@ -1,0 +1,76 @@
+<?php
+$_product = $block->getProduct();
+$productId = $_product->getId();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Directory\Model\PriceCurrency');
+$wasPrice = $_product->getPrice();
+$nowPrice = $_product->getSpecialPrice();
+$saving = '';
+if($nowPrice > 0):
+if ($wasPrice > $nowPrice){
+    $saving = $wasPrice - $nowPrice; 
+}
+?>
+<div class="yousaved_txt">
+	<span class="you_saved">You Save 
+		<span class="save_price"><?php echo $priceHelper->format($saving, true,0,null,null); ?></span>
+	</span>
+</div>
+ <?php
+endif;
+	//swatch color information
+	$swatch_info = $block->getCollection()->getData();
+	$swatch_count = count($swatch_info);
+	if($swatch_count > 0):
+		for($i=0; $i<$swatch_count; $i++)
+		{
+			$data_color[] = $swatch_info[$i]['product_color'];
+			$data_image[] = $swatch_info[$i]['image'];
+		}
+		$color_swatch = array_combine($data_color, $data_image);
+	
+	
+	
+	if($_product):
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $sku_mapping = $_product->getResource()->getAttribute('sku_mapping')->getFrontend()->getValue($_product);
+
+    if($sku_mapping != ''):
+	    $sku_explode = explode(",",$sku_mapping);
+	    $count_sku = count($sku_explode);
+	    
+	    if($count_sku > 0):
+	    	$color = $_product->getResource()->getAttribute('product_color')->getFrontend()->getValue($_product);
+	    	$sku = $_product->getSku();
+	    
+	    if($count_sku > 0): ?>
+	    	<div class="color_swatches">
+	    	<span class="color_label"> <?php echo "Color :"; ?></span>
+	    <?php	
+	        for($j=0; $j<$count_sku; $j++)
+	        {
+	            $color_explode = explode(":",$sku_explode[$j]);
+	            $count_colour = count($color_explode);
+	            
+	            if($count_colour > 0):
+	            $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('sku', trim($color_explode['0']));
+	        	if($product):
+	            $product_url = $product->getProductUrl();
+	        	if ((is_array($data_color)) && in_array(trim($color_explode['1']), $data_color)):
+
+	        		$image = $color_swatch[trim($color_explode['1'])];
+	        		$product_image = $block->getImageElement($image);
+	    ?> 
+   	    <span <?php if(trim($color_explode['0']) == $sku) { ?> class="active <?php echo trim($color_explode['1']); ?>" <?php } else { ?> class="<?php echo trim($color_explode['1']); ?>" <?php } ?>><a href="<?php if(trim($color_explode['0']) != $sku) { echo $product_url; } else { echo "#"; } ?>" ><?php echo $product_image; ?>  </a></span>
+	    <?php 
+	    		endif;
+	    		endif;
+	    		endif;
+			} ?></div>
+			<?php
+	    	endif;
+	    endif;
+    endif;
+    endif;
+    endif;
+?>

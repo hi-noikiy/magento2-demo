@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_file" xsi:type="string">images/logo.jpg</argument>
+                <argument name="logo_img_width" xsi:type="number">78</argument>
+                <argument name="logo_img_height" xsi:type="number">73</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="footer">
+            <block class="Magento\Cms\Block\Block" name="block-footer" before="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_links_block</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+        <referenceBlock name="sales.order.info.links.invoice" remove="true" />
+        <referenceBlock name="sales.order.info.links.shipment" remove="true" />
+        <referenceBlock name="privacy-policy-link" remove="true"/>
+        <referenceBlock name="search-term-popular-link" remove="true"/>
+        <referenceBlock name="contact-us-link" remove="true"/>
+        <referenceBlock name="catalog-search-advanced-link" remove="true"/>
+        <referenceBlock name="sales-guest-form-link" remove="true"/>
+
+        <referenceBlock name="form.subscribe" remove="true"/>
+        <referenceBlock name="register-link" remove="true"/>
+        <move element="header.panel" destination="header-wrapper" after="minicart" />
+        <referenceBlock name="navigation.sections" remove="true"/>
+    </body>
+</page>

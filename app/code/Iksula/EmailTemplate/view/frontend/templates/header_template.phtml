@@ -1,0 +1,24 @@
+<?php
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$base_url = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+
+?>
+<td valign="bottom" style="font-size:12px;" align="right" width="50%">
+    <table border="0" cellspacing="0" cellpadding="0" >
+        <tr>
+            <td valign="top" style="font-size:12px;">
+                <!-- <a target="_blank" href="#"><img src="<?php //echo $base_url."pub/media/email/fb.jpg"; ?>" width="25" alt="Logo" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:15px"></a> -->
+                <a href="https://www.instagram.com/2xlfurniture/?hl=en" target="_blank"><img src="<?php echo $base_url."pub/media/email/insta_footer.jpg"; ?>" width="25" alt="Logo" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:15px"></a>
+            </td>
+            <td valign="top" style="font-size:12px;">
+                <!-- <a target="_blank" href="#"><img src="<?php //echo $base_url."pub/media/email/tw.jpg"; ?>" width="25" alt="Logo" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:15px"></a> -->
+                <a href="https://www.facebook.com/2XLfurniture/" target="_blank"><img src="<?php echo $base_url."pub/media/email/fb_footer.jpg"; ?>" width="25" alt="Logo" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:15px"></a>
+            </td>
+            <!-- <td valign="top" style="font-size:12px;">
+                <a target="_blank" href="#"><img src="<?php //echo $base_url."pub/media/email/yt.jpg"; ?>" width="25" alt="Logo" style="display:block; border:none;font-family:Open Sans,Verdana;font-size:15px"></a>
+            </td> -->
+        </tr>
+    </table>
+</td>

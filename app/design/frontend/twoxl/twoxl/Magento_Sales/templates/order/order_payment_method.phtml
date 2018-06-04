@@ -1,0 +1,11 @@
+<?php
+$order = $block->getOrder();
+$payment = $order->getPayment();
+$method = $payment->getMethodInstance();
+$methodTitle = $method->getTitle();
+if(ucfirst($methodTitle) == 'Cash at store')
+	$method_title = 'Pay by cash at store';
+else
+	$method_title = ucfirst($methodTitle);
+?>
+<?php echo $method_title; ?>

@@ -1,0 +1,399 @@
+<?php
+$object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+$helper = $this->helper("Emipro\Ticketsystem\Helper\Data");
+$ticketId = $this->getRequest()->getParam('ticket_id');
+$collection = $object_manager->get('Emipro\Ticketsystem\Model\TicketSystem')->load($ticketId);
+$status = $collection->getStatusId();
+
+$ticketStatus = $object_manager->get('Emipro\Ticketsystem\Model\TicketStatus')->load($status);
+$ticketPriority = $object_manager->get('Emipro\Ticketsystem\Model\TicketPriority')->load($collection->getPriorityId());
+$ticketDepatment = $object_manager->get('Emipro\Ticketsystem\Model\Ticketdepartment')->load($collection->getDepartmentId());
+
+$currentDate = date('Y-m-d H:i', time());
+$orders = $object_manager->get('Magento\Sales\Model\Order')->load($collection->getOrderid(), "increment_id");
+$customer_name = $collection->getCustomerName();
+if ($collection->getCustomerId()) {
+    $customer_name = $object_manager->get("Magento\Customer\Model\Customer")->load($collection->getCustomerId())->getName();
+}
+$admin = $object_manager->get('\Magento\Backend\Model\Auth\Session')->getUser();
+$admin_name = $admin->getFirstname() . " " . $admin->getLastname();
+
+$currentTab=$this->getRequest()->getParam('tab');
+?>
+<script>
+//<![CDATA[
+    function reply()
+    {
+        require(['prototype'], function() {
+
+            var editForm = $('edit_form');
+            editForm.submit($('edit_form').action + 'back/edit/');
+        });
+    }
+    function assign1()
+    {
+        require(['prototype'], function() {
+            var editForm = $('edit_form');
+            editForm.action = editForm.action + 'assign/edit';
+            editForm.submit();
+        });
+    }
+//]]>
+</script>
+<div class="fieldset-wrapper ">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Ticket Information') ?></span>
+    </div>
+    <div class="admin__table-wrapper">
+        <table class="data-table">
+            <tr>
+                <td ><label><?php echo __('Status') ?></label></td>
+                <td ><strong><?php echo $ticketStatus->getStatus(); ?></strong></td>
+                <td ><label><?php echo __('Priority') ?></label></td>
+                <td ><strong><?php echo __($ticketPriority->getPriority()); ?></strong></td>
+            </tr> 
+            <tr>
+                <td ><label><?php echo __('Ticket ID') ?></label></td>
+                <td ><strong><?php echo $collection->getTicketId(); ?></strong></td>
+                <td ><label><?php echo __('Order ID') ?></label></td>
+                <td ><strong>
+                        <?php if ($collection->getOrderid()): ?>
+                            <a target="_blank" href="<?php echo $this->getUrl('sales/order/view', ['order_id' => $orders->getEntityId()]) ?>"><?php echo $collection->getOrderid(); ?></a>
+                        <?php endif; ?>
+                    </strong></td>
+            </tr>  
+            <tr>
+                <td ><label><?php echo __('Customer Name') ?></label></td>
+                <td ><strong>
+                        <?php if ($collection->getCustomerId()): ?>
+                            <a target="_blank" href="<?php echo $this->getUrl('customer/index/edit', ['id' => $collection->getCustomerId()]) ?>"><?php echo $customer_name; ?></a>
+                        <?php else: ?>
+                            <?php echo $customer_name; ?>
+                        <?php endif; ?>
+                    </strong></td>
+                <td ><label><?php echo __('Created Date') ?></label></td>
+                <td ><strong><?php echo $this->formatDate($collection->getdate(), \IntlDateFormatter::MEDIUM, true); ?></strong></td>
+            </tr>  
+            <tr>
+                <td ><label><?php echo __('Department') ?></label></td>
+                <td ><strong><?php echo __($ticketDepatment->getDepartmentName()); ?></strong></td>
+                <td ><label><?php echo __('Assignee') ?></label></td>
+                <td ><strong><?php echo $collection->getSenderName(); ?></strong></td>
+            </tr>  
+            <tr>
+                <td ><label><?php echo __('Subject') ?></label></td>
+                <td colspan="3"><strong><?php echo $collection->getSubject(); ?></strong></td>
+                <?php if (!$collection->getCustomerId()): ?>
+                    <td ><label><?php echo __('Email') ?></label></td>
+                    <td ><strong><?php echo $collection->getCustomerEmail(); ?></strong></td>
+                <?php endif; ?>
+            </tr>
+        </table>
+    </div>
+</div>
+<br/>
+<section class="admin__page-section">
+    <div class="fieldset-wrapper">
+		<div class="fieldset-wrapper-title"></div>
+        <div class="admin__page-section-content">
+			
+			<ul  id="ticket_msg_tabs" class="tabs-horiz" role="tablist">
+				<li class="ui-state-default ui-corner-top <?= $currentTab ? '' : 'ui-state-active' ?>" role="tab" aria-controls="customer_msg_content" aria-labelledby="customer_msg" aria-selected="false" >
+					<a href="javascript:void(0);" id="customer_msg_tab" title="Customer Discussion" class="ui-tabs-anchor" role="presentation" onclick="tabdiscuss(this)">
+					<span><?php echo __("Customer Discussion"); ?></span></a>
+				</li>
+				<li class="ui-state-default ui-corner-top <?= $currentTab ? 'ui-state-active' : '' ?>" role="tab" aria-controls="internal_msg_content" aria-labelledby="internal_msg" aria-selected="false">
+					<a href="javascript:void(0);" id="internal_msg_tab" title="Internal Discussion" class="ui-tabs-anchor" role="presentation" onclick="tabdiscuss(this)">
+					<span><?php echo __("Internal Discussion"); ?></span></a>
+				</li>
+			</ul>
+			<div id="ticket_msg_tab_content">
+				<div id="customer_msg_tab" <?php if($currentTab): ?> style="display:none" <?php endif; ?> >
+					<div class="admin__field">
+						<label for="response" class="normal"><?php /* @escapeNotVerified */ echo __('Use Frequent Response') ?></label>				 
+						<select title="<?php echo __('Frequent Response') ?>" name="response" id="response">
+							<option value=''><?php echo __("Please Select") ?></option>
+							<?php $response_options = $helper->getResponseTitle();
+							foreach($response_options as $id=>$option) :?>
+								<option value="<?php echo $id ?>"><?php echo $option ?></option>
+							<?php endforeach; ?>
+						</select>
+						<button  style="" class="action-default scalable save" type="button" onclick="getResponseText()"title="Insert On Cursor" id="insert_on cursor"><span><span><span><?php echo __('Insert on Cursor');?></span></span></span></button>
+					</div>
+					<div class="admin__field ept-message">
+                        <label class="normal" for="message"><span><?php /* @escapeNotVerified */ echo __('Message') ?></span></label>
+                        <textarea name="message" rows="3" cols="5" style="width:99%;" id="message"></textarea>
+                    </div>
+                    <div class="admin__field">
+                        <label for="status" class="normal"><?php /* @escapeNotVerified */ echo __('Set Ticket Status') ?></label>				
+                        <select class="validate-select" title="<?php echo __('Ticket Status') ?>" name="status">
+                            <?php echo $status_options = $helper->getStatusOptionsForAdmin($status); ?>
+                        </select>
+                    </div>
+                    <div class="admin__field" id="attach-msg">
+						<div style="float:right;">
+                        <?php if ($status != 2) { ?>
+                            <button  style="" 	 class="action-default scalable action-save action-secondary" type="button" onclick="reply()"title="Reply" id="replay"><span><span><span><?php echo __('Reply'); ?></span></span></span></button>
+                        <?php } else { ?>
+                            <button  style="" 	 class="action-default scalable action-save action-secondary" type="button" onclick="reply()" title="Reopen" id="replay"><span><span><span><?php echo __('Reopen'); ?></span></span></span></button>
+                        <?php } ?>
+                    </div>
+                    <div class="choose_file" id="attach_file">
+									<span>Add Attachment</span>
+									<input id="uploadBtn" name="file" type="file">
+							</div>
+							<label id="uploadFile"></label>
+					</div>
+                    
+                    <span class="field-row">
+                        <input type="hidden" name="ticket_id" id="ticket_id" value=<?php echo $ticketId; ?>/>
+                        <input type="hidden" name="name" id="name" value="<?php echo $admin_name; ?>"/>
+                        <input type="hidden" name="date" id="date" value="<?php echo $currentDate; ?>"/>
+                    </span>
+                </div>
+                <div id="internal_msg_tab" <?php if($currentTab): ?> style="display:block" <?php else: ?> style="display:none" <?php endif; ?> >
+					<span class="field-row">
+						<label for="name" class="normal">Message to / Assign to</label>
+						<select  title="<?php echo __('Set Admin name') ?>" name="admin_id">
+							<option value=""><?php echo __('Please Select'); ?></option>
+							<?php $admin_user = $helper->getAdminUser();
+								foreach ($admin_user as $key => $value):
+									if($key!=$admin->getUserId()): ?>
+									<option value="<?php echo $key; ?>" style="text-transform: capitalize;"><?php echo $value; ?></option>
+							<?php endif;
+							endforeach; ?>		
+						</select>
+                    </span>
+					<div class="admin__field-control ept-message">
+                        <label class="normal" for="assign_msg"><?php echo __('Message') ?></label>
+                        <textarea name="assign_msg" rows="3" cols="5" style="width:99%;" id="assign_msg"></textarea>
+                    </div>
+                    <div style="margin-top:15px;text-align:right" class="field-row">
+						<?php $conf = $object_manager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('emipro/general/send_msg'); 
+						if($conf): ?>
+							<button  class="action-default scalable action-save action-secondary" type="button" onclick="sendmsg()" title="Send Message" id="send_msg"><span><span><span><?php echo __('Send Message');?></span></span></span></button>
+						<?php endif; ?>
+                        <button class="action-default scalable action-save action-secondary" type="button" onclick="assign1()" title="Assign" id="assign"><span><span><span><?php echo __('Assign'); ?></span></span></span></button>
+                    </div>
+                    <span class="field-row">
+                        <input type="hidden" name="ticket_id" id="ticket_id" value=<?php echo $ticketId; ?>>
+                        <input type="hidden" name="name" id="name" value="<?php echo $admin_name; ?>">
+                        <input type="hidden" name="date" id="date" value="<?php echo $currentDate; ?>" >
+                        <input type="hidden" name="assign_status" id="assign_status" value="<?php echo $status; ?>" >
+                        <input type="hidden" name="customer_id" id="customer_id" value="<?php echo $collection->getCustomerId(); ?>" >	
+                    </span>
+                </div>
+			</div>
+	     </div>
+       </div>
+</section>
+<section>
+	<ul  id="ticket_info_tabs" class="tabs-horiz ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist">
+		<li class="ui-state-default ui-corner-top ui-state-active" role="tab" tabindex="0" aria-controls="msg_all_content" aria-labelledby="msg_all" aria-selected="false" >
+			<a href="javascript:void(0);" id="ticket_msg_tab_all" title="All" class="ui-tabs-anchor" data-tab-type="" role="presentation" tabindex="-1" onclick="tabmsg(this)">
+			<span><?php echo __("All"); ?></span></a>
+		</li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="0" aria-controls="customer_discussion_content" aria-labelledby="customer_discussion" aria-selected="false">
+			<a href="javascript:void(0);" id="ticket_msg_tab_customer" title="Customer Discussion" class="ui-tabs-anchor" data-tab-type="" role="presentation" tabindex="-1" onclick="tabmsg(this)">
+			<span><?php echo __("Customer Discussion"); ?></span></a>
+		</li>
+		<li class="ui-state-default ui-corner-top" role="tab" tabindex="0" aria-controls="internal_discussion_content" aria-labelledby="internal_discussion" aria-selected="false">
+			<a href="javascript:void(0);" id="ticket_msg_tab_internal" title="Internal Discussion" class="ui-tabs-anchor" data-tab-type="" role="presentation" tabindex="-1" onclick="tabmsg(this)">
+			<span><?php echo __("Internal Discussion"); ?></span></a>
+		</li>
+	</ul>
+	<?php $conversation = $object_manager->get('Emipro\Ticketsystem\Model\TicketConversation')->getCollection();
+    $conversation->getSelect()->join(array("ticket" => $conversation->getTable("emipro_ticket_status")), "main_table.status_id=ticket.status_id")->where("main_table.ticket_id=" . $ticketId)->order("main_table.conversation_id DESC");
+    $internal_msg=$customer_msg=[];
+    ?>
+	<div id="ticket_tab_content">
+		<div id="ticket_msg_tab_all">
+			 <?php foreach ($conversation->getData() as $value) {
+				$attachment = $object_manager->get('Emipro\Ticketsystem\Model\TicketAttachment')->getCollection();
+				$attachment->addFieldToFilter("conversation_id", $value["conversation_id"]);
+				$attachments = $attachment->getData();
+				$msg_attach=[];
+				//msg-style
+				if($value["message_type"]==""){
+					//customer-admin messages
+					if($value["current_admin"]==0){
+						$msg_class="msg-customer";
+					}else {
+						$msg_class="msg-admin";
+					}
+				}else {
+					//internal-official messages
+					if($value["name"] ==$admin_name){
+						$msg_class="msg-admin";
+					} else {
+						$msg_class="msg-another-admin";
+					}
+				}
+				//msg name
+				if($value["message_type"]=="internal"){
+					$msg_name="<strong>".$value["name"]."</strong> messaged to <strong>".$value["discussion_admin_name"]."</strong>";
+				}elseif($value["message_type"]=="official"){ 
+					$msg_name="<strong>".$value["name"]."</strong> assigned to <strong>".$value["current_admin_name"]."</strong>"; 
+				}else{ 
+					$msg_name="<strong>".$value["name"]."</strong>";
+				}
+			?>
+			
+			<div class="msg-box <?php echo $msg_class ?>">
+			<div class="head">
+				<div  style="float:right;color:#808080">
+					<?php if($value["message_type"]!="internal") { ?>
+						<span style="margin-right:6px;color:#000"><?php echo __($value["status"]);?></span>
+					<?php } ?>
+				<?php echo date("j M, Y h:i A", strtotime($value["date"])); ?></div>
+				<span><?php echo $msg_name; ?></span>
+			</div>
+			<div class="msg">
+				<div><?php echo nl2br($value["message"]);?></div>
+				<?php if(count($attachments)):
+					foreach($attachments as $attachment): ?>
+						<div  style="padding:5px;text-align:right;">
+							<span><b><?php echo $attachment['current_file_name'];?> </b></span>
+							<a style="margin-left:10px;" href="<?php echo $this->getUrl('*/*/checkAttachmentLink',array('ticket_id'=>$value['ticket_id'],'conversation_id'=>$value["conversation_id"],'attach_id'=>$attachment['attachment_id']))?>" >Download</a>		
+						</div>
+						<?php
+						$atch['current_file_name']=$attachment['current_file_name'];
+						$atch['attachment_id']=$attachment['attachment_id'];
+						$msg_attach[]=$atch;
+					endforeach;
+				endif; ?>
+			</div>
+		</div>
+<?php
+		/*customer messages*/
+		if($value["message_type"]==""){
+			$msg['ticket_id']=$value['ticket_id'];
+			$msg["conversation_id"]=$value["conversation_id"];
+			$msg["status"]=$value["status"];
+			$msg["name"]=$msg_name;
+			$msg["date"]=$this->formatDate($value["date"], \IntlDateFormatter::MEDIUM, true);
+			$msg["message"]=$value["message"];
+			$msg["attachment"]=$msg_attach;
+			$msg["class"]=$msg_class;
+			$customer_msg[]=$msg;
+		}
+		/*internal messages */
+		if($value["message_type"]=="internal" || $value["message_type"]=="official"){
+			$msg["status"]=$value["status"];
+			$msg["name"]=$msg_name;
+			$msg["date"]=$this->formatDate($value["date"], \IntlDateFormatter::MEDIUM, true);
+			$msg["message"]=$value["message"];
+			$msg["message_type"]=$value["message_type"];
+			$msg["class"]=$msg_class;
+			$internal_msg[]=$msg;
+		}
+		?>
+
+	<?php } ?>
+		</div>
+		<div id="ticket_msg_tab_customer" style="display:none">
+			<?php foreach($customer_msg as $cust_msg):  ?>
+			<div class="msg-box <?php echo $cust_msg["class"] ?>">
+				<div class="head">
+					<div  style="float:right;color:#808080"><span style="margin-right:6px;color:#000"><?php echo __($cust_msg["status"]);?> </span><?php echo $cust_msg["date"]; ?></div>
+					<span><?php echo __($cust_msg["name"]); ?></span>
+				</div>
+				<div class="msg">
+					<div><?php echo nl2br($cust_msg["message"]);?></div>
+					<?php if(count($cust_msg["attachment"])):
+									foreach($cust_msg["attachment"] as $attachment):?>
+										<div  style="padding:5px;text-align:right;">
+											<span><b><?php echo $attachment['current_file_name'];?> </b></span>
+											<a style="margin-left:10px;" href="<?php echo $this->getUrl('*/*/checkAttachmentLink',array('ticket_id'=>$cust_msg['ticket_id'],'conversation_id'=>$cust_msg["conversation_id"],'attach_id'=>$attachment['attachment_id']))?>" >Download</a>		
+										</div>
+					<?php 	endforeach;
+								endif; ?>
+				</div>
+			</div>
+			<?php endforeach; ?>
+		</div>
+		<div id="ticket_msg_tab_internal" style="display:none">
+			<?php foreach($internal_msg as $itr_msg):  ?>
+			<div class="msg-box <?php echo $itr_msg["class"] ?>">
+				<div class="head">
+					<div style="float:right;color:#808080">
+						<?php if($itr_msg["message_type"]=="official"){ ?>
+							<span style="margin-right:6px;color:#000"><?php echo __($itr_msg["status"]); ?> </span>
+						<?php } ?>
+						<?php echo $itr_msg["date"]; ?>
+					</div>
+					<span><?php echo __($itr_msg["name"]); ?></span>
+				</div>
+				<div class="msg">
+					<div><?php echo nl2br($itr_msg["message"]);?></div>
+				</div>
+			</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+<script>
+	document.getElementById("uploadBtn").onchange = function () 
+    {
+        document.getElementById("uploadFile").innerHTML = this.value;
+    }
+function getResponseText(){
+	var id=document.getElementById("response").value;
+	var msg=document.getElementById('message');
+	var startPos = msg.selectionStart;
+    var endPos = msg.selectionEnd;
+	jQuery.ajax( {
+		url: "<?php echo $this->getUrl('/response/getResponseText') ?>",
+		data: {form_key: window.FORM_KEY,responseid:id},
+		type: 'POST'
+	}).done(function(data) { 
+		var tempText = data;
+		var newPos = startPos + tempText.length;
+		var val = msg.value;
+		msg.value = val.slice(0, startPos) + tempText + val.slice(startPos);
+		msg.selectionStart=newPos;
+		msg.selectionEnd=newPos;
+	});
+
+}
+function sendmsg()
+{
+	require(['prototype'], function() {
+		var editForm = $('edit_form');
+        editForm.action = editForm.action + 'sendmsg/edit';
+        editForm.submit();
+	});
+}
+function tabmsg(elem) {
+	var tabs=document.getElementById('ticket_info_tabs').children;
+    var tabid=elem.id;
+    for (i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('ui-state-active');
+    }
+    elem.parentNode.classList.add('ui-state-active');
+
+	var tabdata = document.getElementById('ticket_tab_content').children;
+	for(j=0;j<tabdata.length;j++){
+		
+		if(tabdata[j].id == tabid)
+			tabdata[j].style.display="block";
+		else
+			tabdata[j].style.display="none";
+	}
+}
+function tabdiscuss(elem){
+	var dtabs=document.getElementById('ticket_msg_tabs').children;
+    for (i = 0; i < dtabs.length; i++) {
+        dtabs[i].classList.remove('ui-state-active');
+    }
+    elem.parentNode.classList.add('ui-state-active');
+
+	var dtabcontent = document.getElementById('ticket_msg_tab_content').children;
+	for(j=0;j<dtabcontent.length;j++){
+		if(dtabcontent[j].id == elem.id)
+			dtabcontent[j].style.display="block";
+		else
+			dtabcontent[j].style.display="none";
+	}
+}
+</script>

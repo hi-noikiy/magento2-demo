@@ -1,0 +1,68 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+?>
+<?php 
+$object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+$helper = $object_manager->get("Emipro\Ticketsystem\Helper\Data");
+$_tickets = $block->getAllTickets(); 
+?>
+<?php echo $block->getChildHtml('info'); ?>
+<div class="actions-toolbar cus-link create_new_ticket">
+    <div class="primary">
+        <a href="<?php echo $this->getUrl('ticketsystem/index/') ?>"class="action save primary"><?php echo __('Create New Ticket'); ?></a>
+    </div>
+</div>
+<?php if ($_tickets && count($_tickets)): ?>
+    <div class="table-wrapper orders-history ticket_history">
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php /* @escapeNotVerified */ echo __('Tickets') ?></caption>
+            <thead>
+                <tr>
+                    <th scope="col" class="col id"><?php /* @escapeNotVerified */ echo __('Ticket #') ?></th>
+                    <th scope="col" class="col date"><?php /* @escapeNotVerified */ echo __('Order #') ?></th>
+                    <th scope="col" class="col shipping"><?php /* @escapeNotVerified */ echo __('Subject') ?></th>
+                    <th scope="col" class="col total"><?php /* @escapeNotVerified */ echo __('Status') ?></th>
+                    <th scope="col" class="col status"><?php /* @escapeNotVerified */ echo __('Priority') ?></th>
+                    <th scope="col" class="col update-date"><?php /* @escapeNotVerified */ echo __('Last Updated Date') ?></th>
+                    <th scope="col" class="col actions"><?php /* @escapeNotVerified */ echo __('Actions') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_tickets as $_ticket): ?>
+					<tr>
+                        <td data-th="<?php echo $block->escapeHtml(__('Ticket # ')) ?>" class="col id">
+                        <a href="<?php /* @escapeNotVerified */ echo $block->getViewUrl($_ticket) ?>" class="action view">
+							<span><?php /* @escapeNotVerified */ echo $_ticket->getTicketId() ?></span>
+						</a></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Order #')) ?>" class="col order">
+                      
+                        <a href="<?php /* @escapeNotVerified */ echo $this->getUrl('sales/order/view/', array('order_id' => $helper->getOrderUrl($_ticket->getOrderid()),"_secure" => true)); ?>" class="action view">
+							<span><?php /* @escapeNotVerified */ echo $_ticket->getOrderid() ?></span>
+						</a>
+					
+						</td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Subject')) ?>" class="col subject"><?php echo $_ticket->getSubject() ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col status"><?php echo $_ticket->getStatus() ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Priority')) ?>" class="col priority"><?php /* @escapeNotVerified */ echo $_ticket->getPriority() ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Last Updated Date')) ?>" class="col update-date"><?php /* @escapeNotVerified */ echo $this->formatDate($_ticket->getLastUpdateDDate(), true) ?></td>
+                        <td data-th="<?php echo $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                            <a href="<?php /* @escapeNotVerified */ echo $block->getViewUrl($_ticket) ?>" class="action view">
+                                <span><?php /* @escapeNotVerified */ echo __('View Ticket') ?></span>
+                            </a>                            
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+	<br/>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have not created any support ticket.'); ?></span></div>
+<?php endif ?>

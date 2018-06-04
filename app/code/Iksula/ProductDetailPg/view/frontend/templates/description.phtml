@@ -1,0 +1,13 @@
+<?php
+	$product_description = $this->helper('Magento\Catalog\Helper\Output')->productAttribute($block->getProduct(), $block->getProduct()->getDescription(), 'description');
+
+	if($product_description != '')
+	{
+		echo "<h3>Description </h3>";?>
+		<p>
+			<?php echo $product_description; ?>
+		</p>
+		<?php
+	}
+?>
+

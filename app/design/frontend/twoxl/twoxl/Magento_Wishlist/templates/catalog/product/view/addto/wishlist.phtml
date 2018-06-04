@@ -1,0 +1,73 @@
+  <?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Wishlist\Block\Catalog\Product\View\Addto\Wishlist */
+$_product = $block->getProduct();
+$product_id = $block->getProduct()->getId();
+$wishlist_id = '';
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$class_active = '';
+foreach ($this->helper('Magento\Wishlist\Helper\Data')->getWishlistItemCollection() as $_wishlist_item)
+{
+	if($_product->getId() == $_wishlist_item->getProduct()->getId())
+	{
+		$class_active = 'active';
+    $wishlist_id = $_wishlist_item->getId();
+	}
+}
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$FormKey = $objectManager->get('Magento\Framework\Data\Form\FormKey');
+
+//$product = $objectManager->create('\Magento\Catalog\Model\ProductRepository')->getById(1);
+/*  */ 
+?>
+<input name="form_key" type="hidden" value="<?php echo $FormKey->getFormKey(); ?>" >
+<?php if ($block->isWishListAllowed() && $class_active == 'active') : ?>
+    <a href="#" target="_parent"
+       class="action towishlist <?php echo $class_active; ?>"       
+       data-action="add-to-wishlist"><span><?php /* @escapeNotVerified */ echo __('Add to Wishlist') ?></span></a>
+<?php endif; ?>
+<?php if ($block->isWishListAllowed() && $class_active == '') : ?>
+    <a href="#" target="_parent" id="wishlist_not_active"
+       class="action towishlist <?php echo $class_active; ?>" 
+       data-post='<?php echo $block->getWishlistParams(); ?>'      
+       data-action="add-to-wishlist"><span><?php /* @escapeNotVerified */ echo __('Add to Wishlist') ?></span></a>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "body": {
+            "addToWishlist": <?php /* @escapeNotVerified */ echo $block->getWishlistOptionsJson() ?>
+        }
+    }
+</script>
+<script>
+  require([
+    'jquery',
+    'mage/validation'
+    ], function($){ 
+    $(".active").click(function(){
+      var wishlist_id = '<?php echo $wishlist_id; ?>';
+      var product_id = '<?php echo $product_id; ?>';
+
+      jQuery.ajax({
+        data: { 
+                'wishlist_id': wishlist_id, 
+                'product_id': product_id, 
+              },
+        dataType:'json',
+        url: "<?php echo $this->getUrl('wishlist/index/wishlistitem'); ?>",
+        method:'post',
+        showLoader: true,
+        success:function(resp){
+          location.reload(); 
+        }
+      });
+    });
+  });
+</script>
+

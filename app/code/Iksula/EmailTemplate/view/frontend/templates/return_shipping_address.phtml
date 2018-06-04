@@ -1,0 +1,19 @@
+<?php
+
+$orderId = $this->getData('orderId');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($orderId);
+$shippingAddress = $_order->getShippingAddress();
+?>
+<?php 
+    if ($_order):       
+        echo $shippingAddress->getFirstname()." ".$shippingAddress->getLastname();    
+        echo "<br>".$shippingAddress->getCity();
+        echo "<br>".$shippingAddress->getRegion();
+        $countryCode = $shippingAddress->getCountryId();
+        $country = $objectManager->create('\Magento\Directory\Model\Country')->load($countryCode)->getName();
+        echo "<br>".$country;
+        echo "<br>Phone: ".$shippingAddress->getTelephone(); 
+        
+    endif;
+?>

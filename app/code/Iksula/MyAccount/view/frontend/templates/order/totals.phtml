@@ -1,0 +1,38 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block \Magento\Sales\Block\Order\Totals
+ * @see \Magento\Sales\Block\Order\Totals
+ */
+?>
+<div class="box customtotal">
+<span><?php echo __('Order Summary');?></span>
+</div>
+<?php foreach ($block->getTotals() as $_code => $_total): ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?php echo $block->getChildHtml($_total->getBlockName(), false); ?>
+    <?php else:?>
+    <tr class="<?php /* @escapeNotVerified */ echo $_code?>">
+        <th <?php /* @escapeNotVerified */ echo $block->getLabelProperties()?> scope="row">
+            <?php if ($_total->getStrong()):?>
+            <div class="total_row clear"><div class="view_label"><?php echo $block->escapeHtml($_total->getLabel());?></div>
+            <?php else:?>
+            <div class="total_row clear"><div class="view_label"><?php echo $block->escapeHtml($_total->getLabel());?></div>
+            <?php endif?>
+        </th>
+        <td <?php /* @escapeNotVerified */ echo $block->getValueProperties()?> data-th="<?php echo $block->escapeHtml($_total->getLabel());?>">
+            <?php if ($_total->getStrong()):?>
+            <div class="view_total"><?php /* @escapeNotVerified */ echo $block->formatValue($_total) ?></div></div>
+            <?php else:?>
+            <div class="view_total"><?php /* @escapeNotVerified */ echo $block->formatValue($_total) ?></div></div>
+            <?php endif?>
+        </td>
+    </tr>
+    <?php endif?>
+<?php endforeach?>

@@ -1,0 +1,46 @@
+<?php
+
+
+  $allocationsdetailsCollections = $block->getAllocationDetailsForOrderIds();
+  //exit;
+  echo "<table border='1' width = '100%'>";
+  echo "<tr><th>Order Unique id</th><th>Order Items Details </th><th>Order item Status</th><th>Store Code</th><th>Cancel Order Items</th></tr>";
+  if(!empty($allocationsdetailsCollections)){
+echo '<input type="hidden" value=" '.$block->getCancelOrderItemsUrl() .'" name = "cancel_url" id="cancel_url_id" />';
+    foreach($allocationsdetailsCollections as $allocationsdetails){
+
+          $allocationdetails_id = $allocationsdetails['ordersplit_id'];
+
+          if($block->checkIfOrderItemCancelled($allocationdetails_id)){
+              $cancel_func = "";
+          }else{
+              $cancel_func = "<button onclick= 'cancel($allocationdetails_id)'>Cancel Order Items</button>";
+          }
+
+        echo "<tr><td>".$allocationsdetails['order_item_id']."</td><td>".$allocationsdetails['order_item_data']."</td>
+        <td>".$allocationsdetails['order_item_status']."</td><td>".$allocationsdetails['store_code']."</td><td>".$cancel_func."
+        </td></tr>";
+
+
+    }
+  }else{
+    echo "<tr align='center'><td colspan='5'>No record found</td></tr>";
+  }
+
+  echo "</table>";
+
+ ?>
+
+ <script type="text/javascript">
+       function cancel($id){
+
+        var url = document.getElementById("cancel_url_id").value;
+
+
+          window.location = url + 'ordersplitid/' + $id;
+
+
+       }
+
+
+ </script>

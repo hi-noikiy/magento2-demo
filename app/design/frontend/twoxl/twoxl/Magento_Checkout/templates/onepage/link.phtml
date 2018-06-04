@@ -1,0 +1,80 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile 
+?>
+<?php if ($block->isPossibleOnepageCheckout()):?>
+    <div id="div_err" style="display:none;">
+    	<button type="button"
+            data-role="proceed-to-checkout"
+            title="<?php /* @escapeNotVerified */ echo __('Place Order') ?>"
+            class="action primary checkout<?php echo($block->isDisabled()) ? ' disabled' : ''; ?>"
+            <?php if ($block->isDisabled()):?>disabled="disabled"<?php endif; ?> onclick="return chkValidation()">
+        <span><?php /* @escapeNotVerified */ echo __('Place Order') ?></span>
+    	</button>
+    </div>
+    <div id="div_succ" style="display:none;">
+    	<button type="button"
+            data-role="proceed-to-checkout"
+            title="<?php /* @escapeNotVerified */ echo __('Proceed to Checkout') ?>"
+            data-mage-init='{"Magento_Checkout/js/proceed-to-checkout":{"checkoutUrl":"<?php /* @escapeNotVerified */ echo $block->getCheckoutUrl(); ?>"}}'
+            class="action primary checkout<?php echo($block->isDisabled()) ? ' disabled' : ''; ?>"
+            <?php if ($block->isDisabled()):?>disabled="disabled"<?php endif; ?> onclick="return chkValidation()" >
+        <span><?php /* @escapeNotVerified */ echo __('Place Order') ?></span>
+    	</button>
+    </div>
+<?php endif?>
+<script>
+   require([
+      'jquery',
+      'mage/validation'
+      ], function($){
+      	chkButton();
+   });
+
+    function chkButton()
+    {
+   		require([
+	      'jquery',
+	      'mage/validation'
+	      ], function($){
+	      	var div_error_msg = $('#div_error_msg').text();
+	      	if(div_error_msg == 'This product is out of stock.')
+	      	{
+	      		$('#div_err').show();
+	      		return false;
+	      	}
+	      	else
+	      	{
+	      		$('#div_succ').show();
+	      		return true;
+	      	}
+	        
+	        });
+    }
+
+   function chkValidation()
+   {
+	    require([
+	      'jquery',
+	      'mage/validation'
+	      ], function($){
+	      	var div_error_msg = $('#div_error_msg').text();
+	      	if(div_error_msg == 'This product is out of stock.')
+	      	{
+	      		$('#div_error').show();
+	      		return false;
+	      	}
+	      	else
+	      	{
+	      		$('#div_error').hide();
+	      		return true;
+	      	}
+	        
+	        });
+   }
+
+  </script>

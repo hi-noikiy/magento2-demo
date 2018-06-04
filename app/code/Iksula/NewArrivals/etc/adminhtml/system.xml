@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="new_arrival" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>New Arrival</label>
+			<tab>catalog</tab>
+			<resource>Iksula_NewArrivals::config_iksula_newarrivals</resource>
+			<group id="category" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="12" translate="label">
+				<label>New Arrival</label>
+				<field id="category_id" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="12" translate="label" type="text">
+					<label>Category Id</label>
+					<comment/>
+					<validate>required-entry validate-number validate-digits validate-zero-or-greater validate-length maximum-length-4 validate-greater-than-zero</validate>
+				</field>
+			</group>
+			<group id="page_limit" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Set Page Limit</label>
+				<field id="new_arrival" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>New Arrival Page Limit</label>
+					<comment/>
+					<validate>required-entry validate-number validate-digits validate-zero-or-greater validate-length maximum-length-2 validate-greater-than-zero</validate>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

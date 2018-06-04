@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_Orderreturns::parent" title="Orderreturns" module="Iksula_Orderreturns" sortOrder="100" resource="Iksula_Orderreturns::parent"/>
+		<add id="Iksula_Orderreturns::returnreason" title="Iksula Order Return Reason" module="Iksula_Orderreturns" sortOrder="20" parent="Iksula_Orderreturns::parent" action="orderreturns/returnreason" resource="Iksula_Orderreturns::returnreason"/>
+<add id="Iksula_Orderreturns::orderreturn" title="Iksula Order Returns" module="Iksula_Orderreturns" sortOrder="30" parent="Iksula_Orderreturns::parent" action="orderreturns/orderreturn" resource="Iksula_Orderreturns::orderreturn"/>
+
+    </menu>
+</config>

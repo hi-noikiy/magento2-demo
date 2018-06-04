@@ -1,0 +1,89 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_order = $block->getOrder() ?>
+<?php if ($_order): ?>
+    <?php $_items = $_order->getAllItems();  ?>
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th class="item-info">
+                    <?= /* @escapeNotVerified */  __('Items Ordered'); ?>
+                </th>
+                <th class="item-price">
+                    <?= /* @escapeNotVerified */  __('Price'); ?>
+                </th>
+            </tr>
+        </thead>
+        
+
+        <?php foreach ($_items as $_item): ?> 
+        <?php
+
+            $prdId = $_item['product_id'];
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $product = $objectManager->get('Magento\Catalog\Model\Product')->load($prdId);
+            $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+            $image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+
+            $product_color = $product->getAttributeText('product_color');
+        ?>             
+            <tbody>
+            <td>
+                    <img srch="<?php echo $image; ?>" width="50" height="50" >
+                    <?php 
+                        if($_item['order_item_id'] != '')
+                           echo "Sub-Order Id: ".$_item['order_item_id']."<br>";
+                        
+                        if($_item['name'] != '')
+                           echo $_item['name']."<br>";
+
+                        if($_item['sku'] != '')
+                           echo "Item Code: ".$_item['sku']."<br>";
+
+                        if($_item['qty'] != '')
+                           echo "Qty: ".$_item['qty']."<br>";
+
+                        if($product_color != '')
+                           echo "Colour: ".$product_color."<br>";
+                    ?>
+                </td>
+                <td class="item-qty">
+                    <?php echo $_item['price']; ?>
+                </td>
+            </tbody>
+        <?php endforeach; ?>
+
+
+
+
+        <tfoot class="order-totals">
+            <?= $block->getChildHtml('order_totals') ?>
+        </tfoot>
+    </table>
+    <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->isMessagesAllowed('order', $_order, $_order->getStore()) && $_order->getGiftMessageId()): ?>
+        <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage): ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?= /* @escapeNotVerified */  __('Gift Message for this Order') ?></h3>
+                        <strong><?= /* @escapeNotVerified */  __('From:'); ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?= /* @escapeNotVerified */  __('To:'); ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?= /* @escapeNotVerified */  __('Message:'); ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif; ?>
+<?php endif; ?>

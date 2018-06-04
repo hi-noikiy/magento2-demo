@@ -1,0 +1,81 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var $block \Magento\Sales\Block\Order\Totals
+ * @see \Magento\Sales\Block\Order\Totals
+ */
+?>
+<?php 
+$i = 1;
+$cnt_total = count($block->getTotals());
+foreach ($block->getTotals() as $_code => $_total):
+ ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?php echo $block->getChildHtml($_total->getBlockName(), false); ?>
+    <?php else:
+           if($_total->getLabel() == 'Subtotal')
+                $label = 'Product Subtotal';
+            else if($_total->getLabel() == 'Shipping & Handling')
+                $label = 'Shipping Charges';
+            else
+                $label = $_total->getLabel(); 
+    ?>
+<tr>
+    <td valign="top" style="font-size:12px;padding:5px 0 0px" align="right">
+        <table border="0" cellspacing="0" cellpadding="0" width="220">
+        <tr>
+                <td valign="top" style="font-size:12px;" width="50%"> 
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <?php if($label != 'Grand Total'): ?>
+                        <tr>
+                            <td valign="top" style="font-size:<?php if($i == 1) { echo '12'; } else { echo '11'; } ?>px;padding:0;font-family:Open Sans,Verdana;" align="<?php if($i%2 != 0) { echo 'left'; } else { echo ''; } ?>" width="30%">
+                                <?php echo $label; ?>:
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if($label == 'Grand Total'): ?>
+                        <tr>
+                            <td valign="top" style="font-size:11px;padding:3px 0;font-family:Open Sans,Verdana;border-bottom:1px solid #000;border-top:1px solid #000" align="">
+                                <strong><?php echo $label; ?>:</strong>
+                            </td>                           
+                        </tr>
+                    <?php endif; ?>
+                    </table>
+                </td>
+
+                <td valign="top" style="font-size:12px;"> 
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <?php if($label != 'Grand Total'): ?>
+                        <tr>
+                            <td valign="top" style="font-size:<?php if($i == 1) { echo '12'; } else { echo '11'; } ?>px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                            <?php if ($_total->getStrong()): ?>
+                                <?php echo $block->formatValue($_total); ?>
+                                <?php else:
+                                    echo $block->formatValue($_total); ?>
+                            <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if($label == 'Grand Total'): ?>
+                        <tr>
+                            <td valign="top" style="font-size:11px;padding:3px 0;font-family:Open Sans,Verdana;border-bottom:1px solid #000;border-top:1px solid #000" align="">
+                                <strong> <?php echo $block->formatValue($_total); ?> </strong>
+                            </td>                           
+                        </tr>
+                    <?php endif; ?>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<?php 
+$i++;
+endif?>
+<?php endforeach?>

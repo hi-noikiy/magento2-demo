@@ -1,0 +1,10 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceBlock name="order_totals" remove="true" />
+    <container name="custom-total" as="custom-total" label="Total" htmlTag="div" htmlClass="custom-total">
+        <block class="Magento\Sales\Block\Order\Totals"
+        name="custom-total-page" template="Iksula_MyAccount::order/totals.phtml">
+        <block class="Magento\Tax\Block\Sales\Order\Tax" name="custom_tax" template="Iksula_MyAccount::/tax/order/tax.phtml"/>
+        </block>
+    </container>
+    <move element="custom-total" destination="content" before="sales.order.info" />
+</page>

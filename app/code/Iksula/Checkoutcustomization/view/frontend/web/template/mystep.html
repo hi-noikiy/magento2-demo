@@ -1,0 +1,271 @@
+<!--The 'step_code' value from the .js file should be used-->
+<div class="step-title login-title">
+    Login
+</div>
+<li id="step_code" data-bind="fadeVisible: isVisible">
+<!-- ko ifnot: (isCustomerLoggedIn) -->
+  <div class="step-title" data-bind="i18n: 'Login'" data-role="title"></div>
+  <div id="checkout-step-title" class="step-content clear" data-role="content">
+    <div class="login-wrapper">
+      <form data-role="login" id="checkout-login-form" data-bind="submit:navigateToNextStep" method="post">  
+        <div class="fieldset" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+          <div class="field field-email required">
+            <div class="control">
+              <input type="email"
+                 class="input-text"
+                 id="login-email"
+                 name="username"
+                 data-bind="value: loginusername"
+                 data-validate="{required:true, 'validate-email':true}"
+                 placeholder="Email Address" />
+            </div>
+          </div>
+          <div class="field field-password required">
+            <div class="control">
+              <input type="password"
+               class="input-text"
+               id="login-password"
+               name="password"
+               data-bind="value: loginpassword"
+               data-validate="{required:true}"
+               autocomplete="off"
+               placeholder="Password" />
+            </div>
+            <div class="checkout-login-error checkout_error" style="display:none"></div>
+          </div>
+          <!-- ko foreach: getRegion('additional-login-form-fields') -->
+          <!-- ko template: getTemplate() --><!-- /ko -->
+          <!-- /ko -->
+          <div class="field clear">
+            <div class="rememberme">
+              <!-- ko if: isChecked -->
+              <input name="rememberme" type="checkbox" checked="checked" class="input-checkbox" id="rememberme" title="Rememberme on this computer">
+              <!-- /ko -->
+              <!-- ko ifnot: isChecked -->
+              <input name="rememberme" type="checkbox" class="input-checkbox" id="rememberme" title="Rememberme on this computer">
+              <!-- /ko -->
+              <label for="rememberme" class="label"><span>Remember Me</span></label>
+            </div>
+
+            <div class="forgot_pwd">
+              <a class="action action-remind" data-bind="attr: { href: forgotPasswordUrl }">
+                <span data-bind="i18n: 'Forgot Password'"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-toolbar">
+          <input name="context" type="hidden"  data-bind="i18n : 'context'"  value="checkout" />
+          <button type="submit" class="action primary"><span data-bind="i18n: 'Next'"></span></button>
+        </div>    
+      </form>
+    </div>
+    <div class="register-wrapper">
+      <div class="or_section"><span>OR</span></div>
+      <div class="checkout_btns">
+          <button
+            type="button"
+            data-bind="click:facebookCall" class="btn-facebook">
+            <span data-bind="i18n: 'Login with Facebook'"></span>
+          </button>
+          <button
+            type="button"
+            data-bind="click:googleCall" class="btn-google">
+            <span data-bind="i18n: 'Login with Google'"></span>
+          </button>
+          <button
+            type="button"
+            data-bind="click:createAccount" class="btn-acc">
+            <span data-bind="i18n: 'Create Account'"></span>
+          </button>
+      </div>
+      
+      <div class="register-wrapper-form" style="display:none">  
+        <div class="checkout_overlay"></div>
+        <div class="checkout_reg_wrap">
+          <div class="checkout_reg_form">
+            <button type="button" data-bind="click:closeAccount" class="close_acc_pop">
+            </button>
+            <form data-role="register" id="checkout-register-form" data-bind="submit:navigateRegisterToNextStep" method="post">
+              <div class="fieldset" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+                <div class="two_fields clear">
+                  <div class="field field-firstname required">
+                    <div class="control">
+                      <input type="text"
+                         class="input-text"
+                         id="register-firstname"
+                         name="register-firstname"
+                         data-bind="attr: {autocomplete: autocomplete}"
+                         data-bind="i18n : 'register-firstname'"
+                         data-validate="{required:true}" placeholder="First Name" />
+                    </div>
+                  </div>
+                  <div class="field field-lastname required">
+                      <div class="control">
+                          <input type="text"
+                                 class="input-text"
+                                 id="register-lastname"
+                                 name="register-lastname"
+                                 data-bind="attr: {autocomplete: autocomplete}"
+                                 data-bind="i18n : 'register-lastname'"
+                                 data-validate="{required:true}" placeholder="Last Name" />
+                      </div>
+                  </div>
+                </div>
+                <!-- ko foreach: getRegion('additional-register-form-fields') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+                <div class="field field-email required">
+                  <div class="control">
+                    <input type="email"
+                     class="input-text"
+                     id="register-email"
+                     name="register-email"
+                     data-bind="attr: {autocomplete: autocomplete}"
+                     data-bind="i18n : 'register-email'"
+                     data-validate="{required:true, 'validate-email':true}" placeholder="Email Address" />
+                  </div>
+                </div>
+                <div class="two_fields clear">
+                  <div class="field field-password required">
+                    <div class="control">
+                      <input type="password"
+                       class="input-text"
+                       id="register-password"
+                       name="register-password"
+                       data-bind="i18n : 'register-password'"
+                       data-bind="attr: {autocomplete: autocomplete}"
+                       data-validate="{required:true}"
+                       autocomplete="off" placeholder="Password" />
+                    </div>
+                  </div>
+                  <div class="field field-confirm-password required">
+                    <div class="control">
+                        <input type="password"
+                           class="input-text"
+                           id="register-confirm-password"
+                           name="register-confirmpassword"
+                           data-bind="i18n : 'register-confirm-password'"
+                           data-bind="attr: {autocomplete: autocomplete}"
+                           data-validate="{required:true}"
+                           autocomplete="off" placeholder="Confirm Password" />
+                    </div>
+                  </div>
+                </div>
+                  <!-- ko foreach: getRegion('additional-register-form-fields') -->
+                  <!-- ko template: getTemplate() --><!-- /ko -->
+                  <!-- /ko -->
+                <div class="two_fields clear phone_wrap">  
+                  <div class="field">
+                    <div class="tele_div field-countrycode required">
+                        <div class="control">
+                            <select name="register-countrycode" class="selectpicker" id="country_code" data-validate="{'required-entry':true}">
+                               <option value="">Country Code</option>
+                               <!-- <option value="+91">+91</option>
+                               <option value="+97">+97</option>
+                               <option value="+95">+95</option> -->
+                           </select>
+                        </div>
+                    </div>
+                    <div class="tele_div field-carrier_code required">
+                        <div class="control">
+                            <select name="register-carriercode" class="selectpicker" id="carrier_code" data-validate="{'required-entry':true}">
+                               <option value="">Carrier Code</option>
+                               <!-- <option value="78945">78945</option>
+                               <option value="13524">13524</option>
+                               <option value="12347">12347</option> -->
+                           </select>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="field field-contactno required">
+                      <div class="control">
+                          <input type="text"
+                                 class="input-text mobile7digit"
+                                 maxlength="7"
+                                 id="register-contactno"
+                                 name="register-contactno"
+                                 data-bind="attr: {autocomplete: autocomplete}"
+                                 data-bind="i18n : 'register-contactno'"
+                                 data-validate="{required:true , 'validate-number':true}" placeholder="Contact Numer" />
+                      </div>
+                  </div>
+                </div>
+                  <!-- ko foreach: getRegion('additional-register-form-fields') -->
+                  <!-- ko template: getTemplate() --><!-- /ko -->
+                  <!-- /ko -->
+                <div class="two_fields clear">
+                  <div class="field field-nationality required">
+                      <div class="control">
+                          <select name="register-nationality" class="selectpicker" id="nationality" data-validate="{'required-entry':true}">
+                             <option value="">Nationality</option>
+                             <option value="AE">India</option>
+                             <option value="VI">UAE</option>
+                             <option value="MC">Abu Dhabhi</option>
+                         </select>
+                      </div>
+                  </div>
+                  <div class="field clear">
+                    <div class="gender_wrap">
+                      <div class="gender_div">
+                        <input 
+                          type="radio"
+                          name="gender" 
+                          checked="checked" 
+                          id="male"
+                          value="1" 
+                          data-bind="attr: {autocomplete: autocomplete}"
+                          data-bind="i18n : 'gender'" 
+                          class="checkbox">
+                        <label class="label" for="male">Male</label></div>
+                      <div class="gender_div">
+                        <input type="radio"
+                          name="gender"
+                          id="female"
+                          value="2" 
+                          data-bind="attr: {autocomplete: autocomplete}"
+                          data-bind="i18n : 'gender'" 
+                          class="checkbox">
+                        <label class="label" for="female">Female</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field choice newsletter">
+                    <input type="checkbox" 
+                      name="is_subscribed" 
+                      title="Subscribe 2XL Newsletter" 
+                      value="1" 
+                      data-bind="attr: {autocomplete: autocomplete}"
+                      data-bind="i18n : 'is_subscribed'"
+                      id="is_subscribed" 
+                      class="checkbox">
+                    <label class="label" for="register-is_subscribed"><span data-bind="i18n: ''"></span></label>
+                    <label for="is_subscribed" class="label"><span>Subscribe 2XL Newsletter</span></label>
+                </div>
+                  <!-- <div class="field field-gender required">
+                     <label class="label" for="register-male"><span data-bind="i18n: 'Male'"></span>
+                    </label>
+                       <input type="radio" name="IsMale" value="true" data-bind="checked:IsMale.ForEditing"/>
+                     
+                    <label class="label" for="register-female"><span data-bind="i18n: 'Female'"></span>
+                    </label>
+                       <input type="radio" name="IsMale" value="false" data-bind="checked:IsMale.ForEditing"/>
+                    </div> -->
+                <div class="checkout-register-error checkout_error" style="display:none"></div>
+              </div> 
+                  <!-- ko foreach: getRegion('additional-register-form-fields') -->
+                  <!-- ko template: getTemplate() --><!-- /ko -->
+                  <!-- /ko -->
+              <div class="actions-toolbar">                       
+                    <button type="submit" class="action action-register primary"><span data-bind="i18n: 'Register'"></span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
+</li>

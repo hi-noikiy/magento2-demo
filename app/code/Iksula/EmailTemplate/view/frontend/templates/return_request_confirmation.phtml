@@ -1,0 +1,72 @@
+<?php
+
+$orderId = $this->getData('orderId');
+$prdId = $this->getData('product_id');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$_order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($orderId);
+
+?>
+<?php if ($_order): ?>
+<?php $_items = $_order->getAllItems();  ?>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+        <td valign="top" style="font-size:12px;border-bottom:1px solid #000;text-align:center;padding:7px 0;font-family:Open Sans,Verdana;" align="left" width="30%">
+            Items Returned
+        </td>
+        <td valign="top" style="font-size:12px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="">
+            &nbsp;
+        </td>                           
+    </tr>
+    <?php foreach ($_items as $_item): ?> 
+    <?php
+        if($_item['product_id'] == $prdId):
+        $prdId = $_item['product_id'];
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $product = $objectManager->get('Magento\Catalog\Model\Product')->load($prdId);
+        $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+        $image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+
+        $product_color = $product->getAttributeText('product_color');
+    ?>
+    <tr>
+        <td valign="top" style="font-size:12px;padding:15px;font-family:Open Sans,Verdana;" align="left">
+            <img src="<?php echo $image; ?>" width="112" />
+        </td>
+        <td valign="top" style="font-size:12px;padding:15px;font-family:Open Sans,Verdana;">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                        <strong>Sub-Order Id: <?php echo $_item['item_id']; ?></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="">
+                        <strong><?php echo $_item['name']; ?></strong>
+                    </td>   
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                        <strong>Item Code:</strong> <?php echo $_item['sku']; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="">
+                        <strong>Qty:</strong> <?php echo round($_item['qty_ordered']); ?>
+                    </td>   
+                </tr>
+                <?php if($product_color != ''): ?>
+                <tr>
+                    <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="">
+                        <strong>Colour:</strong> <?php echo $product_color; ?>
+                    </td>                           
+                </tr>
+                <?php endif; ?>
+            </table>
+        </td>                           
+    </tr>
+    <?php 
+    endif;
+    endforeach; ?>
+</table>
+<?php endif; ?>

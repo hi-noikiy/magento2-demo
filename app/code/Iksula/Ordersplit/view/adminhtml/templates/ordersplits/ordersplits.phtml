@@ -1,0 +1,517 @@
+<?php echo $block->getGridHtml() ?>
+
+<div id="popup-mpdal" style="display:none;"></div>
+<div data-role="spinner" class="admin__form-loading-mask" id="spinner_id" style="display: none;">
+       <div class="spinner">
+           <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+       </div>
+   </div>
+
+<script>
+    function manuallallocationSubmit(){
+                var $i = 0;
+                var order_items_data = {};
+                 jQuery('select[name^="newqty_allocatedstore_"]').each(function() {
+                     var original_qty = parseInt(jQuery(this).data('originalqty'));
+                     var updated_qty = parseInt(jQuery(this).val());
+                     var loop_value = jQuery(this).data('loopvalue');
+                     var allocated_storeid = jQuery('#newallocatedstore_'+loop_value).val();
+                     var order_item_id = jQuery(this).data('order_item_id');
+                     var newstoreid = jQuery("#newallocatedstore_"+loop_value).val();
+                     var row_id = jQuery('#order_item_rowid').val();
+                     var sku = jQuery('#sku_'+loop_value).val();
+                     order_items_data [$i]= {
+                                    sku : sku,
+                                    inventory : updated_qty,
+                                    order_items_id : order_item_id,
+                                    allocated_storeid : allocated_storeid,
+                                    row_id : row_id
+                                };
+
+                     var remaining_qty = (original_qty - updated_qty);
+
+                     if(remaining_qty > 0){
+                            $i++;
+
+                         order_items_data [$i] = {
+                                    sku : sku,
+                                    inventory : remaining_qty,
+                                    order_items_id : order_item_id,
+                                    allocated_storeid : '',
+                                    row_id : row_id
+                                };
+                     }
+
+                     $i++;
+
+                });
+
+
+                 manualallocationCallUrl(order_items_data);
+
+            }
+
+
+            function manualallocationCallUrl(order_items_data){
+
+                var url = "<?php echo $this->getUrl('ordersplit/manualallocation/allocationordertootherstore/') ?>";
+                     JSON.stringify(order_items_data);
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'POST',
+                                dataType: 'json',
+                               data: { 'order_items_data' : order_items_data},
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery(".manual_allocation_submit").prop('disabled', true); // disable button
+                                    jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    jQuery("#popup-mpdal").html(data.result_content);
+                                    jQuery("#spinner_id").css('display', 'none'); // disable none
+                                    location.reload();
+                                }
+                            });
+
+            }
+
+
+
+
+            function createshipmentSubmit(){
+                        var $i = 0;
+                             var row_id = parseInt(jQuery('#row_id').val());
+                             var bags_counts_val = jQuery('#bags_count_id').val();
+
+                             if(jQuery.trim(bags_counts_val) == ""){
+                               alert('Please select your bags counts');
+                               return false;
+                             }
+
+                         createShipmentCallUrl(row_id , bags_counts_val);
+
+            }
+
+
+                    function createShipmentCallUrl(row_id , bags_counts_val){
+
+                        var url = "<?php echo $this->getUrl('ordersplit/shipmentcreation/shipmentcreate/') ?>";
+
+
+                                jQuery.ajax({
+                                       url : url,
+                                        type: 'POST',
+                                        dataType: 'json',
+                                       data: { 'row_id' : row_id , 'bags_counts' : bags_counts_val},
+                                       async: false,
+                                       beforeSend: function() {
+                                          jQuery(".create_shipment_submit").prop('disabled', true); // disable button
+                                          jQuery("#spinner_id").css('display', 'block'); // disable block
+                                      },
+                                       success: function(data){
+
+                                         jQuery("#popup-mpdal").empty();
+                                         jQuery("#popup-mpdal").append(data);
+                                         jQuery("#spinner_id").css('display', 'none'); // disable none
+                                        }
+                                    });
+
+                                    jQuery("#popup-mpdal").modal("openModal");
+
+                                    setTimeout(
+                                      function()
+                                      {
+                                        location.reload();
+                                      }, 3000);
+
+                    }
+
+            function acceptSubmit(){
+                var $i = 0;
+                var order_items_data = {};
+                var split_items = false;
+                var allocated_idstore = "";
+                jQuery('select[name^="newqty_acceptstore_"]').each(function(i , v) {
+                          var original_qty = parseInt(jQuery(this).data('originalqty'));
+                          var updated_qty = parseInt(jQuery(this).val());
+                          allocated_idstore = jQuery('#allocated_storeid').val();
+                          if(original_qty !== updated_qty){
+                              split_items = true;
+
+                          }
+
+
+
+                });
+                     jQuery('select[name^="newqty_acceptstore_"]').each(function(i , v) {
+                     var original_qty = parseInt(jQuery(this).data('originalqty'));
+                     var updated_qty = parseInt(jQuery(this).val());
+                     var loop_value = jQuery(this).data('loopvalue');
+                     var order_item_id = jQuery(this).data('order_item_id');
+                     var allocated_storeid = jQuery('#allocated_storeid').val();
+                     var sku = jQuery('#sku_'+loop_value).val();
+                     var row_id = jQuery('#order_item_rowid').val();
+                     var rejection_loop_id = jQuery('#rejection_id_'+loop_value);
+
+                      if (jQuery('#rejection_id_'+loop_value).is(':checked')) {
+
+                        split_items = true;
+
+                        order_items_data [$i]= {
+                                       sku : sku,
+                                       inventory : original_qty,
+                                       order_items_id : order_item_id,
+                                       allocated_storeid : '',
+                                       original_qty : original_qty,
+                                       row_id : row_id
+                                   };
+
+
+
+                      }else{
+
+                           order_items_data [$i]= {
+                                          sku : sku,
+                                          inventory : updated_qty,
+                                          order_items_id : order_item_id,
+                                          allocated_storeid : allocated_storeid,
+                                          original_qty : original_qty,
+                                          row_id : row_id
+                                      };
+
+                                      if(updated_qty <= 0 ){
+                                        $i++;
+                                          return true;
+                                      }
+
+                           var remaining_qty = (original_qty - updated_qty);
+
+                           if(remaining_qty > 0){
+                                  $i++;
+
+                               order_items_data [$i] = {
+                                          sku : sku,
+                                          inventory : remaining_qty,
+                                          order_items_id : order_item_id,
+                                          allocated_storeid : '',
+                                          original_qty : original_qty,
+                                          row_id : row_id
+                                      };
+                           }
+                    }
+
+
+
+                           $i++;
+
+                });
+
+
+                 acceptCallUrl(order_items_data , split_items , allocated_idstore);
+
+            }
+
+            function acceptCallUrl(order_items_data , split_items , allocated_idstore){
+                     var url = "<?php echo $this->getUrl('ordersplit/accept/acceptforqtysku/') ?>";
+                     JSON.stringify(order_items_data);
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'POST',
+                                dataType: 'json',
+                               data: { 'order_items_data' : order_items_data , 'split_items' : split_items , 'allocated_id' : allocated_idstore},
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery(".accept_submit").prop('disabled', true); // disable button
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    jQuery("#popup-mpdal").html(data.result_content);
+                                      jQuery(".accept_submit").prop('disabled', false); // disable button
+                                      jQuery("#spinner_id").css('display', 'none'); // disable none
+                                    location.reload();
+                                }
+                            });
+            }
+
+
+            function rejectSubmit(){
+                     var allocated_storeid = jQuery('#allocated_storeid').val();
+                     var row_id = jQuery('#order_item_rowid').val();
+                     var rejection_reason = jQuery('#rejection_reason').val();
+                     rejection_reason = jQuery.trim(rejection_reason);
+                     var order_id = jQuery('#order_id').val();
+                     if(rejection_reason == ""){
+                       alert('Please add comment for rejection . It cannot be blank ');
+                       return false;
+                     }
+
+                    rejectCallUrl(allocated_storeid , row_id , rejection_reason , order_id);
+            }
+
+            function rejectCallUrl(allocated_storeid , row_id , rejection_reason , order_id){
+                     var url = "<?php echo $this->getUrl('ordersplit/reject/rejectoforder/') ?>";
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'POST',
+                                dataType: 'json',
+                               data: { 'rejection_reason' : rejection_reason , 'allocated_storeid' : allocated_storeid , 'row_id' : row_id , 'order_id' : order_id},
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery(".reject_submit").prop('disabled', true); // disable button
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                jQuery("#popup-mpdal").html(data.result_content);
+                                jQuery("#spinner_id").css('display', 'none'); // disable none
+                                    location.reload();
+                                }
+                            });
+            }
+
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: []
+            };
+
+            var popup = modal(options, $('#popup-mpdal'));
+
+            $(".manual-allocation-link").on('click',function(){
+                var order_item_id = $(this).data('order_item_row_id');
+                var action_type = $(this).data('action_type');
+
+
+                if(action_type == 'manual_allocation'){
+
+                        var url = "<?php echo $this->getUrl('ordersplit/manualallocation/template/') ?>" + "order_itemrowid/" + order_item_id;
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'get',
+                                //dataType: 'json',
+                               showLoader:true,
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    $("#popup-mpdal").empty();
+                                    $("#popup-mpdal").append(data);
+                                      jQuery("#spinner_id").css('display', 'none'); // disable Block
+
+                                }
+                            });
+                }
+
+                $("#popup-mpdal").modal("openModal");
+            });
+
+            $(".shipmentcreate-link").on('click',function(){
+                var order_item_id = $(this).data('order_item_row_id');
+                var action_type = $(this).data('action_type');
+
+
+                if(action_type == 'shipmentcreate'){
+
+                        var url = "<?php echo $this->getUrl('ordersplit/shipmentcreation/template/') ?>" + "order_itemrowid/" + order_item_id;
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'get',
+                                //dataType: 'json',
+                               showLoader:true,
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    $("#popup-mpdal").empty();
+                                    $("#popup-mpdal").append(data);
+                                    jQuery("#spinner_id").css('display', 'none'); // disable none
+
+                                }
+                            });
+                }
+
+                $("#popup-mpdal").modal("openModal");
+            });
+
+            $(".invoicecreate-link").on('click',function(){
+                var order_item_id = $(this).data('order_item_row_id');
+                var action_type = $(this).data('action_type');
+
+
+                if(action_type == 'invoicecreate'){
+
+
+                        var url = "<?php echo $this->getUrl('ordersplit/invoicecreation/invoicecreate/') ?>" + "order_itemrowid/" + order_item_id;
+
+
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'get',
+                                //dataType: 'json',
+                               showLoader:true,
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    $("#popup-mpdal").empty();
+                                    $("#popup-mpdal").append(data);
+                                    jQuery("#spinner_id").css('display', 'block'); // disable none
+
+                                }
+                            });
+                }
+
+                $("#popup-mpdal").modal("openModal");
+
+                setTimeout(
+                  function()
+                  {
+                    location.reload();
+                  }, 3000);
+                });
+
+
+                // $(".shipmentcreate-link").on('click',function(){
+                //     var order_item_id = $(this).data('order_item_row_id');
+                //     var action_type = $(this).data('action_type');
+                //     if(action_type == 'shipmentcreate'){
+                //             var url = "<?php //echo $this->getUrl('ordersplit/shipmentcreation/shipmentcreate/') ?>" + "order_itemrowid/" + order_item_id;
+                //
+                //             jQuery.ajax({
+                //                    url : url,
+                //                     type: 'get',
+                //                     //dataType: 'json',
+                //                    showLoader:true,
+                //                    async: false,
+                //                    success: function(data){
+                //                         $("#popup-mpdal").empty();
+                //                         $("#popup-mpdal").append(data);
+                //
+                //                     }
+                //                 });
+                //     }
+                //
+                //     $("#popup-mpdal").modal("openModal");
+                //
+                //     setTimeout(
+                //       function()
+                //       {
+                //         location.reload();
+                //       }, 3000);
+                //     });
+
+
+            $(".accept-link").on('click',function(){
+                var order_item_id = $(this).data('order_item_row_id');
+                var action_type = $(this).data('action_type');
+
+                if(action_type == 'accept'){
+
+                        var url = "<?php echo $this->getUrl('ordersplit/accept/template/') ?>" + "order_itemrowid/" + order_item_id;
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'get',
+                                //dataType: 'json',
+                               showLoader:true,
+                               async: false,
+                               beforeSend: function() {
+                                //  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    $("#popup-mpdal").empty();
+                                    $("#popup-mpdal").append(data);
+                                  //  jQuery("#spinner_id").css('display', 'none'); // disable none
+
+                                }
+                            });
+                }
+
+                $("#popup-mpdal").modal("openModal");
+            });
+
+            $(".picklist_send-link").on('click',function(){
+                var order_item_id = $(this).data('order_item_row_id');
+                var action_type = $(this).data('action_type');
+
+                if(action_type == 'picklist_sendmail'){
+
+                        var url = "<?php echo $this->getUrl('ordersplit/accept/picklistmailsend/') ?>" + "order_itemrowid/" + order_item_id;
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'get',
+                                dataType: 'json',
+                               showLoader:true,
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    $("#popup-mpdal").empty();
+                                    $("#popup-mpdal").append(data.result_content);
+                                    jQuery("#spinner_id").css('display', 'none'); // disable none
+                                    setTimeout(
+                                      function()
+                                      {
+                                        location.reload();
+                                      }, 3000);
+                                }
+                            });
+                }
+
+                $("#popup-mpdal").modal("openModal");
+            });
+
+
+            $(".reject-link").on('click',function(){
+                var order_item_id = $(this).data('order_item_row_id');
+                var action_type = $(this).data('action_type');
+
+                if(action_type == 'reject'){
+
+                        var url = "<?php echo $this->getUrl('ordersplit/reject/template/') ?>" + "order_itemrowid/" + order_item_id;
+
+                        jQuery.ajax({
+                               url : url,
+                                type: 'get',
+                                //dataType: 'json',
+                               showLoader:true,
+                               async: false,
+                               beforeSend: function() {
+                                  jQuery("#spinner_id").css('display', 'block'); // disable block
+                              },
+                               success: function(data){
+                                    $("#popup-mpdal").empty();
+                                    $("#popup-mpdal").append(data);
+                                    jQuery("#spinner_id").css('display', 'none'); // disable none
+
+                                }
+                            });
+                }
+
+                $("#popup-mpdal").modal("openModal");
+            });
+
+        }
+    );
+</script>

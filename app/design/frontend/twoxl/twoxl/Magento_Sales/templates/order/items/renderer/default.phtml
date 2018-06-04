@@ -1,0 +1,103 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var  $block \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer */
+$_item = $block->getItem();
+$product_id = $_item->getProductId();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product2 = $objectManager->get('Magento\Catalog\Model\ProductFactory'); 
+$product = $product2->create();
+$product->load($product_id);
+$this->helper('Magento\Catalog\Helper\Product')->getImageUrl($product);
+$product_image = $this->helper('Magento\Catalog\Helper\Image')->init($product,'cart_page_product_thumbnail') ->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false)->setImageFile($product->getImage())->getUrl();
+
+$blockObj= $block->getLayout()->createBlock('Iksula\MyAccount\Block\Order\Info');
+$getRealOrderId = $blockObj->getRealOrderId();
+$helper = $this->helper('Iksula\Orderreturns\Helper\Data');
+$orderStatus = $blockObj->getOrder()->getStatus();
+$dateCount = $helper->getMaximumDaysForReturnPolicy();
+$currentDate = date("Y-m-d");
+$expiryDate = date("Y-m-d", strtotime("+".$dateCount." days"));
+$message = $helper->getConfigMessage();
+$return_status = $helper->getReturnStatus($product_id,$getRealOrderId);
+?>
+<form name="aaaaaaa" method="post" action="<?php echo $this->getUrl('orderreturns/returns/index'); ?>">
+<div id="order-item-row-<?php /* @escapeNotVerified */ echo $_item->getId() ?>">
+    <div class="order_chk"><div class="order_title"></div><div class="order_content">
+    <input type="hidden" name="return_chk" id="<?php echo $_item->getName(); ?>" value="<?php echo $product_id."--".$getRealOrderId; ?>">
+    <label for="<?php echo $_item->getName(); ?>"></label></div></div>
+    <div class="pro_image"><div class="order_title">Product image</div><div class="order_content">
+	<img src="<?php echo $product_image; ?>" width="87px;" height="71px;"></div></div>
+   	<div class="pro_mob_wrap"><div class="pro_name"><div class="order_title">Product Name</div><div class="order_content">
+            <strong class="product name product-item-name"><?php echo $block->escapeHtml($_item->getName()) ?></strong>
+            <?php if ($_options = $block->getItemOptions()): ?>
+            <dl class="item-options">
+            <?php foreach ($_options as $_option) : ?>
+                <dt><?php echo $block->escapeHtml($_option['label']) ?></dt>
+                <?php if (!$block->getPrintStatus()): ?>
+                    <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                    <dd>
+                        <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                            <?php /* @escapeNotVerified */ echo $_formatedOptionValue['full_view'] ?>
+                        <?php else: ?>
+                            <?php /* @escapeNotVerified */ echo $_formatedOptionValue['value'] ?>
+                        <?php endif; ?>
+                    </dd>
+                <?php else: ?>
+                    <dd>
+                        <?php echo nl2br($block->escapeHtml((isset($_option['print_value']) ? $_option['print_value'] : $_option['value']))) ?>
+                    </dd>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </dl>
+            <?php endif; ?>
+            <?php $addtInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+            <?php if ($addtInfoBlock) :?>
+                <?php echo $addtInfoBlock->setItem($_item)->toHtml(); ?>
+            <?php endif; ?>
+            <?php echo $block->escapeHtml($_item->getDescription()) ?>
+        </div>
+    </div>
+    <!-- <div class="sub_order"><div class="order_title">Return Status</div><div class="order_content"><?php /* @escapeNotVerified */ //echo $return_status ?></div></div> -->
+    <div class="sku_txt"><div class="order_title">Sku</div><div class="order_content"><?php /* @escapeNotVerified */ echo $block->prepareSku($block->getSku()) ?></div></div>
+    <div class="qty_txt"><div class="order_title">Qty</div><div class="order_content">
+		<ul class="items-qty">
+            <?php if ($block->getItem()->getQtyOrdered() > 0){ ?>
+                <li class="item">
+                    <span class="title"><?php /* @escapeNotVerified */ echo __('Ordered'); ?></span>
+                    <span class="content"><?php /* @escapeNotVerified */ echo $block->getItem()->getQtyOrdered()*1 ?></span>
+                </li>
+            <?php } ?>
+            </ul>
+        </div>
+    </div>
+    <div class="price_info"><div class="order_title">Price</div><div class="order_content">
+            <?php echo $block->getItemPriceHtml(); ?>
+        </div>
+    </div>
+    <?php if ($orderStatus == 'complete' || $orderStatus == 'delivered'): ?>
+    <div class="sub_order"><div class="order_title">Action</div>
+    <?php if ($currentDate <= $expiryDate): ?>    
+        <div class="order_content">
+            <?php if($return_status != "false"){ ?>
+                <?php /* @escapeNotVerified */ echo $return_status ?>
+            <?php }else {?>
+                    <button type="submit" class="return_link">Return</button>
+            <?php }?>
+        </div>
+        <?php else: ?>
+        <div class="order_content">
+        <?php echo $message; ?>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+    </div>
+</div>
+    </form>
+

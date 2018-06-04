@@ -1,0 +1,68 @@
+<?php
+
+
+$aImages = $block->getImageArrayData();
+$aUrl = $block->getUrlArrayData();
+$aTitle = $block->getTitleArrayData();
+
+
+$aDinningCollection = $block->getDinningCollectionData();
+
+?>
+
+
+<div class="home_banner_wrapper">
+<div class="banner_row two_banners clear">
+<div class="banner_img"><a href="<?php echo $aUrl[0] ?>"><img src="<?php echo $aImages[0] ?>" alt="" /></a></div>
+<div class="banner_img"><a href="<?php echo $aUrl[1] ?>"><img src="<?php echo $aImages[1] ?>" alt="" /></a></div>
+</div>
+<div class="banner_row three_banners clear">
+<div class="banner_img">
+	<h3 class="mobile-title"><?php echo $aTitle[2] ?></h3>
+	<a href="<?php echo $aUrl[2] ?>"><img src="<?php echo $aImages[2] ?>" alt="" /></a>
+	<h3 class="desktop-title"><?php echo $aTitle[2] ?></h3>
+</div>
+<div class="banner_img">
+	<h3 class="mobile-title"><?php echo $aTitle[3] ?></h3>
+	<a href="<?php echo $aUrl[3] ?>"><img src="<?php echo $aImages[3] ?>" alt="" /></a>
+	<h3 class="desktop-title"><?php echo $aTitle[3] ?></h3>
+</div>
+<div class="banner_img">
+	<h3 class="mobile-title"><?php echo $aTitle[4] ?></h3>
+	<a href="<?php echo $aUrl[4] ?>"><img src="<?php echo $aImages[4] ?>" alt="" /></a>
+	<h3 class="desktop-title"><?php echo $aTitle[4] ?></h3>
+</div>
+</div>
+<div class="banner_row single_banner clear">
+<div class="banner_img"><a href="<?php echo $aDinningCollection['url'] ?>"><img src="<?php echo $aDinningCollection['image'] ?>" alt="" /></a></div>
+</div>
+</div>
+
+<script type="text/javascript">
+require(['jquery','slick'],function($){
+	$(document).ready(function(){
+		if($(window).width() < 737){
+			$('.banner_row.three_banners').slick({
+				dots: false,
+				infinite: true,
+				speed: 300,
+				slidesToShow: 2,
+				slidesToScroll: 1,
+				responsive: [
+				{
+				  breakpoint: 480,
+				  settings: {
+				    slidesToShow: 1,
+				    slidesToScroll: 1,
+				    infinite: true
+				  }
+				}
+				// You can unslick at a given breakpoint now by adding:
+				// settings: "unslick"
+				// instead of a settings object
+				]
+			});
+		}		
+	});
+});
+</script>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="backend_auth_user_login_success">
+        <observer name="my_custom_login_success_observer" instance="Iksula\Storemanager\Observer\AdminLoginSucceeded" />
+    </event>
+    <event name="backend_auth_user_login_failed">
+        <observer name="my_custom_login_failed_observer" instance="Iksula\Storemanager\Observer\AdminLoginFailed" />
+    </event>
+</config>

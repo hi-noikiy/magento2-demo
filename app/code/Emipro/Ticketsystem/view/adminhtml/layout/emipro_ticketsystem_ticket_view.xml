@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+	</head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Emipro\Ticketsystem\Block\Adminhtml\Ticket\View" name="emipro_ticketsystem_ticket_view"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Emipro\Ticketsystem\Block\Adminhtml\Ticket\View\Tabs" name="emipro_ticketsystem_ticket.view.tabs">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

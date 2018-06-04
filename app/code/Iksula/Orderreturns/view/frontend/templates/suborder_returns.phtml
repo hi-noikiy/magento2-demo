@@ -1,0 +1,185 @@
+<?php
+
+$_item = $block->getSubOrderDetails();
+$return_reason = $block->getReturnReason();
+$order_entity_id = $_item['order_entity_id'];
+$product_id = $_item['product_id'];
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product2 = $objectManager->get('Magento\Catalog\Model\ProductFactory');
+$product = $product2->create();
+$product->load($product_id);
+$this->helper('Magento\Catalog\Helper\Product')->getImageUrl($product);
+$product_image = $this->helper('Magento\Catalog\Helper\Image')->init($product,'cart_page_product_thumbnail') ->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false)->setImageFile($product->getImage())->getUrl();
+
+$currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currency = $currencysymbol->getStore()->getCurrentCurrencyCode();
+
+$returnRequestUrl = $this->getUrl('orderreturns/returns/item');
+
+
+
+$shipping_Details = $block->getShippingAddressDetails($_item['order_id']);
+$paymentMethod = $block->getPaymentDetails($_item['order_id']);
+$country_name =$objectManager->create('\Magento\Directory\Model\Country')->load($shipping_Details['country_id'])->getName();
+
+?>
+
+<!-- <a href="<?php //echo $this->getUrl().'sales/order/view/order_id/'.$order_entity_id;?>" class="sub_order_back">Back</a>
+ --><form action="<?php echo $returnRequestUrl; ?>" method="post" data-mage-init='{"validation":{}}'>
+
+<div class="view_order_wrapper">
+    <div class="view_order_row clear">
+        <div id="order-item-row-6">
+            <div class="pro_image">
+               <div class="order_title">Product Detail</div>
+               <div class="order_content">
+                   <img src="<?php echo $product_image; ?>" width="87px;" height="71px;">
+                   <strong class="product name product-item-name"><?php echo $_item['product_name']; ?></strong>
+               </div>
+            </div>
+            <div class="pro_mob_wrap">
+                <div class="pro_name">
+                    <div class="order_title">Product Name</div>
+                    <div class="order_content">
+                        <strong class="product name product-item-name"><?php echo $_item['product_name']; ?></strong>
+                    </div>
+                </div>
+                <div class="order_id">
+                    <div class="order_title">Order id</div>
+                    <div class="order_content"><?php echo $_item['order_id']; ?></div>
+                </div>
+                <div class="sku_txt">
+                    <div class="order_title">Sku</div>
+                    <div class="order_content"><?php echo $_item['product_sku']; ?></div>
+                </div>
+                <div class="qty_txt">
+                    <div class="order_title">Qty</div>
+                    <div class="order_content">
+
+                         <select name="return_qty">
+                            <?php for ($i=1; $i<=$_item['product_qty']; $i++) { ?>
+                             <option value="<?php  echo $i;?>"><?php  echo $i?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="price_info">
+                    <div class="order_title">Original Price</div>
+                    <div class="order_content">
+                        <span class="price-excluding-tax" data-label="Excl. Tax">
+                            <span class="cart-price">
+                                <span class="price"><?php echo $currency." ".$_item['product_price']; ?></span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="price_info return_info">
+                    <div class="order_title">Return Price</div>
+                    <div class="order_content">
+                        <span class="price-excluding-tax" data-label="Excl. Tax">
+                            <span class="cart-price">
+                                <span class="price"><?php echo $currency." ".$_item['return_price']; ?></span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="return_wrap clear">
+        <div class="return_form">
+                <div id="order-item-row-6">
+                    <input type="hidden" value="<?php echo $_item['order_id']; ?>" name="order_id">
+                    <input type="hidden" value="<?php echo $_item['product_id']; ?>" name="product_id">
+                    <input type="hidden" value="<?php echo $_item['product_sku']; ?>" name="product_sku">
+                    <input type="hidden" value="<?php echo $_item['product_price']; ?>" name="product_price">
+                    <input type="hidden" value="<?php echo $_item['return_price']; ?>" name="return_price">
+                    <select name="return_reason" class="required-entry">
+                        <option value="">Select Reason</option>
+                        <?php foreach ($return_reason  as $value) { ?>
+                        <option value="<?php  echo $value['return_reason']?>"><?php  echo $value['return_reason']?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <button type="submit" class="action primary return_reason">Return</button>
+        </div>
+
+        <div class="block block-order-details-view">
+            <div class="block-title">
+                <strong>Order Information</strong>
+            </div>
+            <div class="block-content">
+                <div class="box box-order-shipping-address">
+                    <strong class="box-title"><span>Shipping Address</span></strong>
+                    <div class="box-content">
+                        <address><?php echo $shipping_Details['firstname']." ". $shipping_Details['lastname']; ?><br>
+                       <?php echo $shipping_Details['street']?>, <?php echo $shipping_Details['city']?><br>
+                        <?php echo $country_name;?><br>
+                        T: <?php echo $shipping_Details['telephone']?>
+                        </address>
+                    </div>
+                </div>
+
+              <!--   <div class="box box-order-shipping-method">
+                    <strong class="box-title">
+                        <span>Shipping Method</span>
+                    </strong>
+                    <div class="box-content">
+                    Flat Rate - Fixed
+                    </div>
+                </div> -->
+
+               <!--  <div class="box box-order-billing-address">
+                    <strong class="box-title">
+                        <span>Billing Address</span>
+                    </strong>
+                    <div class="box-content">
+                        <address>manasi phadke<br>
+                        marol maroshi road, andheri east, marol maroshi road, andheri east,<br>
+                        Al hamriya Free Zone 2,  Ajman, 000000<br>
+                       <?php //echo $block->getCountryname($shipping_Details['country_id']);?><br>
+                        T: 91-233-1234567
+                        </address>
+                    </div>
+                </div> -->
+            <div class="box box-order-billing-method">
+                <strong class="box-title">
+                    <span>Payment Method</span>
+                </strong>
+                <div class="box-content">
+                    <dl class="payment-method checkmemo">
+                        <dt class="title"><?php echo $paymentMethod; ?></dt>
+                    </dl>
+                </div>
+            </div>
+            </div>
+        </div>
+
+</div>
+</form>
+
+<script type="text/x-magento-init">
+    {
+        "#custom-return": {
+            "validation": {}
+        }
+    }
+</script>
+<script type="text/javascript">
+
+require([
+   "jquery"
+   ], function($){
+     jQuery(document).ready(function(){
+              jQuery('.nav').each(function(){
+                  var val_data = jQuery(this).text();
+                 if(val_data == 'My Orders'){
+                   jQuery(this).closest('.nav').addClass('current');
+                 }
+            });
+    });
+
+});
+
+</script>

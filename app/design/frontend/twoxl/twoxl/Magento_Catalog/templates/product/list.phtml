@@ -1,0 +1,312 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+
+<?php
+
+$helper = $this->helper('Iksula\Commonmodule\Helper\Data');
+$_productCollection = $block->getLoadedProductCollection();
+// echo get_class($_productCollection);
+// echo $_productCollection->getSelect();
+// echo "<pre>"; print_r($_productCollection->getData()); exit;
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$ajaxScrollParam = $this->getRequest()->getParam('p');
+$styleHide = $ajaxScrollParam ? ' style="display: none;" ' : '';
+?>
+<?php if (!$_productCollection->count()): ?>
+
+    <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <div class="filter_overlay"></div>
+    <div class="mobile-sort-filter-wrap">
+        <div class="mob-filter-title filter_select">Filter</div>
+        <div class="mob-sort-title">Sort By</div>
+    </div>
+
+    <div class="toolbar_wrap clear sort-by-wrap" <?php echo $styleHide;?>>
+        <div class="filter_select">
+        <span>Filter</span>
+        </div>
+        <div class="mob_sort_title">
+        <h3>Sort by</h3><span class="filter_close"></span>
+        </div>
+    <?php echo $block->getToolbarHtml() ?>
+    </div>
+
+    <?php echo $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $image = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products clear">
+        <?php $iterator = 1; ?>
+        <ol class="product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product):
+            //$_product = $block->getProduct();
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $class_active = '';
+            $wishlist_helper = $objectManager->get('Magento\Wishlist\Helper\Data')->getWishlistItemCollection();
+
+            foreach ($wishlist_helper as $_wishlist_item)
+            {
+                if($_product->getId() == $_wishlist_item->getProduct()->getId())
+                {
+                    $class_active = 'active';
+                }
+            }
+            $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+            $mouse_over_image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $_product->getMouseoverImage();
+            ?>
+                <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item">' : '</li><li class="item">' ?>
+                <div class="product-item-info product-item-info-flip1" id="product-item-info-flip1-<?php echo $_product->getEntityId();?>" data-container="product-grid">
+                    <?php
+
+                     if($class_active == 'active'){
+                    echo '<a href="#" class="action towishlist '.$class_active.'"  data-action="add-to-wishlist" onclick="return chk_wishlist('.$_product->getEntityId().')" >'
+                                    . '<span>' . __('Add to Wish List') . '</span></a>';
+                    }
+                    if($class_active == ''){
+                    echo '<a href="#" data-post=\'' . $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product) . '\' class="action towishlist '.$class_active.'"  data-action="add-to-wishlist" >'
+                                    . '<span>' . __('Add to Wish List') . '</span></a>';
+
+                    }
+                    $productImage = $block->getImage($_product, $image);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <?php // Product Image ?>
+                    <div class="product-flip-1" data-main-div-id="<?php echo $_product->getEntityId();?>">
+                    <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo prod_img" tabindex="-1">
+                        <?php echo $productImage->toHtml(); ?>
+                         <?php if(!$_product->isAvailable()): ?>
+                            <span class="out-of-stock"><span>OUT OF STOCK</span></span>
+                        <?php endif; ?>
+                    </a>
+                    </div>
+                    <div class="pro_details">
+                        <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        <h3 class="pro_name">
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </h3>
+                        <div class="list_sku">Sku: <?php /* @escapeNotVerified */ echo $_product->getSku() ?></div>
+                        <?php //echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                        <?php if($_product->getSpecialPrice()): ?>
+                               <span class="discount_txt2"><?php echo $this->helper('Iksula\ProductDetailPg\Helper\Data')->DisplayDiscountLabel($_product); ?></span>
+                       <?php endif; ?>
+
+                        <div class="product-item-inner">
+                            <div class="product actions product-item-actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
+                                <div class="actions-primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
+                                    <?php if ($_product->isSaleable()): ?>
+                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                        <!-- <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ //echo $postParams['action']; ?>" method="post">
+                                            <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ //echo $postParams['data']['product']; ?>">
+                                            <input type="hidden" name="<?php /* @escapeNotVerified */ //echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ //echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                            <?php //echo $block->getBlockHtml('formkey')?>
+                                            <button type="submit"
+                                                    title="<?php //echo $block->escapeHtml(__('Add to Cart')); ?>"
+                                                    class="action tocart primary">
+                                                <span><?php /* @escapeNotVerified */ //echo __('Add to Cart') ?></span>
+                                            </button>
+                                        </form> -->
+                                    <?php else: ?>
+                                        <?php if ($_product->getIsSalable()): ?>
+                                            <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                        <?php// else: ?>
+                                            <!-- <div class="stock unavailable"><span> --><?php /* @escapeNotVerified */// echo __('Out of stock') ?><!-- </span></div> -->
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <!-- <div data-role="add-to-links" class="actions-secondary"<?php //echo strpos($pos, $viewMode . '-secondary') ? $position : ''; ?>>
+                                    <?php //if ($addToBlock = $block->getChildBlock('addto')): ?>
+                                        <?php //echo $addToBlock->setProduct($_product)->getChildHtml(); ?>
+                                    <?php //endif; ?>
+                                </div> -->
+                            </div>
+                            <?php if ($showDescription):?>
+                                <div class="product description product-item-description">
+                                    <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                    <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" title="<?php /* @escapeNotVerified */ echo $_productNameStripped ?>"
+                                       class="action more"><?php /* @escapeNotVerified */ echo __('Learn More') ?></a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="product-item-info product-item-info-flip2" id="product-item-info-flip2-<?php echo $_product->getEntityId();?>" data-container="product-grid">
+
+                    <div class="product-flip-2" data-main-div-id="<?php echo $_product->getEntityId();?>">
+
+                    <?php
+                    if($class_active == ''){
+                    echo '<a href="#" data-post=\'' . $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product) . '\' class="action towishlist '.$class_active.'" data-action="add-to-wishlist">'
+                                    . '<span>' . __('Add to Wish List') . '</span></a>';
+                    }
+                    if($class_active == 'active'){
+                    echo '<a href="#" class="action towishlist '.$class_active.'" data-action="add-to-wishlist"  onclick="return chk_wishlist('.$_product->getEntityId().')">'
+                                    . '<span>' . __('Add to Wish List') . '</span></a>';
+                    }
+                    $productImage = $block->getImage($_product, $image);
+
+                    $UrlValues = $helper->getSmallGallaryImage($_product);
+                    ?>
+                    <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>"  tabindex="-1" class="prod_img">
+                        <span class="product-image-container " data-main-div-id="<?php echo $_product->getEntityId();?>">
+                            <span class="product-image-wrapper"
+                                  style="padding-bottom: <?php /* @escapeNotVerified */ echo ($productImage->getRatio() * 100); ?>%;">
+                                <img class="product-image-photo"
+                                     src="<?php /* @escapeNotVerified */ echo $mouse_over_image; ?>"
+                                     width="<?php /* @escapeNotVerified */ echo $productImage->getWidth(); ?>px"
+                                     height="<?php /* @escapeNotVerified */ echo $productImage->getHeight(); ?>px"
+                                     /></span>
+                        </span>
+                        <?php if(!$_product->isAvailable()): ?>
+                            <span class="out-of-stock"><span>OUT OF STOCK</span></span>
+                        <?php endif; ?>
+                    </a>
+                    <?php if($_product->isAvailable()){ ?>
+                    <div class="pro_details">
+                     <!--a href="<?php /* @escapeNotVerified */ //echo $_product->getProductUrl() ?>" title="<?php /* @escapeNotVerified */ //echo __('Quick View') ?>" class="quick_link"><?php /* @escapeNotVerified */ //echo __('Quick View34534') ?></a-->
+                     <?php echo $block->getProductDetailsHtml($_product); ?>
+                    <?php
+                    $quickViewBlock = $this->getLayout()->createBlock('WeltPixel\Quickview\Block\Initialize');
+                    //temporary fix for plugin for virtual type not called on search page
+                        if($quickViewBlock->getActionName() != 'catalog_category_view') {
+                            echo $quickViewBlock->getQuickViewButton($_product);
+                        } else {
+                            echo $quickViewBlock->setTemplate('WeltPixel_Quickview::initialize.phtml')->toHtml();
+                        }
+                    ?>
+                    </div>
+                    <?php }else{?>
+                    <div class="pro_details">
+                        <h3 class="pro_name">
+                            <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </h3>
+                         <div class="list_sku">Sku: <?php /* @escapeNotVerified */ echo $_product->getSku() ?></div>
+                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                        <?php if($_product->getSpecialPrice()): ?>                            
+                               <span class="discount_txt2"><?php echo $this->helper('Iksula\ProductDetailPg\Helper\Data')->DisplayDiscountLabel($_product); ?></span>
+                       <?php endif; ?>
+                    </div>
+                    <?php } ?>
+                </div>
+                </div>
+                <?php echo($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php //echo $block->getToolbarHtml() ?>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<script type="text/javascript">
+require([
+   "jquery"
+   ], function($){
+    jQuery(document).ready(function($){
+        $('.product-item-info-flip2').hide();
+        // $('.product-item-info-flip1').show();
+        // $('.product-image-anchor').hover(function(){
+        //     var id = jQuery(this).attr('data-main-div-id');
+        //     // $('product-item-info-flip1').toggle();
+        //     $('#product-item-info-flip1-'+id).toggle();
+        //     $('#product-item-info-flip2-'+id).toggle();
+        // });
+        var block = false;
+        $('.product-flip-1').mouseenter(function(){
+            if(!block) {
+                block = true;
+                var id = jQuery(this).attr('data-main-div-id');
+                // $('product-item-info-flip1').toggle();
+                $('#product-item-info-flip1-'+id).hide();
+                $('#product-item-info-flip2-'+id).show();
+                block = false;
+            }
+        });
+        $('.product-flip-2').mouseleave(function(){
+            if(!block) {
+                block = true;
+                var id = jQuery(this).attr('data-main-div-id');
+                // $('product-item-info-flip1').toggle();
+                $('#product-item-info-flip1-'+id).show();
+                $('#product-item-info-flip2-'+id).hide();
+                block = false;
+            }
+        });
+    });
+});
+</script>
+<script>
+function chk_wishlist(obj)
+{
+  require([
+    'jquery',
+    'mage/validation'
+    ], function($){
+       // alert(obj); exit;
+       // $(".active").click(function(){
+       // var wishlist_id = '<?php //echo $wishlist_id; ?>';
+      var product_id = obj;
+
+      jQuery.ajax({
+        data: {
+                'product_id': product_id,
+              },
+        dataType:'json',
+        url: "<?php echo $this->getUrl('wishlist/index/wishlistitem'); ?>",
+        method:'post',
+        showLoader: true,
+        success:function(resp){
+          location.reload();
+        }
+      });
+   // });
+  });
+}
+</script>

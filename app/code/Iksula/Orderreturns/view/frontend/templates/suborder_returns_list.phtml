@@ -1,0 +1,90 @@
+<?php
+$_item = $block->getReturnList();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+$currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+$currency = $currencysymbol->getStore()->getCurrentCurrencyCode();
+
+
+$helper = $this->helper('Iksula\Orderreturns\Helper\Data');
+
+if(!$_item){
+    ?>
+        <p>No return request found.</p>
+    <?php
+}
+else{
+
+    foreach ($_item as $value) {
+            $product2 = $objectManager->get('Magento\Catalog\Model\ProductFactory'); 
+            $product = $product2->create();
+            $product->load($value['product_id']);
+
+            $this->helper('Magento\Catalog\Helper\Product')->getImageUrl($product);
+            $product_image = $this->helper('Magento\Catalog\Helper\Image')->init($product,'cart_page_product_thumbnail') ->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false)->setImageFile($product->getImage())->getUrl();                    
+
+        ?>
+        <div class="view_order_wrapper">
+            <div class="view_order_row clear">
+                <div id="order-item-row-6">       
+                    <div class="pro_image_detail">
+                        <div class="order_title">Product Detail</div>
+                        <div class="order_content">
+                           <img src="<?php echo $product_image; ?>" width="87px;" height="71px;">
+                           <div class="pro_image_txt_mob">
+                           <strong class="product name product-item-name"><?php echo $product->getName(); ?></strong>
+                           <strong class="product name product-item-name">SKU : <?php echo $value['product_sku']; ?></strong>
+                           <strong class="product name product-item-name">Price : <?php echo $value['product_price']; ?></strong>
+                           </div>
+                       </div>
+                    </div>
+                    <div class="pro_mob_wrap">
+                        <div class="sub_order">
+                            <div class="order_title">Order Id</div>
+                            <div class="order_content"><?php echo $value['order_id']; ?></div>
+                        </div>
+                        <div class="pro_name">
+                            <div class="order_title">Product Detail</div>
+                            <div class="order_content">
+                                <strong class="product name product-item-name"><?php echo $product->getName(); ?></strong>  
+                            </div></div>
+                            <div class="pro_name">
+                            <div class="order_title">SKU</div>
+                            <div class="order_content">
+                                <strong class="product name product-item-name"><?php echo $value['product_sku']; ?></strong>
+                            </div>
+                        </div>
+                       <!--  <div class="sub_order">
+                            <div class="order_title">Return Price</div>
+                            <div class="order_content"><?php //echo $currency." ".$value['return_price']; ?></div>
+                        </div> -->
+                        <div class="qty_txt">
+                            <div class="order_title">Qty</div>
+                            <div class="order_content">                 
+                                    <?php echo $value['quantity']; ?>                       
+                            </div>
+                        </div> 
+                        <div class="sub_order">
+                            <div class="order_title">Refund Amount</div>
+                            <div class="order_content">                 
+                                    <?php echo (int)$value['quantity']*(int)$value['return_price']; ?>                       
+                            </div>
+                        </div>
+                        <div class="sku_txt">
+                            <div class="order_title">Pickup</div>
+                            <div class="order_content"><?php if($value['pickup_time']) { echo $value['pickup_date']; }else{ echo "--"; }?>
+                            <?php if($value['pickup_time']) { echo $value['pickup_time']; }else{ echo "--"; }?></div>
+                        </div>
+                        <div class="sub_order return_status">
+                            <div class="order_title">Status</div>
+                            <div class="order_content"><?php echo $helper->getReturnStatusValue($value['return_status']); ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<?php
+    }
+}
+?>

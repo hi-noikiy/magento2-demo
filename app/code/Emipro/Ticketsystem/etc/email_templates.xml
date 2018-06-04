@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="emipro_template_ticket_create" label="New Ticket" file="ticket_create.html" type="html" module="Emipro_Ticketsystem" area="frontend"/>
+    <template id="emipro_template_ticket_create_customer" label="New Ticket for Customer" file="new_ticket_create.html" type="html" module="Emipro_Ticketsystem" area="frontend"/>
+    <template id="emipro_template_ticket_conversation" label="Ticket conversation" file="ticket_conversation.html" type="html" module="Emipro_Ticketsystem" area="frontend"/>
+    <template id="emipro_template_ticket_assign" label="Ticket Assign" file="ticket_assign.html" type="html" module="Emipro_Ticketsystem" area="frontend"/>
+	<template id="emipro_template_ticket_sendmsg" label="Send Message" file="ticket_sendmsg.html" type="html" module="Emipro_Ticketsystem" area="frontend"/>
+</config>

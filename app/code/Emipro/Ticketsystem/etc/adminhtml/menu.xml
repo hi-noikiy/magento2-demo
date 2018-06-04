@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Customer::Emipro_Ticketsystem" title="Emipro - Help Desk System" module="Emipro_Ticketsystem" sortOrder="50"  resource="Magento_Customer::Emipro_Ticketsystem" parent="Magento_Customer::customer" />
+        <add id="Emipro_Ticketsystem::manage_ticket" title="Manage Support Tickets" module="Emipro_Ticketsystem" sortOrder="60"  parent="Magento_Customer::Emipro_Ticketsystem" resource="Emipro_Ticketsystem::manage_ticket" action="emipro_ticketsystem/ticket"/>
+      
+        <add id="Magento_Store::Emipro_Ticketsystem" title="Emipro - Help Desk System" module="Emipro_Ticketsystem" sortOrder="50"  resource="Magento_Store::Emipro_Ticketsystem" parent="Magento_Backend::stores" />
+        <add id="Emipro_Ticketsystem::manage_department" title="Manage Ticket Departments" module="Emipro_Ticketsystem" sortOrder="50"  parent="Magento_Store::Emipro_Ticketsystem" resource="Emipro_Ticketsystem::manage_department" action="emipro_ticketsystem/department"/>             
+		<add id="Emipro_Ticketsystem::manage_response" title="Manage Frequent Response" module="Emipro_Ticketsystem" sortOrder="50"  parent="Magento_Store::Emipro_Ticketsystem" resource="Emipro_Ticketsystem::manage_response" action="emipro_ticketsystem/response"/>             
+    </menu>
+</config>

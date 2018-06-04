@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_NavisionApi::parent" title="NavisionApi" module="Iksula_NavisionApi" sortOrder="100" resource="Iksula_NavisionApi::parent"/>
+		<add id="Iksula_NavisionApi::navisionapi" title="Iksula NavisionApi" module="Iksula_NavisionApi" sortOrder="20" parent="Iksula_NavisionApi::parent" action="navisionapi/navisionapi" resource="Iksula_NavisionApi::navisionapi"/>
+
+    </menu>
+</config>

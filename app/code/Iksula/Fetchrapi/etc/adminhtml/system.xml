@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="fetchr_config" translate="label" sortOrder="200">
+            <label>Fetchr api Configuration</label>
+        </tab>
+        <section id="fetchr_config_main" translate="label" type="text" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Fetchr Configuration</label>
+            <tab>fetchr_config</tab>
+            <resource>Ibnab_MegaMenu::fetchr_config_main</resource>
+						<group id="fetchr_config" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+
+								<field id="fetchr_url_order_create" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+										<label>Fetchr Url for Order create</label>
+								</field>
+								<field id="fetchr_username" translate="label comment" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+										<label>Fetchr Username </label>
+								</field>
+								<field id="fetchr_password" translate="label comment" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+										<label>Fetchr Password </label>
+								</field>
+								<field id="fetchr_client_address_id" translate="label comment" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="0">
+										<label>Fetchr Client Address Id </label>
+								</field>
+								<field id="fetchr_tracking_url" translate="label comment" type="text" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="0">
+										<label>Fetchr Tracking Url </label>
+								</field>
+								<field id="fetchr_tracking_token" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+										<label>Fetchr Tracking Token </label>
+								</field>
+
+						</group>
+
+        </section>
+    </system>
+</config>

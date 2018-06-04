@@ -1,0 +1,14 @@
+<?php
+$_product = $block->getProduct();
+$status = $_product->isAvailable();
+?>
+<?php if(isset($status) && !empty($status)): ?>
+<label>Qty:</label>
+<div class="field_qty">
+	<select name="qty" id="qty" data-validate="{required:true}" class="input-text">
+	    <?php for($i=1; $i<=10; $i++){ ?>
+	    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+	    <?php } ?>
+	</select>
+</div>
+<?php endif; ?>

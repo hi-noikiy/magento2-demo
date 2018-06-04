@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- <preference for="Magento\Catalog\Block\Product\ListProduct" type="Iksula\Productcustomsorting\Block\Magento\Catalog\Product\ListProduct" /> -->
+    <preference for="Magento\Catalog\Model\Config" type="Iksula\Productcustomsorting\Model\Catalog\Config" />
+  	<preference for="Magento\Catalog\Block\Product\ProductList\Toolbar" type="Iksula\Productcustomsorting\Block\Catalog\Product\ProductList\Toolbar" />
+    <type name="Magento\Catalog\Model\Layer">
+        <plugin name="Productcustomsorting_Productcollection_outofstocklast" type="Iksula\Productcustomsorting\Plugin\Outofstocklast" sortOrder="10" disabled="false"  />
+    </type>
+
+</config>

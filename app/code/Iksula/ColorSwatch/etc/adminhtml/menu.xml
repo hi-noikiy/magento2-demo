@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_ColorSwatch::parent" title="Color Swatch" module="Iksula_ColorSwatch" sortOrder="100" resource="Iksula_ColorSwatch::parent"/>
+		<add id="Iksula_ColorSwatch::productdetailpg" title="Color Swatch" module="Iksula_ColorSwatch" sortOrder="20" parent="Iksula_ColorSwatch::parent" action="colorswatch/productdetailpg" resource="Iksula_ColorSwatch::productdetailpg"/>
+
+    </menu>
+</config>

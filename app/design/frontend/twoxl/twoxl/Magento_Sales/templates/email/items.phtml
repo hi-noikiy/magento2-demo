@@ -1,0 +1,104 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_order = $block->getOrder();
+$currency_code = $_order->getOrderCurrencyCode(); ?>
+<?php if ($_order): ?>
+    <?php $_items = $_order->getAllItems();  ?>
+<tr>                    
+    <td valign="top" style="padding:0px 0;font-family:Open Sans,Verdana;border-bottom:2px solid #000;border-top:2px solid #000">
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+            <tr>
+                <td valign="top" style="font-size:12px;border-bottom:1px solid #000;text-align:center;padding:7px 0;font-family:Open Sans,Verdana;" align="left" width="25%">
+                    Items Ordered
+                </td>
+                <td valign="top" style="font-size:11px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="" width="45%">
+                    &nbsp;
+                </td>   
+                <td valign="top" style="font-size:11px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="" >
+                    Price
+                </td>                           
+            </tr>
+            <?php foreach ($_items as $_item): ?> 
+            <?php
+
+                $prdId = $_item['product_id'];
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $product = $objectManager->get('Magento\Catalog\Model\Product')->load($prdId);
+                $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+                $image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+
+                $product_color = $product->getAttributeText('product_color');
+            ?>  
+            <tr>
+                <td valign="top" style="font-size:11px;padding:15px;font-family:Open Sans,Verdana;" align="left">
+                    <img src="<?php echo $image; ?>" width="112" />
+                </td>
+                <td valign="top" style="font-size:11px;padding:15px;font-family:Open Sans,Verdana;">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                                <strong>Sub-Order Id: <?php echo $_item['item_id']; ?></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="font-size:11px;padding:0;font-family:Open Sans,Verdana;" align="">
+                                <strong><?php echo $_item['name']; ?></strong>
+                            </td>   
+                        </tr>
+                        <tr>
+                            <td valign="top" style="font-size:11px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                                <strong>Item Code:</strong> <?php echo $_item['sku']; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="font-size:11px;padding:0;font-family:Open Sans,Verdana;" align="">
+                                <strong>Qty:</strong> <?php echo round($_item['qty_ordered']); ?>
+                            </td>   
+                        </tr>
+                        <?php if($product_color != ''): ?>
+                        <tr>
+                            <td valign="top" style="font-size:11px;padding:0;font-family:Open Sans,Verdana;" align="">
+                                <strong>Colour:</strong> <?php echo $product_color; ?>
+                            </td>                           
+                        </tr>
+                        <?php endif; ?>
+                    </table>
+                </td>   
+                <td valign="top" style="font-size:11px;text-align:center;padding:15px 0 0 ;font-family:Open Sans,Verdana;" align="">
+                    <?php echo $currency_code.' '.round($_item['price'],2); ?>
+                </td>                           
+            </tr>
+            <?php endforeach; ?>
+            
+        </table>
+    </td>
+</tr>
+<?= $block->getChildHtml('order_totals') ?>
+    
+
+    <?php /*if ($this->helper('Magento\GiftMessage\Helper\Message')->isMessagesAllowed('order', $_order, $_order->getStore()) && $_order->getGiftMessageId()): ?>
+        <?php $_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($_order->getGiftMessageId()); ?>
+        <?php if ($_giftMessage): ?>
+            <br />
+            <table class="message-gift">
+                <tr>
+                    <td>
+                        <h3><?=   __('Gift Message for this Order') ?></h3>
+                        <strong><?=   __('From:'); ?></strong> <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                        <br /><strong><?=    __('To:'); ?></strong> <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                        <br /><strong><?= x __('Message:'); ?></strong>
+                        <br /><?= $block->escapeHtml($_giftMessage->getMessage()) ?>
+                    </td>
+                </tr>
+            </table>
+        <?php endif; ?>
+    <?php endif;*/ ?>
+<?php endif; ?>
+</table>

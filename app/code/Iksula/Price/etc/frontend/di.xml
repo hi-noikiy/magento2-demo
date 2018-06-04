@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @package Amasty_Scroll
+ */
+-->
+<config>
+   	<!-- <type name="Magento\Framework\Locale\Format">
+        <plugin name="format-price" type="Iksula\Price\Plugin\FormatPrice" sortOrder="10" />
+    </type> -->
+</config>

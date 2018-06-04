@@ -1,0 +1,99 @@
+<?php
+// $categoryId = 12; // fetching products in category id 23
+// $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+//
+// /***********************************/
+//
+// $category = $objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
+//
+// //var_dump($category->getData());
+//
+// $childrenCategories = $category->getChildrenCategories();
+//
+//
+// /***********************************/
+//
+// // Load category by category ID
+// $category = $block->getCategory($categoryId);
+//
+// // Get Category Level
+// $category->getLevel() . '<br />';
+//
+// // Get total products associated with the category
+// //echo $category->getProductCount() . '<br />';
+//
+// // Get array parent categories of loaded category
+// $parentCategories = $category->getParentCategories();
+// //echo "<pre>";
+// //print_r($parentCategories->getData());
+//
+// // Get array of child categories of loaded category
+// $childrenCategories = $category->getChildrenCategories();
+//
+// // Get single parent category object
+// $block->getParentCategory();
+//
+// // Get only the category id of single parent category
+// $block->getParentId();
+// // Get array of all parent category ids
+// $block->getParentIds();
+//
+// // Get comma-separated children categories ids
+// $block->getChildren();
+//
+// // Get comma-separated or array of all childrent categories ids
+// $block->getAllChildren(); // as comma-separated
+// $block->getAllChildren(true); // as an array
+
+// Get nested list of categories and sub-categories along with their product count
+
+//echo '<pre>';
+$collection_data = $block->getLevel2Category();
+foreach($collection_data as $category2level){
+
+
+      echo "<br><br><br><strong>".$category2level->getName()."</strong>   =>     Category Id -  ".$category2level->getId();
+
+      $subcategories3level = $block->getLevel3Category($category2level->getId());
+      $j = 1 ;
+      foreach($subcategories3level as $subcategories3leveldata){
+        echo "<p style='margin-left:15px'><br><br>".$j.") &nbsp;&nbsp; &nbsp; &nbsp;".$subcategories3leveldata->getName()."  =>     SubCategory Id -  ".$subcategories3leveldata->getId()."</p>";
+
+            $subcategories4level = $block->getLevel4Category($subcategories3leveldata->getId());
+            $k=1;
+            foreach($subcategories4level as $subcategories4leveldata){
+              echo "<p style='margin-left:35px'><br><br>".$k.") &nbsp;&nbsp; &nbsp; &nbsp;".$subcategories4leveldata->getName()."  =>     Sub SubCategory Id -  ".$subcategories4leveldata->getId()."</p>";
+              $k++;
+            }
+            $j++;
+      }
+
+}
+//exit;
+//$categories = $block->getStoreCategories();
+//$categories = $block->getCategoryCollection();
+
+// $i=1;
+// foreach ($categories as $category) {
+//
+//     echo "<br><br><br><strong>".$category->getName()."</strong>   =>     Category Id -  ".$category->getId();
+//     //echo ' ( ' . $category->getProductCount() . ' )';
+//
+//     $sub_categories = $block->getCategoryById($category->getId());
+//     $subCategories = $sub_categories->getChildrenCategories();
+//     $j=1;
+//
+//     foreach ($subCategories as $subCategory) {
+//         echo "<p style='margin-left:15px'><br><br>".$j.") &nbsp;&nbsp; &nbsp; &nbsp;".$subCategory->getName()."  =>     SubCategory Id -  ".$subCategory->getId()."</p>";
+//
+//         $sub_sub_categories = $block->getCategoryById($subCategory->getId());
+//     	$subSubCategories = $sub_sub_categories->getChildrenCategories();
+//     	$k=1;
+//     	foreach ($subSubCategories as $subSubCategory) {
+//         	echo "<p style='margin-left:35px'><br><br>".$k.") &nbsp;&nbsp; &nbsp; &nbsp;".$subSubCategory->getName()."  =>     Sub SubCategory Id -  ".$subSubCategory->getId()."</p>";
+//         	$k++;
+//     	}
+//         $j++;
+//     }
+//    $i++;
+// }

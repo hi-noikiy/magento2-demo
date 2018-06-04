@@ -1,0 +1,56 @@
+<!--@subject {{var subject}} @-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2XL Emailer</title>
+</head>
+
+<body>
+    <table width="600" border="0" cellspacing="0" cellpadding="0" align="center" style="font-size:0; border:1px solid #eaeaea;font-family:Open Sans,Verdana; background-color:#ffffff;">
+        <tr>
+            <td valign="top" style="padding:0 20px">
+                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tr>                    
+                        <td valign="top" style="padding:20px 0 5px 0">
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td valign="top" style="font-size:12px;" align="left">
+                                        {{template config_path="design/email/header_template"}}
+                                    </td>
+                                    {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="header_template" template='Iksula_EmailTemplate::header_template.phtml' }}
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top" style="font-size:12px;font-weight:bold;font-family:Open Sans,Verdana; " align="right">
+                         Order Confirmation
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" style="font-size:12px;font-weight:bold;font-family:Open Sans,Verdana;" align="right">
+                            Order Id:<strong style="font-weight:normal">{{var increment_id}}  </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" style="font-size:12px;padding:10px 0 5px">
+                        Dear {{var customer_name}},
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" style="font-size:12px;padding:5px 0 10px 0;font-family:Open Sans,Verdana;">
+                        We have received your cheque (Cheque Number: {{var cheque_no}}) dated {{var date_of_cheque}} of amount {{var currency_code}} {{var cheque_amount}}. We will send you another email after the cheque is cleared.
+                        </td>
+                    </tr>
+                     {{block class='Magento\Framework\View\Element\Template' area='frontend' name="cheque_received" template='Iksula_Checkoutcustomization::cheque_received.phtml' orderId=$order_id}}
+                    {{template config_path="design/email/footer_template"}}
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

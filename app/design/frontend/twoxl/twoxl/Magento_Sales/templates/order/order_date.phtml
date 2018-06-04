@@ -1,0 +1,8 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$request = $objectManager->get('Magento\Framework\App\Request\Http');
+$order_id = $request->getParam('order_id');
+$order = $objectManager->get('Magento\Sales\Model\Order')->load($order_id);
+$increment_id = $order->getIncrementId();
+ ?>
+ <h4><?php //echo "#".$increment_id; ?></h4>

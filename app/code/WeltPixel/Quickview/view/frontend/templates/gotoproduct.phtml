@@ -1,0 +1,170 @@
+<?php $_product = $block->getProduct(); ?>
+<?php
+$product_id = $block->getProduct()->getId();
+$wishlist_id = '';
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$class_active = '';
+foreach ($this->helper('Magento\Wishlist\Helper\Data')->getWishlistItemCollection() as $_wishlist_item)
+{
+    if($_product->getId() == $_wishlist_item->getProduct()->getId())
+    {
+        $class_active = 'active';
+    $wishlist_id = $_wishlist_item->getId();
+    }
+}
+
+$flag = 0;
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+if($customerSession->isLoggedIn()) {
+   $flag = 1;
+}
+
+$product_id = $block->getProduct()->getId();
+$wishlist_id = '';
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$class_active = '';
+foreach ($this->helper('Magento\Wishlist\Helper\Data')->getWishlistItemCollection() as $_wishlist_item)
+{
+    if($_product->getId() == $_wishlist_item->getProduct()->getId())
+    {
+        $class_active = 'active';
+        $wishlist_id = $_wishlist_item->getId();
+    }
+}
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$FormKey = $objectManager->get('Magento\Framework\Data\Form\FormKey');
+?>
+<input name="form_key" type="hidden" value="<?php echo $FormKey->getFormKey(); ?>" >
+<?php $buttonTitle = __('View Details');?>
+<div class="box-gotoproduct">
+    <div class="fieldset">
+        <div class="actions">
+            <a target="_parent" href="<?php /* @escapeNotVerified */ echo $this->getProduct()->getProductUrl() ?>" title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>" class="action primary" id="product-gotoproduct-button">
+                <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
+            </a>
+            <?php if ($class_active == 'active') : ?>
+                <a href="#" class="action towishlist <?php echo $class_active; ?>"       
+               data-action="add-to-wishlist"><span><?php /* @escapeNotVerified */ echo __('Add to Wishlist') ?></span></a>
+            <?php endif; ?>
+            <?php if ($class_active == '') : ?>
+                <a href="#" id="wishlist_not_active"
+               class="action towishlist <?php echo $class_active; ?>" 
+                onclick="return chkWishlist()"><span><?php /* @escapeNotVerified */ echo __('Add to Wishlist12') ?></span></a>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script>
+function chkWishlist(){
+    var obj = '<?php  echo $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product) ?>';
+    var data_value = jQuery.parseJSON( obj );
+    var url = data_value.action;
+    var product_id = data_value.data.product;
+    var uenc = data_value.data.uenc;
+ 
+  require([
+    'jquery',
+    'underscore',
+    'Magento_Ui/js/modal/modal',
+    'mage/validation'
+    ], function($, _, modal){  
+      var url = obj;
+      var flag = '<?php echo $flag; ?>';
+      jQuery.ajax({
+        data: {
+            product: product_id,
+            uenc: uenc
+        },
+        dataType:'json',
+        url: "<?php echo $this->getUrl('wishlist/index/add'); ?>",
+        method:'post',
+        showLoader: true,
+        success:function(resp){             
+                     
+        },
+        error: function(jqXHR, exception) { 
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+
+            if(flag == 0)
+                parent.window.location = '<?php echo $this->getUrl('customer/account/login'); ?>';
+            else
+            {
+                parent.window.location = '<?php echo $this->getUrl('wishlist/index/index'); ?>'; 
+            }
+        }
+      })
+    })
+}   
+</script>
+<script>
+  require([
+    'jquery',
+    'mage/validation'
+    ], function($){ 
+    $(".active").click(function(){
+      var wishlist_id = '<?php echo $wishlist_id; ?>';
+      var product_id = '<?php echo $product_id; ?>';
+
+      jQuery.ajax({
+        data: { 
+                'wishlist_id': wishlist_id, 
+                'product_id': product_id, 
+              },
+        dataType:'json',
+        url: "<?php echo $this->getUrl('wishlist/index/wishlistitem'); ?>",
+        method:'post',
+        showLoader: true,
+        success:function(resp){
+          var parentBody = window.parent.document.body;
+          parent.location.reload();
+          $('.mfp-close', parentBody).trigger('click');
+        },
+        error: function(jqXHR, exception) { 
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+        }
+      });
+    });
+  });
+</script>
+<script>
+require([
+      'jquery',
+      'mage/validation'
+      ], function($){
+        $('.mfp-bg .mfp-ready').click(function() {
+        var parentBody = window.parent.document.body;
+        $('.mfp-close', parentBody).trigger('click');
+    });
+});
+</script>

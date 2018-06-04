@@ -1,0 +1,162 @@
+<?php
+
+$shipmentId = $this->getData('shippedId');
+$order_id = $this->getData('orderId');
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$orderObj = $objectManager->get('Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentId);
+$shipmentCollection = $orderObj->getShipmentsCollection();
+$shippingAddressArray = $orderObj->getData();
+
+/*echo '<pre>';
+print_r($shipmentId);
+echo '<pre>';
+print_r($order_id);
+
+echo '<pre>';
+print_r($shippingAddressArray);
+exit;*/
+$order = $objectManager->create('Magento\Sales\Model\Order')->load($order_id);
+$orderItems = $order->getAllItems();
+$currency_code = $order->getOrderCurrencyCode();
+
+/****************************************/
+
+$shippingAddress = $order->getShippingAddress();
+
+
+/***************************************/
+
+
+//$addressObj1 = $objectManager->get('Magento\Sales\Model\Order\Address')->load($shippingAddressArray['entity_id'], 'parent_id');
+//$addressObj = $addressObj1->getData();
+//$countryCode = $addressObj['country_id'];
+//$country = $objectManager->create('\Magento\Directory\Model\Country')->load($countryCode)->getName();
+
+if ($order): ?>
+<?php
+    $store = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore();
+    $website_url = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
+
+?>
+<tr>
+    <td valign="top" style="font-size:12px;font-weight:bold;font-family:Open Sans,Verdana;" align="right">
+        Order Id:<strong style="font-weight:normal"> <?php echo $order->getIncrementId(); ?>  </strong>
+    </td>
+</tr>
+<tr>
+    <td valign="top" style="font-size:12px;padding:10px 0 5px">
+    Hi,
+    </td>
+</tr>
+<tr>
+    <td valign="top" style="font-size:12px;padding:5px 0 10px 0;font-family:Open Sans,Verdana;">
+    We are pleased to inform you that shipment for order id <?php echo $order->getIncrementId(); ?> is ready to ship.
+  <!--  We are pleased to inform you that we have shipped your order. You will receive your shipment within 7 working days. Keep your valid Emirates ID handy to receive your order. Visit <a href="<?php //echo $website_url.'/customer/account/login/'; ?>" style="text-decoration:none;color:#000">My Account</a> to track your orders and access invoice.-->
+    </td>
+</tr>
+<?php /* ?>
+<tr>
+    <td valign="top" style="padding:5px 0">
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+            <tr>
+                <td valign="top" style="font-size:12px;" align="left" width="60%">
+                    &nbsp;
+                </td>
+                <td valign="top" style="font-size:12px;line-height:16px;font-family:Open Sans,Verdana;" align="">
+                    <strong style="font-size:12px;"> Shipping Address</strong><br/>
+                    
+
+                    echo $shippingAddress->getFirstname()." ".$shippingAddress->getLastname()."<br>";
+                       // echo $shippingAddress->getStreet()." <br/> ";
+                        $countryCode = $shippingAddress->getCountryId();
+                        $country = $objectManager->create('\Magento\Directory\Model\Country')->load($countryCode)->getName();
+                        echo $shippingAddress->getCity().", ".$shippingAddress->getRegion().", ".$country."<br>";
+                        echo "Phone: ".$shippingAddress->getTelephone(); ?>
+                </td>
+
+            </tr>
+        </table>
+    </td>
+</tr>
+<?php */ ?>
+<tr>
+    <td valign="top" style="font-size:12px;padding:0px 0 10px 0;font-family:Open Sans,Verdana;font-weight
+    :bold">
+    Items Shipped:
+    </td>
+</tr>
+<tr>
+    <td valign="top" style="padding:0px 0;font-family:Open Sans,Verdana;border-bottom:2px solid #000;border-top:2px solid #000">
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+            <tr>
+                <td valign="top" style="font-size:12px;border-bottom:1px solid #000;text-align:center;padding:7px 0;font-family:Open Sans,Verdana;" align="left" width="25%">
+                    Items Delivered
+                </td>
+                <td valign="top" style="font-size:12px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="" width="45%">
+                    &nbsp;
+                </td>
+                <td valign="top" style="font-size:12px;border-bottom:1px solid #000;text-align:center;padding:5px 0;font-family:Open Sans,Verdana;" align="" >
+                    Price
+                </td>
+            </tr>
+            <?php
+
+                foreach($orderItems as $item)
+                {
+                    $order_details = $objectManager->create('Magento\Sales\Model\Order\Shipment\Item')->load($item->getItemId(),'order_item_id');
+                    $shipmentCollection = $order_details->getShipmentsCollection();
+                    $order_info = $order_details->getData();
+                    if(array_key_exists('product_id', $order_info)):
+                    $prdId = $order_info['product_id'];
+                    $product = $objectManager->get('Magento\Catalog\Model\Product')->load($prdId);
+                    $image = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' . $product->getThumbnail();
+
+                    $product_color = $product->getAttributeText('product_color');
+            ?>
+            <tr>
+                <td valign="top" style="font-size:12px;padding:15px;font-family:Open Sans,Verdana;" align="left">
+                    <img src="<?php echo $image; ?>" width="112" />
+                </td>
+                <td valign="top" style="font-size:12px;padding:15px;font-family:Open Sans,Verdana;">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                                <strong>Sub-Order Id: <?php echo $item->getItemId(); ?></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="">
+                                <strong><?php echo $order_info['name']; ?></strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="left" width="30%">
+                                <strong>Item Code:</strong> <?php echo $order_info['sku']; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="">
+                                <strong>Qty:</strong> <?php echo round($order_info['qty']); ?>
+                            </td>
+                        </tr>
+                        <?php if($product_color != ''): ?>
+                        <tr>
+                            <td valign="top" style="font-size:12px;padding:0;font-family:Open Sans,Verdana;" align="">
+                                <strong>Colour:</strong> <?php echo $product_color; ?>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+                    </table>
+                </td>
+                <td valign="top" style="font-size:12px;text-align:center;padding:15px 0 0 ;font-family:Open Sans,Verdana;" align="">
+                    <?php echo $currency_code." ".round($order_info['price'],2); ?>
+                </td>
+            </tr>
+            <?php 
+            endif;
+            } ?>
+        </table>
+    </td>
+</tr>
+<?php endif; ?>

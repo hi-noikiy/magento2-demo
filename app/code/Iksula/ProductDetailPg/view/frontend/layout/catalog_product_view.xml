@@ -1,0 +1,44 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+        <referenceContainer name="product.info.main" >
+           <container name="custom-page-title" as="custom-page-title" label="Page Title" htmlTag="div" htmlClass="custom-page-title">
+            <block class="Iksula\ProductDetailPg\Block\Product\View\Description"
+            name="custom-page" template="Iksula_ProductDetailPg::page_title.phtml" />
+            </container>
+         </referenceContainer>
+         <referenceContainer name="content" after="-">
+          <container name="custom-product-information" as="custom-product-information" label="Product Information" htmlTag="div" htmlClass="custom-product-information clear">
+
+            <container name="product.desc" label="product desc" htmlTag="div" htmlClass="product_desc">
+           <block class="Iksula\ProductDetailPg\Block\Product\View\Description" name="product.description" template="Iksula_ProductDetailPg::description.phtml">
+            </block>
+            </container>            
+          </container>     
+        </referenceContainer>
+        <move element="product.attributes" destination="custom-product-information" before="product.desc" />        
+        <referenceContainer name="product.info.form.content">
+          <container name="custom_addtocart" as="custom_addtocart" label="Page Custom" htmlTag="div" htmlClass="custom_addtocart">
+            <block class="Magento\Catalog\Block\Product\View" name="product.addto.qty" template="Iksula_ProductDetailPg::product_qty.phtml"></block>
+            <block class="Magento\Catalog\Block\Product\View" name="product.addto.qty.instock" template="Iksula_ProductDetailPg::in_stock.phtml" after="product.addto.qty"></block>
+          </container>
+          </referenceContainer>
+        <move element="product.info.addtocart" destination="product.info.form.content" after="-"/>
+        <move element="view.addto.wishlist" destination="product.info.addtocart" after="-"/>
+        <referenceContainer name="product.info.form.content">
+          <block class="Iksula\ProductDetailPg\Block\Product\View\Description" name="product.addto.color" template="product_color.phtml"  before="custom_addtocart">
+          </block>
+        </referenceContainer>
+        <referenceBlock name="product.info.details" remove="true" />
+        <referenceBlock name="wish-list-link" remove="true" />
+        <referenceBlock name="catalog.compare.link" remove="true" />
+        <referenceBlock name="product.info.addto" remove="true"/>
+        <referenceBlock name="product.info.mailto" remove="true" />
+        <referenceBlock name="product.info.review" remove="true" />
+        <referenceBlock name="reviews.tab" remove="true" />
+        <referenceBlock name="product.info.stock.sku" remove="true" />
+        <referenceBlock name="product.info.overview">
+          <arguments>
+             <argument name="at_label" translate="true" xsi:type="string">none</argument>
+             <argument name="title" translate="true" xsi:type="string">Overview</argument>
+          </arguments>
+        </referenceBlock>
+</page>

@@ -1,0 +1,23 @@
+<?php
+
+   $OrderreturnsData = $block->getOrderreturnsByOrderid();
+
+  ?>
+
+
+   <h1>Order Returns Details</h1>
+<?php
+  echo "<table border='1' width = '100%'>";
+  echo "<tr><th>Order Id</th><th>Quantity</th><th>Return Reason</th><th>Product Sku</th><th>Comment</th><th>Product Price</th><th>Pickup Time</th><th>Pickup Date</th><th>Created Date</th><th>Customer Email</th></tr>";
+  if(!empty($OrderreturnsData)){
+    foreach($OrderreturnsData as $OrderreturnsDetails){
+        echo "<tr><td>".$OrderreturnsDetails['order_id']."</td><td>".$OrderreturnsDetails['quantity']."</td>
+        <td>".$OrderreturnsDetails['return_reason']."</td><td>".$OrderreturnsDetails['product_sku']."</td><td>".$OrderreturnsDetails['comment']."</td><td>".$OrderreturnsDetails['product_price']."</td><td>".$OrderreturnsDetails['pickup_time']."</td><td>".$OrderreturnsDetails['pickup_date']."</td><td>".$OrderreturnsDetails['created_at']."</td><td>".$OrderreturnsDetails['customer_email']."</td></tr>";
+    }
+  }else{
+    echo "<tr align='center'><td colspan='10'>No record found</td></tr>";
+  }
+
+  echo "</table>";
+
+ ?>

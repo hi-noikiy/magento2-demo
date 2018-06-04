@@ -1,0 +1,21 @@
+<?php
+
+
+  $rejectionHistoryCollection = $block->getRejectionHistory();
+  echo "<table border='1' width = '100%'>";
+  echo "<tr><th>Order Unique id</th><th>Order Rejected by</th><th>Rejected History</th></tr>";
+  if(!empty($rejectionHistoryCollection)){
+    foreach($rejectionHistoryCollection as $rejectionhistory){
+
+        echo "<tr><td>".$rejectionhistory['order_unique_id']."</td><td>".$rejectionhistory['store_name']."</td>
+        <td>".$rejectionhistory['comments']."</td></tr>";
+
+
+    }
+  }else{
+    echo "<tr align='center'><td colspan='3'>No record found</td></tr>";
+  }
+
+  echo "</table>";
+
+ ?>

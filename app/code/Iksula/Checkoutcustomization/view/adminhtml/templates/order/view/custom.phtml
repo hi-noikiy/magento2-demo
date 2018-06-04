@@ -1,0 +1,238 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+$helper = $this->helper('Iksula\Carriercodetelephone\Helper\Data');
+$Baseurl = $helper->getBaseUrl();
+?>
+<script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+
+   var dataForm = $('#cheque-details-form');
+   dataForm.mage('validation', {});
+   var dataForm = $('#emirates-id-form');
+   dataForm.mage('validation', {});
+
+});
+</script>
+<script type="text/javascript">
+		function openChequeFormPopup(){
+		    	require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Cheque details Form',
+                // buttons: [{
+                //     text: $.mage.__('Continue'),
+                //     class: '',
+                //     //id:'manual_allocation_submit',
+                //     click: function () {
+                //         this.closeModal();
+                //     }
+                // }]
+            };
+
+            var popup = modal(options, $('#popup-mpdal'));
+
+
+                $("#popup-mpdal").modal("openModal");
+            }
+            );
+
+		}
+
+
+    function openEmiratesIdPopup(){
+          require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Add Emirates Id',
+                // buttons: [{
+                //     text: $.mage.__('Continue'),
+                //     class: '',
+                //     //id:'manual_allocation_submit',
+                //     click: function () {
+                //         this.closeModal();
+                //     }
+                // }]
+            };
+
+            var popup = modal(options, $('#popup-mpdal-emiratesid'));
+
+
+                $("#popup-mpdal-emiratesid").modal("openModal");
+            }
+            );
+
+    }
+    function checkUnallocatedOrders(order_id){
+        var url = "<?php echo $this->getUrl('checkoutcustomization/changestatus/unallocatedorders/') ?>";
+        jQuery('.unallocated_data').css('display','block');
+        jQuery('.unallocated_data').html('Loading...');
+        jQuery('#popup-mpdal-deliveredorder').hide();
+        jQuery.ajax({
+           url : url,
+           type: 'POST',
+           data: { 'order_id' : order_id},
+           dataType: "json",             
+           success: function(data){  
+            jQuery('#popup-mpdal-deliveredorder').hide();
+                if(data.status) {
+                    jQuery('#popup-mpdal-deliveredorder').show();
+                    var displaymessage = data.orders+", these are the orders splitted items, which are not ready to deliver.<br> Please check order split item's status, before you change order status to deliver.<br> If you want to continue with this, Please click on Submit.";
+                    jQuery('.unallocated_data').html(displaymessage);
+                   jQuery('.unallocated_data').css('display','block');
+                }else{
+                    jQuery('#popup-mpdal-deliveredorder').show();
+                    var displaymessage = "Please click on Submit to change Order Status to Deliver.";
+                    jQuery('.unallocated_data').html(displaymessage);
+                    jQuery('.unallocated_data').css('display','block');
+                }                 
+            }
+        });
+
+        require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+            };
+            var popup = modal(options, $('#popup-mpdal-deliveredorder'));
+                $("#popup-mpdal-deliveredorder").modal("openModal");
+            }
+        );
+    }
+
+</script>
+<?php
+	$orderId = $this->getRequest()->getParam('order_id');
+	$chequereceived_url = $this->getUrl('checkoutcustomization/changestatus/chequereceived');
+    $completeorder_url = $this->getUrl('checkoutcustomization/changestatus/completeorder');
+    $deliveredorder_url = $this->getUrl('checkoutcustomization/changestatus/deliveredorder');
+	$key = $this->getBlockHtml('formkey');
+?>
+<div class="entry-edit order-view entry-edit form-inline" id="sales_order_view">
+<div id="popup-mpdal" style="display:none;">
+	<div class="order-cheque-details-form">
+		<form action="<?php /* @escapeNotVerified */ echo $chequereceived_url; ?>" method="post" id="cheque-details-form">
+
+				 <input type="hidden" id="order_id" name="order_id" value="<?php echo $orderId; ?>"/>
+				 <div><input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */ echo $block->getFormKey() ?>" /></div>
+		        <div class="admin__field">
+		        	<input type="text" id="bank_name" name="bank_name" data-validate="{required:true}"   placeholder="Bank Name" class="admin__control-text" />
+		        </div>
+		        <div class="admin__field">
+		        	<input type="text" id="cheque_no" name="cheque_no" data-validate="{required:true}"   placeholder="Cheque No" class="admin__control-text" />
+		        </div>
+		        <div class="admin__field">
+		       		<input type="text" id="cheque_amount" name="cheque_amount" data-validate="{required:true, 'validate-number':true}"   placeholder="Cheque Amount" class="admin__control-text" />
+		        </div>
+		        <div class="admin__field">
+		        	<input type="date" id="date_of_cheque" name="date_of_cheque" data-validate="{required:true}"   placeholder="Date Of Cheque"  class="admin__control-text"/>
+		        </div>
+
+		        <div class="admin__field">
+		        <input type="submit" value="Submit" class="action-secondary" />
+		        </div>
+		</form>
+
+	</div>
+
+
+</div>
+
+<div id="popup-mpdal-emiratesid" style="display:none;">
+	<div class="emirates-id-details-form">
+		<form action="<?php /* @escapeNotVerified */ echo $completeorder_url; ?>" method="post" id="emirates-id-form">
+
+				 <input type="hidden" id="order_id" name="order_id" value="<?php echo $orderId; ?>"/>
+				 <div><input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */ echo $block->getFormKey() ?>" /></div>
+		        <div class="admin__field">
+		        	<input type="text" id="emirates_id" name="emirates_id" data-validate="{required:true}"   placeholder="Emirates Id" class="admin__control-text" />
+		        </div>
+		        <div class="admin__field">
+		        <input type="submit" value="Submit" class="action-secondary" />
+		        </div>
+		</form>
+
+	</div>
+
+
+</div>
+
+<div id="popup-mpdal-deliveredorder" class="form-inline" style="display:none;">
+    <div class="deliveredorder-details-form">
+        <form action="<?php /* @escapeNotVerified */ echo $deliveredorder_url; ?>" method="post" id="deliveredorder-form">
+
+            <input type="hidden" id="order_id" name="order_id" value="<?php echo $orderId; ?>"/>
+            <div><input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */ echo $block->getFormKey() ?>" /></div>
+            <p class="unallocated_data admin_deliver_txt"></p>
+            <div class="admin__field">
+              <input type="submit" value="Submit" class="action-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+
+<style type="text/css">
+    .order-cheque-details-form{
+        width: 50%;
+    }
+    .order-cheque-details-form input, .order-cheque-details-form select, .order-cheque-details-form textarea{
+        width: 100%;
+    }
+    .emirates-id-details-form{
+        width: 50%;
+    }
+    .emirates-id-details-form input{
+        width: 100%;
+    }
+    .action-secondary{
+        width: auto !important;
+    }
+    .modal-footer{
+        display: none;
+    }
+    button#order_edit{
+      display: none;
+    }
+    .admin_deliver_txt{
+        margin: 0px 0px 15px 0;
+        line-height: 24px;
+    }
+</style>

@@ -1,0 +1,19 @@
+<?php
+    $_product = $block->getProduct();
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $stock_quantity = $objectManager->create('Iksula\ProductDetailPg\Helper\Data')->getConfig('stock_quantity/setting/stock_quantity');
+    $stockstate = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
+    $product_qty = $stockstate->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId());
+?>
+<?php if ($block->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable()): ?>
+    <div class="stock low" title="<?php /* @escapeNotVerified */ echo __('Availability') ?>">
+        <span><?php /* @escapeNotVerified */ if((float)$product_qty <= (float)$stock_quantity) echo __('Low In stock'); else echo __('In stock');  ?></span>
+    </div>
+    <?php else: ?>
+    <div class="stock unavailable pdp_out_of_stock" title="<?php /* @escapeNotVerified */ echo __('Availability') ?>">
+        <span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span>
+        <?php echo $this->getLayout()->createBlock("Magento\Wishlist\Block\Catalog\Product\View\AddTo\Wishlist")->setTemplate("Magento_Wishlist::catalog/product/view/addto/wishlist.phtml")->toHtml();?>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>

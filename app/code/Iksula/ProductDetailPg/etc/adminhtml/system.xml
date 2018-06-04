@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="stock_quantity" sortOrder="999" translate="label">
+			<label>Stock</label>
+		</tab>
+		<section id="stock_quantity" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>Stock Quantity</label>
+			<tab>stock_quantity</tab>
+			<resource>Iksula_ProductDetailPg::config_stock_quantity</resource>
+			<group id="setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">				
+				<field id="stock_quantity" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Stock Quantity</label>
+					<comment/>
+				</field>				
+			</group>
+		</section>
+	</system>
+</config>

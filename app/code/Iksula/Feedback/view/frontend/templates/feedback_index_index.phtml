@@ -1,0 +1,68 @@
+<h4>Send us your feedback and we will get back to you soon.</h4>
+<form class="form" name="frmFeedback" id="frmFeedback" action="<?php echo $this->getUrl('feedback/index/index'); ?>" method="post">
+
+    <fieldset class="fieldset">
+        <div class="field required">
+            <div class="control">
+                <input type="text" id="name" name="name" class="input-text" value="" data-validate='{"required":true, "letters-with-basic-punc":true}' placeholder="Name">
+            </div>
+        </div>
+		<div class="field required">
+            <div class="control">
+                <input type="text" id="email_id" name="email_id" class="input-text" value="" data-validate='{"required":true, "validate-email":true}' placeholder="Email Id">
+            </div>
+        </div>
+		<div class="field required">
+            <div class="control">
+                <input type="text" id="mobile_no" name="mobile_no" class="input-text" maxlength="10" value="" data-validate='{"required":true, "validate-number":true}' placeholder="Mobile No.">
+            </div>
+        </div>
+        <div class="field required">
+            <div class="control">
+                <textarea id="feedback" name="feedback" class="input-text" data-validate='{"required":true}' placeholder="Feedback"></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action submit primary" title="<?php /* @escapeNotVerified */ echo __('Submit') ?>">
+                <span><?php /* @escapeNotVerified */ echo __('Submit') ?></span>
+            </button>
+        </div>
+    </div>
+<script type="text/x-magento-init">
+    {
+        "#frmFeedback": {
+            "validation": {}
+        }
+    }
+</script>
+<script>
+    /*require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+        'use strict';
+
+        setTimeout(function()
+        {
+				//jQuery("#div_error_msg").html('');
+				//jQuery("#div_success_msg").html('');
+		}, 5000);
+
+        $('#frmFeedback').mage('validation', {
+            radioCheckboxClosest: '.nested',
+            submitHandler: function (form) {
+                var widget = $(form).catalogAddToCart({
+                    bindSubmit: false
+                });
+
+                widget.catalogAddToCart('submitForm', $(form));
+
+                return false;
+            }
+        });
+    });*/
+</script>
+</form>

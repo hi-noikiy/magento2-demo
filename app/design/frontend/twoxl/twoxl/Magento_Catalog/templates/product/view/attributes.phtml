@@ -1,0 +1,81 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Product additional attributes template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Attributes
+ */
+?>
+<?php
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+    $_product = $block->getProduct();
+?>
+<?php
+    $sku = $_product->getSku();
+    $weight = $_product->getWeight();
+?>
+<?php if ($_additional = $block->getAdditionalData()):
+//echo "<pre>";
+//print_r($_additional);
+
+?>
+    <div class="additional-attributes-wrapper table-wrapper">
+    <h3>Product details</h3>
+        <table class="data table additional-attributes" id="product-attribute-specs-table">
+            <tbody>
+
+            <?php
+                $j = 0;
+                if($sku != ''):
+            ?>
+                <tr>
+                    <th class="col label" scope="row"><?php echo $block->escapeHtml(__('SKU:')) ?></th>
+                    <td class="col data" data-th="<?php echo $block->escapeHtml(__('SKU')) ?>"><?php /* @escapeNotVerified */ echo $sku; ?></td>
+                </tr>
+            <?php endif; ?>
+            <?php
+                foreach ($_additional as $_data):
+                    $code_value = $_helper->productAttribute($_product, $_data['value'], $_data['code']);
+                    if($j == 0 && $code_value != 'N/A' && (!is_object($_data['value']))):
+             ?>
+                <tr>
+                    <th class="col label" scope="row"><?php echo $block->escapeHtml(__($_data['label'].":")) ?></th>
+                    <td class="col data" data-th="<?php echo $block->escapeHtml(__($_data['label'])) ?>"><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></td>
+                </tr>
+            <?php
+                endif;
+                $j++;
+                endforeach;
+                if($weight != '' && $weight != 'N/A'):
+                 ?>
+            <tr>
+                <th class="col label" scope="row"><?php echo $block->escapeHtml(__('Weight:')) ?></th>
+                <td class="col data" data-th="<?php echo $block->escapeHtml(__('Weight')) ?>"><?php /* @escapeNotVerified */ echo $weight; ?></td>
+                </tr>
+            <?php
+                endif;
+            $k = 0;
+            foreach ($_additional as $_data):
+            if($k > 0):
+                $code_value = $_helper->productAttribute($_product, $_data['value'], $_data['code']);
+                if($_data['code'] != 'sku_mapping' && $code_value != 'N/A' && $code_value != 'No') : ?>
+                <tr>
+                    <th class="col label" scope="row"><?php echo $block->escapeHtml(__($_data['label'].":")) ?></th>
+                    <td class="col data" data-th="<?php echo $block->escapeHtml(__($_data['label'])) ?>"><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></td>
+                </tr>
+            <?php
+                endif;
+            endif;
+            $k++;
+            endforeach;
+              ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif;?>

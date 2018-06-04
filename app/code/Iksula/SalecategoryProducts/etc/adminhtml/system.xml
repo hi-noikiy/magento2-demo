@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="salecategoryproduct" sortOrder="999" translate="label">
+			<label>sale category product</label>
+		</tab>
+		<section id="salecategoryproduct" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>sale category product</label>
+			<tab>salecategoryproduct</tab>
+			<resource>Iksula_SalecategoryProducts::config_iksula_salecategoryproducts</resource>
+			<group id="setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>setting</label>
+				<field id="categoryid" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Category Id</label>
+					<comment>Enter Sale category Id of your store</comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

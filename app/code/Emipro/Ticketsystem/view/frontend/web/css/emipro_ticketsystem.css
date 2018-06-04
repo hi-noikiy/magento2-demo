@@ -1,0 +1,82 @@
+.ept-status {
+	margin-right:10px;
+	color:#000;
+}
+.ept-customer-name
+{
+	padding-left:5px;
+	text-transform: capitalize;
+	float:left;
+	margin-right:20px;
+}
+.ticket_span{	
+	width: 200px;
+}
+.value{
+	padding-right: 5px !important;
+    width: 300px;
+}
+.cus-link {
+	margin-top:-75px;
+	float:right;
+}
+.ticket-info {
+    background-color: #f5f5f5;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+#attach_file {
+    color: #1979c3;
+    cursor: pointer;
+    /*overflow: hidden;*/
+    vertical-align: middle;
+}	
+#attach-msg #attach_file {
+	background: white none repeat scroll 0 0;
+    display: inline-block;
+    padding: 5px;
+    position: relative;
+}
+#attach_file > span {
+    border: 1px solid #1979c3;
+    border-radius: 3px;
+    padding: 5px;
+}
+#attach_file #uploadFile {
+    color: #000;
+}
+#attach_file input[type="file"] {
+	cursor: pointer;
+    left: 0;
+    opacity: 0;
+    padding-top: 4px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.msg-box
+{
+	margin:5px 0px 10px;
+}
+.msg-box-admin {
+    background-color: #f5f5f5;
+    border-left: 5px solid #d3d3d3;
+    float: left;
+    padding: 10px;
+    min-width: 60%;
+    max-width:90%;
+}
+.msg-box-customer {
+    background-color: #e4f4f9;
+    border-right: 5px solid #c4d4d9;
+    float: right;
+    padding: 10px;
+	min-width: 60%;
+    max-width:90%;
+}
+.ticket-msg {
+	clear:both;
+	min-height:50px;
+	padding:5px;
+	overflow-wrap: break-word;
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_Ordersplit::parent" title="Ordersplit" module="Iksula_Ordersplit" sortOrder="15" resource="Iksula_Ordersplit::parent"/>
+		<add id="Iksula_Ordersplit::ordersplits" title="Iksula Ordersplit" module="Iksula_Ordersplit" sortOrder="20" parent="Iksula_Ordersplit::parent" action="ordersplit/ordersplits" resource="Iksula_Ordersplit::ordersplits"/>
+
+    </menu>
+</config>

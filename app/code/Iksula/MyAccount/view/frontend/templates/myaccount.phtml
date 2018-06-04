@@ -1,0 +1,8 @@
+<span><p>Hello,</p>
+<h4>
+<?php
+echo $customerName = $block->getLoggedinCustomerName();
+?>
+</h4>
+</span>
+<span class="mob_logout"><a href="<?php echo $this->getUrl('customer/account/logout'); ?>">Logout</a></span>

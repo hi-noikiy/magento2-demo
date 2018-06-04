@@ -1,0 +1,16 @@
+<?php $item = $block->getItem();
+$product = $item->getProduct();
+ ?>
+ <div class="sku_txt"><span class="wishlist_label">SKU:</span><span><?php echo $product->getSku(); ?></span></div>
+<?php if ($item->canHaveQty() && $product->isVisibleInSiteVisibility()): ?>
+    <div class="field qty">
+        <label class="wishlist_label" for="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]"><span><?php /* @escapeNotVerified */ echo __('Qty:') ?></span></label>
+        <div class="control">
+           <select name="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]" id="qty[<?php /* @escapeNotVerified */ echo $item->getId() ?>]" data-validate="{required:true,'validate-greater-than-zero':true}" class="input-text qty" data-role="qty">
+			    <?php for($i=1; $i<=10; $i++){ ?>
+			    <option value="<?php echo $i; ?>" <?php if($i == $block->getAddToCartQty($item)) echo 'selected="selected"'; ?> ><?php echo $i; ?></option>
+			    <?php } ?>
+			</select>
+        </div>
+    </div>
+<?php endif; ?>

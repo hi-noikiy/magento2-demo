@@ -1,0 +1,20 @@
+<?php
+  $checkInfo = $block->getChequeDetails();
+  $count_details = count($checkInfo);
+  echo "Cheque Details<br><br>";
+  if($count_details > 0)
+  {
+      
+      echo "<table border='1' width = '100%'>";      
+      echo "<tr><th>Bank Name</th><th>Cheque Number</th><th>Amount</th><th>Date Received</th></tr>";
+      for($i=0; $i<$count_details; $i++)
+      {
+          echo "<tr><td>".$checkInfo[$i]['bank_name']."</td><td>".$checkInfo[$i]['cheque_no']."</td><td>".$checkInfo[$i]['cheque_amount']."</td><td>".date('d/m/Y', strtotime($checkInfo[$i]['date_of_cheque']))."</td></tr>";
+      }
+      echo "</table>";
+  }
+  else
+  {
+      echo "No records found.";
+  }
+ ?>

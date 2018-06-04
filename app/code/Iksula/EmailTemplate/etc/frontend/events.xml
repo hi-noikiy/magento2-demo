@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_register_success">
+        <observer name="register_customer" instance="Iksula\EmailTemplate\Observer\Register"/>
+    </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="order_confirmation_observer" instance="Iksula\EmailTemplate\Observer\OrderConfirmation" />
+    </event>
+</config>

@@ -1,0 +1,16 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_shipment = $block->getShipment() ?>
+<?php $_order = $block->getOrder() ?>
+<?php if ($_shipment && $_order && $_shipment->getAllTracks()): ?>
+    <?php foreach ($_shipment->getAllTracks() as $_item): ?>
+        <?php echo $block->escapeHtml($_item->getNumber()); ?>
+         <?php endforeach ?>
+<?php endif; ?>

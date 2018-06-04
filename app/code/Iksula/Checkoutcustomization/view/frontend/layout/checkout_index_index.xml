@@ -1,0 +1,266 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.root">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="checkout" xsi:type="array">
+                                <item name="children" xsi:type="array">
+                                    <item name="steps" xsi:type="array">
+                                        <item name="children" xsi:type="array">
+                                            <!-- The new step you add -->
+                                            <item name="billing-step" xsi:type="array">
+                                                <item name="children" xsi:type="array">
+                                                    <item name="payment" xsi:type="array">
+                                                        <item name="children" xsi:type="array">
+                                                            <item name="afterMethods" xsi:type="array">
+                                                                <item name="children" xsi:type="array">        
+                                                                    <item name="discount" xsi:type="array">
+                                                                        <item name="config" xsi:type="array">
+                                                                            <item name="componentDisabled" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                            <item name="my-new-step" xsi:type="array">
+                                                <item name="component" xsi:type="string">Iksula_Checkoutcustomization/js/view/my-step-view</item>
+                                                    <!--To display step content before shipping step "sortOrder" value should be < 1-->
+                                                    <!--To display step content between shipping step and payment step  1 < "sortOrder" < 2 -->
+                                                    <!--To display step content after payment step "sortOrder" > 2 -->
+                                                <item name="sortOrder" xsi:type="string">0</item>
+                                                <item name="children" xsi:type="array">
+                                                    <!--add here child component declaration for your step-->
+                                                    
+                                                </item>                                              
+                                            </item>
+                                            <item name="shipping-step" xsi:type="array">
+                                                <item name="children" xsi:type="array">
+                                                    <item name="shippingAddress" xsi:type="array">
+                                                        <item name="component" xsi:type="string">MilkJarCookies_OrderDeliveryDate/js/view/shipping</item>
+                                                        <item name="children" xsi:type="array">
+                                                            <item name="shipping-address-fieldset" xsi:type="array">
+                                                                <item name="children" xsi:type="array">
+                                                                    <item name="firstname" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">0</item>
+                                                                    </item>
+                                                                    <item name="lastname" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">1</item>
+                                                                    </item>
+                                                                      <item name="children" xsi:type="array">
+                                                                    <item name="country_code" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">2</item>
+                                                                    </item>
+                                                                    <item name="carrier_code" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">3</item>
+                                                                    </item>
+                                                                    <item name="contact_no" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">4</item>
+                                                                    </item>
+                                                                </item>
+                                                                    <item name="street" xsi:type="array">
+                                                                        <item name="children" xsi:type="array">
+                                                                            <item name="0" xsi:type="array">
+                                                                                <item name="sortOrder" xsi:type="string">5</item>
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                     <item name="country_id" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">6</item>
+                                                                    </item>
+                                                                   
+                                                                    <item name="region_id" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">7</item>
+                                                                    </item>
+                                                                    <item name="city" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">8</item>
+                                                                    </item>
+                                                                     <item name="region" xsi:type="array">
+                                                                         <item name="sortOrder" xsi:type="string">9</item>
+                                                                    </item>
+
+                                                                    <item name="telephone" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">5000</item>
+                                                                    </item>
+
+                                                                     <item name="postcode" xsi:type="array">
+                                                                        <item name="sortOrder" xsi:type="string">4999</item>
+                                                                    </item>
+
+                                                                    
+
+
+                                                                    <item name="company" xsi:type="array">
+                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                    </item>
+
+                                                                  <!--   <item name="postcode" xsi:type="array">
+                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                    </item> -->
+
+                                                                    <item name="region" xsi:type="array">
+                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                    </item>
+
+                                                                    <item name="street" xsi:type="array">
+                                                                        <item name="children" xsi:type="array">
+                                                                            <item name="1" xsi:type="array">
+                                                                               <item name="visible" xsi:type="boolean">false</item>
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
+                                                                    <item name="addresss" xsi:type="array">
+                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                    </item>
+                                                                    <item name="address_gender" xsi:type="array">
+                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                    </item>
+                                                                    <item name="area" xsi:type="array">
+                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                    </item>
+                                                                    
+                                                                   
+
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                        <item name="component" xsi:type="string">Iksula_Checkoutcustomization/js/view/krish-shipping</item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                            <item name="sidebar" xsi:type="array">
+                                <item name="children" xsi:type="array">
+                                    <item name="summary" xsi:type="array">
+                                        <item name="children" xsi:type="array">
+                                             <item name="cart_items" xsi:type="array">
+                                                        <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/cart-items</item>
+                                                        <item name="children" xsi:type="array">
+                                                            <item name="details" xsi:type="array">
+                                                                <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/item/details</item>
+                                                                <item name="children" xsi:type="array">
+                                                                    <item name="thumbnail" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/item/details/thumbnail</item>
+                                                                        <item name="displayArea" xsi:type="string">before_details</item>
+                                                                    </item>
+                                                                    <item name="subtotal" xsi:type="array">
+                                                                        <item name="component" xsi:type="string">Magento_Checkout/js/view/summary/item/details/subtotal</item>
+                                                                        <item name="displayArea" xsi:type="string">after_details</item>
+                                                                    </item>                     
+                                                                </item>
+                                                            </item>
+
+                                                        </item>
+                                                    </item>
+                                            <item name="block-totals" xsi:type="array">
+                                                <item name="component" xsi:type="string">Magento_Checkout/js/view/cart/totals</item>
+                                                <item name="displayArea" xsi:type="string">totals</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="template" xsi:type="string">Magento_Checkout/cart/totals</item>
+                                                </item>
+                                                <item name="children" xsi:type="array">
+                                                    <!-- sort order for this totals is configured on admin panel-->
+                                                    <!-- Stores->Configuration->SALES->Sales->General->Checkout Totals Sort Order -->
+                                                    <item name="subtotal" xsi:type="array">
+                                                        <item name="component"  xsi:type="string">Magento_Checkout/js/view/summary/subtotal</item>
+                                                        <item name="config" xsi:type="array">
+                                                            <item name="title" xsi:type="string" translate="true">Subtotal</item>
+                                                            <item name="template" xsi:type="string">Magento_Checkout/cart/totals/subtotal</item>
+                                                        </item>
+                                                    </item>
+                                                    <item name="shipping" xsi:type="array">
+                                                        <item name="component"  xsi:type="string">Magento_Checkout/js/view/cart/totals/shipping</item>
+                                                        <item name="config" xsi:type="array">
+                                                            <item name="title" xsi:type="string" translate="true">Shipping</item>
+                                                            <item name="template" xsi:type="string">Magento_Checkout/cart/totals/shipping</item>
+                                                        </item>
+                                                    </item>
+                                                    <item name="discount" xsi:type="array">
+                                                       <item name="component" xsi:type="string">Magento_SalesRule/js/view/cart/totals/discount</item>
+                                                       <item name="config" xsi:type="array">
+                                                        <item name="title" xsi:type="string" translate="true">Discount</item>
+                                                       </item>
+                                                    </item>
+                                                    <item name="tax" xsi:type="array">
+                                                        <item name="component"  xsi:type="string">Magento_Tax/js/view/checkout/cart/totals/tax</item>
+                                                        <item name="config" xsi:type="array">
+                                                        <item name="template" xsi:type="string">Magento_Tax/checkout/cart/totals/tax</item>
+                                                        <item name="title" xsi:type="string" translate="true">Tax</item>
+                                                        </item>
+                                                        </item>
+                                                    <item name="credit-total" xsi:type="array">
+                                                        <item name="component" xsi:type="string">Mirasvit_Credit/js/view/summary/credit</item>
+                                                    </item>
+                                                    <item name="grand-total" xsi:type="array">
+                                                        <item name="component"  xsi:type="string">Magento_Checkout/js/view/summary/grand-total</item>
+                                                        <item name="config" xsi:type="array">
+                                                            <item name="title" xsi:type="string" translate="true">You Pay</item>
+                                                            <item name="template" xsi:type="string">Magento_Checkout/cart/totals/grand-total</item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                    <item name="shipping-information" xsi:type="array">   
+                                        <item name="config" xsi:type="array">
+                                            <item name="componentDisabled" xsi:type="boolean">true</item>
+                                        </item>                                            
+                                    </item>
+                                </item>
+                            </item>
+                              <!--       <item name="sidebar" xsi:type="array">
+                                        <item name="children" xsi:type="array">
+                                            <item name="summary" xsi:type="array">
+                                                <item name="children" xsi:type="array">
+                                                    <item name="cart_items" xsi:type="array">
+                                                         <item name="sortOrder" xsi:type="string">0</item>
+                                                    </item> -->
+<!--                                                     <item name="block-totals" xsi:type="array">
+                                                        <item name="sortOrder" xsi:type="string">250</item>
+                                                        <item name="component" xsi:type="string">Magento_Checkout/js/view/cart/totals</item>
+                                                        <item name="displayArea" xsi:type="string">totals</item>
+                                                        <item name="config" xsi:type="array">
+                                                            <item name="template" xsi:type="string">Magento_Checkout/cart/totals</item>
+                                                        </item>
+                                                        <item name="children" xsi:type="array">                                                        
+                                                            <item name="grand-total" xsi:type="array">
+                                                                <item name="component"  xsi:type="string">Magento_Checkout/js/view/summary/grand-total</item>
+                                                                <item name="config" xsi:type="array">
+                                                                    <item name="title" xsi:type="string" translate="true">You Pay</item>
+                                                                    <item name="template" xsi:type="string">Magento_Checkout/cart/totals/grand-total</item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item> -->
+                                                  
+                                          <!--       </item>
+                                            </item>
+                                            <item name="shipping-information" xsi:type="array">   
+                                                <item name="config" xsi:type="array">
+                                                    <item name="componentDisabled" xsi:type="boolean">true</item>
+                                                </item>                                            
+                                            </item>
+                                        </item>
+                                    </item> -->
+                                    <item name="authentication" xsi:type="array">
+                                        <item name="config" xsi:type="array">
+                                            <item name="componentDisabled" xsi:type="boolean">true</item>
+                                        </item>
+                                    </item>
+
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+        </referenceBlock>         
+                <referenceContainer name="content">
+                    <block class="Mageplaza\SocialLogin\Block\Popup\Social" ifconfig="sociallogin/general/is_enabled" name="social-login-popup-authentication-social-login" template="Mageplaza_SocialLogin::form/social.phtml" />
+        </referenceContainer>
+    </body>
+</page>

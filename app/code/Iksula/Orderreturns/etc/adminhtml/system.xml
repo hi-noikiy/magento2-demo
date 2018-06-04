@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="orderreturns" sortOrder="999" translate="label">
+			<label>orderreturns</label>
+		</tab>
+		<section id="orderreturns" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>orderreturns</label>
+			<tab>orderreturns</tab>
+			<resource>Iksula_Orderreturns::config_iksula_orderreturns</resource>
+			<group id="setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>setting</label>
+				<field id="enterdays" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>enterdays</label>
+					<comment/>
+				</field>
+				<field id="message" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="text">
+					<label>message</label>
+					<comment/>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

@@ -1,0 +1,102 @@
+.admin__scope-old .fieldset-wrapper
+{
+	padding-bottom:0px !important;
+}
+.admin__scope-old .fieldset
+{
+	padding-bottom:10px !important;
+	border-bottom:1px solid #ccc;
+}
+.fieldset-wrapper.customer-information
+{
+padding-top: 10px;
+}
+.fieldset-wrapper.customer-information .fieldset-wrapper-title
+{
+	background-color:#f8f8f8;
+	border-bottom:none !important;
+	border-left:3px solid green;
+	padding-left:5px;
+	padding-right:10px;
+	margin-bottom:0px;
+}
+
+.ept-message
+{
+margin-bottom:10px!important;
+margin-top:0px!important;
+}
+#attach-msg {
+	margin-top:15px;
+}
+#attach_file {
+	border: 1px solid #1979c3;
+    border-radius: 3px;
+    color: #1979c3;
+    cursor: pointer;
+    overflow: hidden;
+    vertical-align: middle;
+}	
+#attach-msg #attach_file {
+	background: white none repeat scroll 0 0;
+    display: inline-block;
+    padding: 5px;
+    position: relative;
+}
+#attach_file input[type="file"] {
+	cursor: pointer;
+    left: 0;
+    opacity: 0;
+    padding-left: 100%;
+    padding-top: 4px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#ticket_msg_tab_content ,
+#ticket_tab_content {
+    margin-top: 20px;
+}
+.msg-box {
+	border-style: solid;
+	margin-bottom: 20px;
+    width: 600px;
+    padding:5px 10px 10px;
+}
+.msg-customer {
+	background-color: #eff6f3;
+    border-color: #6f8992;
+    border-width: 1px 1px 1px 5px;
+    float: left;
+}
+.msg-admin {
+    background-color: #f4f3f2;
+    border-color: #a0a0a0;
+    border-width: 1px 5px 1px 1px;
+    float: right;
+}
+.msg-another-admin {
+    background-color: #fff5e6;
+    border-color: #ffcc80;
+    border-width: 1px 1px 1px 5px;
+    float: left;
+}
+.msg-box .msg {
+	padding-top: 5px;
+	overflow-wrap: break-word;
+}
+.msg-box .head {
+    font-size: 14px;
+}
+.ui-state-active {
+    bottom: -1px;
+    position: relative;
+}
+#ticket_msg_tabs ,
+#ticket_info_tabs {
+    border-bottom: 1px solid #adadad;
+}
+#ticket_msg_tabs .ui-state-default , 
+#ticket_info_tabs .ui-state-default {
+	border-bottom:none;
+}

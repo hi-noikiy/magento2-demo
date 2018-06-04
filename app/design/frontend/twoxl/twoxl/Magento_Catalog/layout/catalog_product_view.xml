@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="css/pdp.css" media="all"/>
+    </head>
+    <body>
+        <move element="page.main.title" destination="product.info.main" before="-"/>
+        <move element="product.info.stock.sku" destination="product.info.price" after="product.price.final"/>
+        <move element="product.info.review" destination="product.info.main" before="product.info.price"/>
+        <referenceContainer name="content">
+            <container name="product.wrapper" label="produc wrapper" htmlTag="div" htmlClass="product_wrapper clear">
+                <container name="product.info.media" htmlTag="div" htmlClass="product media" before="product.info.main"/>
+                <container name="product.info.main" htmlTag="div" htmlClass="product-info-main" before="-"/>
+            </container>
+        </referenceContainer>
+       <!--  <referenceBlock name="page.main.title" remove="true" /> -->
+    </body>
+</page>

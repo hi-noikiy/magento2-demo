@@ -1,0 +1,211 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+// @codingStandardsIgnoreFile
+$currentDate = date('Y-m-d H:i');
+$object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+$helper = $object_manager->get("Emipro\Ticketsystem\Helper\Data");
+$storeId=$helper->getCurrentStoreId();
+$attachmentSize=$helper->getConfig('emipro/general/attachment_size',$storeId);
+if($attachmentSize!=0 && $attachmentSize!=""){
+	$maxfile_size=$attachmentSize;
+}else{
+	$maxfile_size="4";
+}
+?>
+<div class="primary cus-link back_link">
+	<a class="action back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Back') ?></span></a>
+</div>
+<?php
+$_tickets = $block->getTicket();
+if (count($_tickets)):
+?>
+<div class="table-wrapper orders-history ticket-info">
+<div class="row">
+	<strong><?php echo __('Ticket ID:') ?></strong>
+	<span><?php echo $_tickets->getTicketId(); ?></span>
+</div>
+<div class="row">
+	<strong><?php echo __('Order ID:') ?></strong>
+	<a href="<?php echo $this->getUrl('sales/order/view/', array('order_id' => $helper->getOrderUrl($_tickets->getOrderid()),"_secure" => true));  ?>" class="action view">
+		<span><?php echo $_tickets->getOrderid(); ?></span>
+	</a>
+</div>
+<div class="row">
+	<strong><?php echo __('Status:') ?></strong>
+	<span><?php echo __($_tickets->getStatus()); ?></span>
+</div>
+<div class="row">
+	<strong><?php echo __('Created Date:') ?></strong>
+	<span><?php echo $this->formatDate($_tickets->getdate(), true); ?></span>
+</div>
+<div class="row">
+	<strong><?php echo __('Department:') ?></strong>
+	<span><?php echo __($_tickets->getDepartmentName()); ?></span>
+</div>
+<div class="row">
+	<strong><?php echo __('Priority:') ?></strong>
+	<span><?php echo __($_tickets->getPriority()); ?></span>
+</div>
+<div class="row">
+	<strong><?php echo __('Subject:') ?></strong>
+	<span><?php echo $_tickets->getSubject(); ?></span>
+</div>
+
+
+<!-- 	<table>
+		<tr>
+			<td class="ticket_span"><strong><?php //echo __('Ticket ID') ?></strong></td>
+            <td class="value"><span><?php //echo $_tickets->getTicketId(); ?></span></td>
+
+            <td class="ticket_span"><strong><?php //echo __('Order ID') ?></strong></td>
+            <td class="value">
+				<a href="<?php //echo $this->getUrl('sales/order/view/', array('order_id' => $helper->getOrderUrl($_tickets->getOrderid()),"_secure" => true));  ?>" class="action view">
+					<span><?php //echo $_tickets->getOrderid(); ?></span>
+				</a>
+			</td>
+		</tr>  
+        <tr>
+			<td class="ticket_span"><strong><?php //echo __('Status') ?></strong></td>
+            <td class="value"><span><?php //echo __($_tickets->getStatus()); ?></span></td>
+
+            <td class="ticket_span"><strong><?php //echo __('Created Date') ?></strong></td>
+            <td class="value"><span><?php //echo $this->formatDate($_tickets->getdate(), true); ?></span></td>
+		</tr> 
+        <tr>
+			<td class="ticket_span"><strong><?php //echo __('Department') ?></strong></td>
+            <td class="value"><span><?php //echo __($_tickets->getDepartmentName()); ?></span></td>
+
+            <td class="ticket_span"><strong><?php //echo __('Priority') ?></strong></td>
+            <td class="value"><span><?php //echo __($_tickets->getPriority()); ?></span></td>
+		</tr> 
+        <tr>
+			<td class="ticket_span"><strong><?php //echo __('Subject') ?></strong></td>
+            <td class="value" colspan="2"><span><?php //echo $_tickets->getSubject(); ?></span></td>
+		</tr >  
+	</table> -->
+</div>
+
+<form action="<?php echo $this->getUrl('*/*/savereply', array("_secure" => true)); ?>" id="ticketForm" method="post" enctype="multipart/form-data" data-mage-init='{"validation":{}}'>
+	<fieldset class="fieldset info create_support_ticket">
+		<h2><?php echo __('Post Reply') ?></h2>
+		<div class="field message required">
+            <div class="control">
+				<textarea name="message" id="message" title="<?php echo __('Message') ?>" class="required-entry input-text support_textarea" cols="5" rows="3"  data-validate='{required:true}' placeholder="Message"></textarea>
+			</div>
+		</div>
+        <div class="field">
+			<div class="control">
+                <select class="validate-select" title="<?php echo __('Ticket Status') ?>" name="status">
+					<?php echo $status_options = $helper->getStatusOptionsForCustomer($_tickets->getStatusId()); ?>
+                </select>
+			</div>
+		</div>
+		<div class="field">
+			<div class="control" id="attach-msg">
+				<div class="choose_file" id="attach_file">
+                    <!-- <label id="uploadFile"></label> -->
+                    <input id="uploadBtn" name="file" type="file" class="validate-filesize">
+                </div>
+			</div>                
+		</div>
+		<div class="actions-toolbar">
+			<div class="primary">
+				<?php if ($_tickets->getStatusId() != 2) { ?>
+					<button type="submit" title="<?php echo __('Reply') ?>" class="action save primary"><span><span><?php echo __('Reply') ?></span></span></button>
+				<?php } else { ?>
+					<button type="submit" title="<?php echo __('Reopen') ?>" class="action save primary"><span><span><?php echo __('Reopen') ?></span></span></button>
+				<?php } ?>
+			</div>
+		</div>
+        <div class="field">
+			<input type="hidden" name="external_id" id="external_id" value="<?php echo $_tickets->getExternalId(); ?>">	
+            <input type="hidden" name="ticket_id" id="ticket_id" value="<?php echo $_tickets->getTicketId(); ?>">
+            <input type="hidden" name="customer_name" id="name" value="<?php echo $_tickets->getCustomerName(); ?>">
+            <input type="hidden" name="date" id="date" value="<?php echo $currentDate; ?>" >
+		</div>
+	</fieldset>
+</form>
+
+<div>
+<?php
+	$attachments = [];
+    $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+    $ticket_email = $helper->getConfig('emipro/emipro_group/ticket_email');
+    //$ticket_admin_name = $helper->getConfig('trans_email/ident_' . $ticket_email . '/name');
+    $ticket_admin_name = $helper->getConfig('emipro/emipro_emailgateway/owner');
+    $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+    $conversation = $object_manager->get('Emipro\Ticketsystem\Model\TicketConversation')->getCollection();
+    $conversation->getSelect()->join(array("ticket" => $conversation->getTable("emipro_ticket_status")), "main_table.status_id=ticket.status_id")
+		->where("main_table.ticket_id=" . $_tickets->getTicketId())
+        ->order("main_table.conversation_id DESC");
+    foreach ($conversation->getData() as $value) {
+		if ($value["message_type"] == ""):
+			$attachment = $object_manager->get('Emipro\Ticketsystem\Model\TicketAttachment')->getCollection();
+                                    $attachment->addFieldToFilter("conversation_id", $value["conversation_id"]);
+                                    $attachments = $attachment->getData();
+            if ($value["current_admin"] == 0) {
+				$name = $value["name"];
+                $con_msg_class="msg-box-customer";
+            } else {
+                $name = $ticket_admin_name;
+                $con_msg_class="msg-box-admin";
+            }
+?>
+			<div class="msg-box <?php echo $con_msg_class  ?>">
+				<div class="msg-head clear">
+					<div class="ept-customer-name"><span><strong><?php echo $name; ?></strong></span></div>
+					<div class="ept-date"><span class="ept-status"><?php echo __($value["status"]); ?> </span>
+						<span><?php echo $this->formatDate($value["date"], \IntlDateFormatter::MEDIUM, true); ?></span></div>
+				</div>
+				<div class="ticket-msg"><?php echo nl2br($value["message"]); ?></div>
+				<?php if (count($attachments)):
+					foreach ($attachments as $attachment): 
+						$params = ['ticket_id' => $value['ticket_id'], 'conversation_id' => $value["conversation_id"], 'attach_id' => $attachment['attachment_id']];
+							
+                ?>
+					<div class="download_link">		
+                                                    <span><?php echo $attachment['current_file_name']; ?></span>
+                                                    <a href="<?php echo $this->getUrl('*/*/checkAttachmentLink',$params) ?>" >Download</a>
+                                                </div>
+                <?php endforeach;
+                    endif; ?>
+            </div>
+		<?php endif;
+		} ?>
+</div>
+<?php else: ?>
+	<div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('You have not created any support ticket.'); ?></span></div>
+<?php endif ?>
+<script>
+    document.getElementById("uploadBtn").onchange = function () 
+    {
+        document.getElementById("uploadFile").innerHTML = this.value;
+    }
+require(['jquery','jquery/ui','jquery/validate','mage/translate'], function($){ 
+	$.validator.addMethod(
+		'validate-filesize', function (v, elm) {
+			var maxSize = <?php echo $maxfile_size ?> * 1024 * 1024;
+
+            if (navigator.appName == "Microsoft Internet Explorer") {
+				if (elm.value) {
+					var oas = new ActiveXObject("Scripting.FileSystemObject");
+                    var e = oas.getFile(elm.value);
+                    var size = e.size;
+                }
+            } else {
+				if (elm.files[0] != undefined) {
+					size = elm.files[0].size;
+                }
+            }
+           
+            if (size != undefined && size > maxSize) {
+				return false;
+            }
+            return true;
+        }, $.mage.__('The file size should not exceed <?php echo $maxfile_size ?>MB')
+    );
+});
+</script>

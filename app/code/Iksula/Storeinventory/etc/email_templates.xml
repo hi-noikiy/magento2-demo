@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+ 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:Magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="storeinventory_mail_template" label="storeinventory email" file="storeinventory/storeinventory.html" type="html" module="Iksula_Storeinventory" area="frontend"/>
+     <template id="duplicateskus_mail_template" label="duplicateskus email" file="storeinventory/duplicateskus.html" type="html" module="Iksula_Storeinventory" area="frontend"/>
+</config>

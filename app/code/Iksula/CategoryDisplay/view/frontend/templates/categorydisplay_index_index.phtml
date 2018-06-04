@@ -1,0 +1,31 @@
+<?php
+/*Get Collection of all categories Active/Inactive */
+$categories = $block->getCustomCatCollection();
+foreach ($categories as $category) {
+    if($category->getId() != 1 && $category->getId() !=2){
+	    $categoryObj = $block->getCategory($category->getId());
+	    if($categoryObj->getProductCount() > 0){
+	  	/*Check the given category having any parent and if so then enable parent categories*/
+	    	$parentCategories = $block->getParentIds($category->getId());
+			unset($parentCategories[0]);
+			unset($parentCategories[1]);
+			if(!empty($parentCategories)){
+				foreach($parentCategories as $parentCat){
+					if($parentCat != 1 && $parentCat !=2){
+						/*Enable categories having products*/
+						$block->enableCategory($parentCat);
+
+					}
+				}
+			}
+	    	/*Enable categories having products*/
+	    	$block->enableCategory($category->getId());
+	    }else{
+	    	/*Disable categories having no any products*/
+	    	$block->disableCategory($category->getId());
+
+	    }
+    }
+}
+/*Reindexing process*/
+$block->reIndexing();

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Iksula_Report::parent" title="Sales Reports" module="Iksula_Report" sortOrder="100" resource="Iksula_Report::parent"/>
+		<add id="Iksula_Report::reports" title="Sales Reports" module="Iksula_Report" sortOrder="20" parent="Iksula_Report::parent" action="sales_report/report" resource="Iksula_Report::reports"/>
+    </menu>
+</config>

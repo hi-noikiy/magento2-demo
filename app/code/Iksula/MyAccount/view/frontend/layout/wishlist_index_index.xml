@@ -1,0 +1,12 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceBlock name="customer.wishlist.item.comment" remove="false" />
+    <referenceBlock name="customer.wishlist.item.edit" remove="true" />
+    <container name="custom-qty" as="custom-qty" label="Quantity" htmlTag="div" htmlClass="custom-qty">       
+        <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart"
+        name="custom-qty-page" template="Iksula_MyAccount::product_qty.phtml" />
+    </container>
+    <move element="custom-qty-page" destination="customer.wishlist.items" after="customer.wishlist.item.name" />     
+     <move element="customer.wishlist.item.cart" destination="customer.wishlist.item.inner" />
+     <move element="customer.wishlist.item.remove" destination="customer.wishlist.item.inner" after="customer.wishlist.item.cart"/>
+     <move element="customer.wishlist.item.price" destination="customer.wishlist.items" after="customer.wishlist.item.actions"/>
+</page>

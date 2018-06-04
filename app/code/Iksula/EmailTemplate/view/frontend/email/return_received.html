@@ -1,0 +1,86 @@
+<!--@subject Return Received - Order Id: {{var order_id}} @-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2XL Emailer</title>
+</head>
+
+<body>
+<table width="600" border="0" cellspacing="0" cellpadding="0" align="center" style="font-size:0; border:1px solid #eaeaea;font-family:Open Sans,Verdana; background-color:#ffffff;">
+    <tr>
+        <td valign="top" style="padding: 0 20px;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>                    
+                <td valign="top" style="padding:20px 0 5px 0">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td valign="top" style="font-size:12px;" align="left">
+                                {{template config_path="design/email/header_template"}}
+                            </td>
+                            {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="header_template" template='Iksula_EmailTemplate::header_template.phtml' }}
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td valign="top" style="font-size:12px;font-weight:bold;font-family:Open Sans,Verdana; " align="right">
+                 Return Received
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" style="font-size:12px;font-weight:bold;font-family:Open Sans,Verdana;" align="right">
+                    Order Id:<strong style="font-weight:normal">{{trans "%order_id" order_id=$order_id}}</strong>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" style="font-size:12px;padding:10px 0 5px">
+                Dear {{trans "%name" name=$name}},
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" style="font-size:12px;padding:5px 0 10px 0;font-family:Open Sans,Verdana;">
+We have successfully received your returned items. Below are the details of items.
+                </td>
+            </tr>
+            <tr>                    
+                <td valign="top" style="padding:5px 0 25px 0">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                            <td valign="top" style="font-size:12px;" align="left" width="60%">
+                                <table border="0" cellspacing="0" cellpadding="0" >
+                                    <tr>
+                                        <td valign="top" style="font-size:12px;padding:0 0;font-family:Open Sans,Verdana;"><strong>RETURNS</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="font-size:12px;padding:5px 0 0;font-family:Open Sans,Verdana;"><strong>Order Id:</strong> {{trans "%order_id" order_id=$order_id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="font-size:12px;padding:5px 0 0;font-family:Open Sans,Verdana;"><strong>Items :</strong> {{trans "%items_count" items_count=$items_count}}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td valign="top" style="font-size:11px;line-height:16px;font-family:Open Sans,Verdana;" align="">
+                                <strong style="font-size:12px;"> Shipping Address</strong><br/>
+                                {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="return_shipping_address" template='Iksula_EmailTemplate::return_shipping_address.phtml' orderId=$order_id}}
+                            </td>                            
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>                    
+                <td valign="top" style="padding:0px 0;font-family:Open Sans,Verdana;border-bottom:2px solid #000;border-top:2px solid #000">
+                   {{block class='Magento\Framework\View\Element\Template' area='frontend'   name="return_request_confirmation" template='Iksula_EmailTemplate::return_request_confirmation.phtml' orderId=$order_id product_id=$product_id}}
+                </td>
+            </tr>
+            {{template config_path="design/email/footer_template"}}
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
